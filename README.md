@@ -2,6 +2,8 @@
 
 An open-source documentation webapp for the **World of Warcraft 3.3.5a** (Wrath of the Lich King) modding community. Browse and search the complete Lua API, events, widgets, data types, CVars, and secure templates extracted from client build 12340.
 
+**Live site:** [https://milkyway-codex.vercel.app/](https://milkyway-codex.vercel.app/)
+
 Built to give addon developers and modders a fast, searchable, and always-available reference — no more digging through outdated wikis or broken archive links.
 
 ## Features
