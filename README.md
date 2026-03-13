@@ -54,10 +54,12 @@ src/
 │   └── shared/         # Reusable UI (SearchBar, DataTable, Tag, etc.)
 ├── features/
 │   ├── home/           # Landing page with global search
-│   ├── api/            # API functions list + detail
+│   ├── api/            # Game Functions list + detail
 │   ├── events/         # Events list + detail
-│   ├── widgets/        # Widgets list + detail
-│   └── data-types/     # Data types reference
+│   ├── widgets/        # Client Functions (widgets) list + detail
+│   ├── data-types/     # Data types reference
+│   ├── cvars/          # Console variables
+│   └── secure-templates/ # Secure frame templates
 ├── data/               # All reference data (static TypeScript)
 ├── hooks/              # Shared React hooks
 ├── theme/              # Design tokens (colors, fonts, radii)
@@ -71,7 +73,46 @@ All data was scraped from archived snapshots of [WoWProgramming.com](https://web
 
 ## Contributing
 
-Contributions are welcome! If you find missing or incorrect data, feel free to open an issue or submit a pull request.
+Contributions are welcome! Whether it's fixing a typo, improving a description, or adding undocumented API details — every contribution helps make this reference better for the whole 3.3.5a modding community.
+
+### Verification Badges
+
+Every function and event entry displays a verification badge. This status is **computed automatically** from the data — there is no manual flag to set.
+
+| Badge | Criteria | Meaning |
+|-------|----------|---------|
+| **Verified** (green) | Real description + memory address in binary OR documentation from a pre-Cataclysm archive snapshot (before Oct 12, 2010) | Confirmed WotLK 3.3.5a information |
+| **To review** (orange) | Real description but documentation URL points to a post-WotLK snapshot | Info exists but may differ from the 3.3.5a version |
+| **Unverified** (red) | No description or "No documentation available." | Needs community contribution |
+
+### How to Improve an Entry's Status
+
+**Unverified → Verified:**
+1. Add a real description to the entry in the corresponding `src/data/*.ts` file
+2. Set the `documentationUrl` field to a pre-Cataclysm Wayback Machine snapshot (timestamp before `20101012`)
+3. Example: `https://web.archive.org/web/20100701213739/http://wowprogramming.com/docs/api/FunctionName`
+
+**To review → Verified:**
+1. Find a pre-Cataclysm snapshot of the same page on the [Wayback Machine](https://web.archive.org)
+2. Update `documentationUrl` to use the earlier timestamp
+3. Verify the description matches the pre-Cataclysm content
+
+**Adding a memory address** (functions only):
+- If you have reverse-engineered WoW.exe build 12340, add the `memoryAddress` field (e.g. `"0x004A2F30"`)
+- A function with a memory address + real description is automatically **Verified**, even without a documentation URL
+
+### Data Files
+
+All reference data is in `src/data/`:
+
+| File | Content |
+|------|---------|
+| `api-functions.ts` | Game API functions (Lua) |
+| `events.ts` | Game events |
+| `widgets.ts` | UI widget types and methods |
+| `data-types.ts` | Enums, flags, and types |
+| `cvars.ts` | Console variables |
+| `secure-templates.ts` | Secure frame templates |
 
 ## License
 

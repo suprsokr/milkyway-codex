@@ -15,6 +15,15 @@ export const EVENTS: WowEvent[] = [
     name: 'ACTIONBAR_HIDEGRID',
     description: 'Fires when an item, spell or other entity that can be placed into an action bar slot is removed from the cursor. In the default UI, this event causes the grid of empty action bar slots to be hidden. (This grid only appears when something that can be dragged to an action bar slot is picked up, unless the "Always show action bars" option is enabled.)',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
+      { name: 'arg2', type: 'number', description: '', optional: false },
+      { name: 'arg3', type: 'number', description: '', optional: false },
+      { name: 'arg4', type: 'number', description: '', optional: false },
+      { name: 'arg5', type: 'number', description: '', optional: false },
+      { name: 'arg6', type: 'number', description: '', optional: false },
+      { name: 'arg7', type: 'number', description: '', optional: false },
+      { name: 'arg8', type: 'number', description: '', optional: false },
+      { name: 'arg9', type: 'number', description: '', optional: false },
     ],
     category: 'Action Bar',
     related: [],
@@ -25,6 +34,8 @@ export const EVENTS: WowEvent[] = [
     name: 'ACTIONBAR_PAGE_CHANGED',
     description: 'Fires when the main action bar changes pages',
     parameters: [
+      { name: 'currentPage', type: 'number', description: 'The new action bar page', optional: false },
+      { name: 'previousPage', type: 'number', description: 'The previous action bar page', optional: false },
     ],
     category: 'Action Bar',
     related: [],
@@ -66,6 +77,7 @@ export const EVENTS: WowEvent[] = [
     name: 'ACTIONBAR_UPDATE_STATE',
     description: 'Fires when the state of an action bar item changes. State changes include the action becoming the current or active action.',
     parameters: [
+      { name: 'slot', type: 'number', description: 'The action bar slot that changed state', optional: false },
     ],
     category: 'Action Bar',
     related: [],
@@ -128,6 +140,7 @@ export const EVENTS: WowEvent[] = [
     name: 'AREA_SPIRIT_HEALER_IN_RANGE',
     description: 'Fires when the player enters into the area of effect of a spirit healer that periodically resurrects nearby player units. Such spirit healers are found in Battlegrounds and certain other PvP areas.',
     parameters: [
+      { name: 'inRange', type: 'number', description: 'Whether a spirit healer is in range', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -158,6 +171,8 @@ export const EVENTS: WowEvent[] = [
     name: 'ARENA_SEASON_WORLD_STATE',
     description: 'Fires when the arena season changes',
     parameters: [
+      { name: 'currentSeason', type: 'number', description: 'Current arena season number', optional: false },
+      { name: 'previousSeason', type: 'number', description: 'Previous arena season number', optional: false },
     ],
     category: 'Arena',
     related: [],
@@ -168,8 +183,10 @@ export const EVENTS: WowEvent[] = [
     name: 'ARENA_TEAM_INVITE_REQUEST',
     description: 'Fires when the player is invited to join an arena team',
     parameters: [
-      { name: 'source', type: 'string', description: 'The name of the player that invited you to join a team.', optional: false },
-      { name: 'team', type: 'string', description: 'The name of the team that you have been invited to join.', optional: false },
+      { name: 'inviter', type: 'string', description: 'Name of the player who sent the invite', optional: false },
+      { name: 'teamName', type: 'string', description: 'Name of the arena team', optional: false },
+      { name: 'teamSize', type: 'number', description: 'Arena team bracket size (2, 3 or 5)', optional: false },
+      { name: 'bgRating', type: 'number', description: 'Arena team rating', optional: false },
     ],
     category: 'Arena',
     related: [],
@@ -191,6 +208,10 @@ export const EVENTS: WowEvent[] = [
     name: 'ARENA_TEAM_UPDATE',
     description: 'Fires when the player joins or leaves an arena team',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
+      { name: 'arg2', type: 'string', description: '', optional: false },
+      { name: 'arg3', type: 'number', description: '', optional: false },
+      { name: 'arg4', type: 'number', description: '', optional: false },
     ],
     category: 'Arena',
     related: [],
@@ -201,6 +222,7 @@ export const EVENTS: WowEvent[] = [
     name: 'AUCTION_BIDDER_LIST_UPDATE',
     description: 'Fires when information becomes available or changes for the list of auctions bid on by the player',
     parameters: [
+      { name: 'success', type: 'number', description: 'Whether the update was successful', optional: false },
     ],
     category: 'Auction House',
     related: [],
@@ -241,6 +263,8 @@ export const EVENTS: WowEvent[] = [
     name: 'AUCTION_ITEM_LIST_UPDATE',
     description: 'Fires when the information becomes available for the list of auction browse/search results',
     parameters: [
+      { name: 'page', type: 'number', description: 'The current page of results', optional: false },
+      { name: 'hasFullResults', type: 'string', description: 'Whether all results are available', optional: false },
     ],
     category: 'Auction House',
     related: [],
@@ -272,8 +296,7 @@ export const EVENTS: WowEvent[] = [
     name: 'AUCTION_MULTISELL_UPDATE',
     description: 'Fires when one of the auctions in an auction house multisell has successfully been created',
     parameters: [
-      { name: 'createdAmount', type: 'number', description: 'Amount of auctions that have successfully been created', optional: false },
-      { name: 'amount', type: 'number', description: 'Amount of auctions to create in total', optional: false },
+      { name: 'numRepetitions', type: 'any', description: 'Current multisell progress', optional: false },
     ],
     category: 'Auction House',
     related: [],
@@ -284,6 +307,7 @@ export const EVENTS: WowEvent[] = [
     name: 'AUCTION_OWNED_LIST_UPDATE',
     description: 'Fires when information becomes available or changes for the list of auctions placed by the player',
     parameters: [
+      { name: 'arg1', type: 'any', description: '', optional: false },
     ],
     category: 'Auction House',
     related: [],
@@ -429,6 +453,7 @@ export const EVENTS: WowEvent[] = [
     name: 'BATTLEFIELDS_CLOSED',
     description: 'Fires when the UI is no longer available for queueing for an arena or specific battleground instance',
     parameters: [
+      { name: 'closedByServer', type: 'number', description: 'Whether the close was initiated by the server', optional: false },
     ],
     category: 'PvP',
     related: [],
@@ -499,6 +524,8 @@ export const EVENTS: WowEvent[] = [
     name: 'BATTLEFIELD_MGR_QUEUE_REQUEST_RESPONSE',
     description: 'Fires in response to the player\'s attempt to enter or queue for a world PvP zone (e.g. Wintergrasp). Indicates whether the player has been accepted into the zone or its queue.',
     parameters: [
+      { name: 'battleId', type: 'number', description: 'Battlefield manager battle ID', optional: false },
+      { name: 'accepted', type: 'number', description: 'Whether the queue request was accepted', optional: false },
     ],
     category: 'PvP',
     related: [],
@@ -509,6 +536,7 @@ export const EVENTS: WowEvent[] = [
     name: 'BATTLEFIELD_MGR_STATE_CHANGE',
     description: 'Fires when the player\'s state changes in the queue for a world PvP zone (e.g. Wintergrasp)',
     parameters: [
+      { name: 'status', type: 'string', description: 'The new battlefield state', optional: false },
     ],
     category: 'PvP',
     related: [],
@@ -519,7 +547,8 @@ export const EVENTS: WowEvent[] = [
     name: 'BILLING_NAG_DIALOG',
     description: 'Fires when a message should be shown about the player\'s paid game time expiring soon',
     parameters: [
-      { name: 'remaining', type: 'number', description: 'The number in minuites until your play time runs out.', optional: false },
+      { name: 'remainingMinutes', type: 'number', description: 'Minutes of play time remaining', optional: false },
+      { name: 'isPremium', type: 'number', description: 'Whether account is premium', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -530,6 +559,8 @@ export const EVENTS: WowEvent[] = [
     name: 'BIND_ENCHANT',
     description: 'Fires when the player attempts to an enchant an item which will become soulbound in the process',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
+      { name: 'arg2', type: 'number', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -651,6 +682,7 @@ export const EVENTS: WowEvent[] = [
     name: 'CANCEL_SUMMON',
     description: 'Fires when a summons offered to the player is canceled',
     parameters: [
+      { name: 'reason', type: 'number', description: 'Reason for summon cancellation', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -707,7 +739,8 @@ export const EVENTS: WowEvent[] = [
     name: 'CHANNEL_ROSTER_UPDATE',
     description: 'Fires when the list of members in a channel changes',
     parameters: [
-      { name: 'id', type: 'number', description: 'The id of the channel that has updated information.', optional: false },
+      { name: 'channelId', type: 'number', description: 'Channel ID', optional: false },
+      { name: 'memberCount', type: 'number', description: 'Number of members in the channel', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -753,6 +786,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_ACHIEVEMENT',
     description: 'Fires when a nearby character earns an achievement',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -763,10 +809,7 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_ADDON',
     description: 'Fires when an addon communication message is received (see SendAddonMessage()). The local client receives any messages it sends; thus, this event fires for messages sent by the local client as well as those receives from others.',
     parameters: [
-      { name: 'prefix', type: 'string', description: 'The prefix declared from SendAddonMessage.', optional: false },
-      { name: 'message', type: 'string', description: 'The message from SendAddonMessage.', optional: false },
-      { name: 'channel', type: 'string', description: 'The message channel used for this message.  Possible values include PARTY, RAID, GUILD, BATTLEGROUND, or WHISPER.', optional: false },
-      { name: 'sender', type: 'string', description: 'The username of the sender.', optional: false },
+      { name: 'prefixType', type: 'number', description: 'Addon message prefix type', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -951,6 +994,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_CHANNEL_NOTICE',
     description: 'Fires when certain actions happen on a world or custom chat channel',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1108,6 +1164,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_FILTERED',
     description: 'Fires when the player attempts to send a chat message which is blocked by the spam filter',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1235,6 +1304,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_MONSTER_PARTY',
     description: 'Fires when an NPC speaks to the player\'s party chat channel',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1329,6 +1411,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_OPENING',
     description: 'Fires for messages about the player "opening" a world object. Used for some, but not all "openable" world objects (e.g. treasure chests, quest objects). Messages sent via this event are displayed in the default UI\'s combat log by default.',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1358,8 +1453,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'CHAT_MSG_PARTY_LEADER',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1370,6 +1466,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_PET_INFO',
     description: 'Fires for pet-related messages normally displayed in the combat log (e.g. summoning or dismissing a pet)',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1422,6 +1531,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_RAID_BOSS_WHISPER',
     description: 'Fires when a raid boss whispers to the player. In the default UI, whispers from a raid boss are displayed in large text in the center of the screen.',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1474,6 +1596,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_RESTRICTED',
     description: 'Fires when the player attempts to send a chat message which is disallowed because the player is on a trial account',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1547,6 +1682,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_TARGETICONS',
     description: 'Fires when a target icon message is sent in chat.',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1578,6 +1726,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_TRADESKILLS',
     description: 'Fires when the player or a nearby character performs a trade skill recipe',
     parameters: [
+      { name: 'message', type: 'string', description: '', optional: false },
+      { name: 'sender', type: 'string', description: '', optional: false },
+      { name: 'language', type: 'string', description: '', optional: false },
+      { name: 'channelString', type: 'string', description: '', optional: false },
+      { name: 'target', type: 'string', description: '', optional: false },
+      { name: 'flags', type: 'string', description: '', optional: false },
+      { name: 'lineId', type: 'number', description: '', optional: false },
+      { name: 'channelId', type: 'number', description: '', optional: false },
+      { name: 'channelName', type: 'string', description: '', optional: false },
+      { name: 'unused', type: 'number', description: '', optional: false },
+      { name: 'counter', type: 'number', description: '', optional: false },
+      { name: 'senderGUID', type: 'string', description: '', optional: false },
+      { name: 'bnSenderID', type: 'number', description: '', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1631,17 +1792,19 @@ export const EVENTS: WowEvent[] = [
     name: 'CHAT_MSG_YELL',
     description: 'Fires when the player or another player character yells (visible to other characters in a wide area)',
     parameters: [
-      { name: 'message', type: 'string', description: 'The message thats received', optional: false },
-      { name: 'sender', type: 'string', description: 'The sender\'s username.', optional: false },
-      { name: 'language', type: 'string', description: 'The language the message is in.', optional: false },
-      { name: 'channelString', type: 'string', description: 'The full name of the channel, including number.', optional: false },
-      { name: 'target', type: 'string', description: 'The username of the target of the action.  Not used by all events.', optional: false },
-      { name: 'flags', type: 'string', description: 'The various chat flags.  Like, DND or AFK.', optional: false },
-      { name: 'unknown', type: 'number', description: 'This variable has an unkown purpose, although it may be some sort of internal channel id.  That however is not confirmed.', optional: false },
-      { name: 'channelNumber', type: 'number', description: 'The numeric ID of the channel.', optional: false },
-      { name: 'channelName', type: 'string', description: 'The full name of the channel, does not include the number.', optional: false },
-      { name: 'unknown', type: 'number', description: 'This variable has an unkown purpose although it always seems to be 0.', optional: false },
-      { name: 'counter', type: 'number', description: 'This variable appears to be a counter of chat events that the client recieves.', optional: false },
+      { name: 'message', type: 'string', description: 'The message received', optional: false },
+      { name: 'sender', type: 'string', description: 'The sender\'s name', optional: false },
+      { name: 'language', type: 'string', description: 'The language the message is in', optional: false },
+      { name: 'channelString', type: 'string', description: 'The full channel name including number', optional: false },
+      { name: 'target', type: 'string', description: 'The target of the action, if applicable', optional: false },
+      { name: 'flags', type: 'string', description: 'Chat flags (e.g. AFK, DND)', optional: false },
+      { name: 'lineId', type: 'number', description: 'Chat line ID', optional: false },
+      { name: 'senderGUID', type: 'number', description: 'Sender GUID as number', optional: false },
+      { name: 'channelBaseName', type: 'string', description: 'Channel name without number', optional: false },
+      { name: 'unused', type: 'number', description: 'Unused', optional: false },
+      { name: 'counter', type: 'number', description: 'Incremental message counter', optional: false },
+      { name: 'senderGUID2', type: 'string', description: 'Sender GUID string', optional: false },
+      { name: 'bnSenderID', type: 'number', description: 'Battle.net sender ID', optional: false },
     ],
     category: 'Chat',
     related: [],
@@ -1683,6 +1846,8 @@ export const EVENTS: WowEvent[] = [
     name: 'CLOSE_TABARD_FRAME',
     description: 'Fires when the player ends interaction with a tabard designer',
     parameters: [
+      { name: 'tabardId', type: 'string', description: 'Tabard identifier', optional: false },
+      { name: 'cost', type: 'number', description: 'Cost of the tabard', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -1693,6 +1858,9 @@ export const EVENTS: WowEvent[] = [
     name: 'CLOSE_WORLD_MAP',
     description: 'Fires when the world map should be hidden in response to external conditions. Such conditions include being teleported by a GM while the world map is open. Does not fire when the player closes the world map manually.',
     parameters: [
+      { name: 'mapName', type: 'string', description: 'Name of the world map being closed', optional: false },
+      { name: 'posX', type: 'number', description: 'X coordinate on the map', optional: false },
+      { name: 'posY', type: 'number', description: 'Y coordinate on the map', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -1723,6 +1891,10 @@ export const EVENTS: WowEvent[] = [
     name: 'COMBAT_RATING_UPDATE',
     description: 'Fires when the player\'s combat rating statistics change',
     parameters: [
+      { name: 'ratingType', type: 'string', description: 'The combat rating type that changed', optional: false },
+      { name: 'amount', type: 'any', description: 'Rating amount', optional: false },
+      { name: 'fromItem', type: 'any', description: 'Whether the change is from an item', optional: false },
+      { name: 'fromBuff', type: 'any', description: 'Whether the change is from a buff', optional: false },
     ],
     category: 'Combat',
     related: [],
@@ -1744,7 +1916,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'COMMENTATOR_ENTER_WORLD',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Misc',
@@ -1754,8 +1926,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'COMMENTATOR_MAP_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'mapId', type: 'number', description: 'Commentator map ID', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -1764,7 +1937,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'COMMENTATOR_PLAYER_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Misc',
@@ -1776,6 +1949,12 @@ export const EVENTS: WowEvent[] = [
     name: 'COMPANION_LEARNED',
     description: 'Fires when the player learns to summon a new mount or non-combat pet',
     parameters: [
+      { name: 'companionType', type: 'string', description: 'Type of companion (CRITTER or MOUNT)', optional: false },
+      { name: 'companionName', type: 'string', description: 'Name of the companion', optional: false },
+      { name: 'spellId', type: 'string', description: 'Spell ID of the companion', optional: false },
+      { name: 'icon', type: 'string', description: 'Icon texture path', optional: false },
+      { name: 'description', type: 'string', description: 'Companion description', optional: false },
+      { name: 'sourceText', type: 'string', description: 'Source of the companion', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -1786,6 +1965,7 @@ export const EVENTS: WowEvent[] = [
     name: 'COMPANION_UNLEARNED',
     description: 'Fires when the player unlearns a mount or a companion. This will pretty much never happen, unless a Game Master gets involved.',
     parameters: [
+      { name: 'companionType', type: 'string', description: 'Type of companion that was unlearned', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -1839,6 +2019,8 @@ export const EVENTS: WowEvent[] = [
     name: 'CONFIRM_SUMMON',
     description: 'Fires when a summons is offered to the player',
     parameters: [
+      { name: 'summonReason', type: 'number', description: 'Reason for the summon (1 = spell, 2 = meeting stone)', optional: false },
+      { name: 'skipStartingArea', type: 'number', description: 'Whether to skip the starting area', optional: false },
     ],
     category: 'Confirmation',
     related: [],
@@ -1870,6 +2052,7 @@ export const EVENTS: WowEvent[] = [
     name: 'CORPSE_IN_INSTANCE',
     description: 'Fires when the player (dead, in spirit form) approaches the entrance to the instance in which his corpse is located',
     parameters: [
+      { name: 'instanceLocked', type: 'number', description: 'Whether the instance is locked', optional: false },
     ],
     category: 'Death',
     related: [],
@@ -1910,6 +2093,7 @@ export const EVENTS: WowEvent[] = [
     name: 'CURRENCY_DISPLAY_UPDATE',
     description: 'Fires when new information for the currency list is available',
     parameters: [
+      { name: 'currencyType', type: 'string', description: 'The currency type that changed', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -1930,6 +2114,7 @@ export const EVENTS: WowEvent[] = [
     name: 'CURSOR_UPDATE',
     description: 'Fires when the mouse cursor image or contents is changed',
     parameters: [
+      { name: 'cursorType', type: 'string', description: 'The cursor icon type', optional: false },
     ],
     category: 'Cursor',
     related: [],
@@ -1952,8 +2137,7 @@ export const EVENTS: WowEvent[] = [
     name: 'DELETE_ITEM_CONFIRM',
     description: 'Fires when the player attempts to delete an item',
     parameters: [
-      { name: 'itemName', type: 'string', description: 'The name of the item you are attempting to delete', optional: false },
-      { name: 'itemQuality', type: 'number', description: 'The numeric index representing the items quality.', optional: false },
+      { name: 'itemName', type: 'string', description: 'Name of the item to delete', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -1962,8 +2146,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'DISABLE_LOW_LEVEL_RAID',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2034,7 +2219,7 @@ export const EVENTS: WowEvent[] = [
     name: 'DUEL_REQUESTED',
     description: 'Fires when the player is challenged to a duel. No event (other than the associated system message) fires when the player challenges another to a duel.',
     parameters: [
-      { name: 'challenger', type: 'string', description: 'The challenger\'s username', optional: false },
+      { name: 'playerName', type: 'string', description: 'Name of the player requesting the duel', optional: false },
     ],
     category: 'Duel',
     related: [],
@@ -2043,8 +2228,10 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'ENABLE_LOW_LEVEL_RAID',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'enabled', type: 'string', description: 'Whether low level raid is enabled', optional: false },
+      { name: 'lockedForPlayer', type: 'string', description: 'Whether the player is locked', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2055,6 +2242,8 @@ export const EVENTS: WowEvent[] = [
     name: 'ENABLE_TAXI_BENCHMARK',
     description: 'Fires when taxi benchmarking mode is enabled',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
+      { name: 'arg2', type: 'string', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2065,6 +2254,7 @@ export const EVENTS: WowEvent[] = [
     name: 'ENABLE_XP_GAIN',
     description: 'Fires when the player re-enabled experience point gain after disabling it',
     parameters: [
+      { name: 'enabled', type: 'string', description: 'Whether XP gain is enabled', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2105,6 +2295,8 @@ export const EVENTS: WowEvent[] = [
     name: 'EQUIPMENT_SWAP_FINISHED',
     description: 'Fires when the process of switching equipment sets is complete. Many other events fire as the equipment swap takes place (each piece of equipment being equipped or placed into the character\'s bags, the character\'s combat attributes changing due to the new equipment, etc). An addon may not need to monitor each event that happens as part of this process, so it can unregister those events when EQUIPMENT_SWAP_PENDING fires and re-register for them when EQUIPMENT_SWAP_FINISHED fires.',
     parameters: [
+      { name: 'result', type: 'number', description: 'Result code of the swap', optional: false },
+      { name: 'setId', type: 'number', description: 'Equipment set ID', optional: false },
     ],
     category: 'Equipment',
     related: [],
@@ -2115,6 +2307,8 @@ export const EVENTS: WowEvent[] = [
     name: 'EQUIPMENT_SWAP_PENDING',
     description: 'Fires when the player begins to switch equipment sets. Many other events fire as the equipment swap takes place (each piece of equipment being equipped or placed into the character\'s bags, the character\'s combat attributes changing due to the new equipment, etc). An addon may not need to monitor each event that happens as part of this process, so it can unregister those events when EQUIPMENT_SWAP_PENDING fires and re-register for them when EQUIPMENT_SWAP_FINISHED fires.',
     parameters: [
+      { name: 'setIndex', type: 'number', description: 'Equipment set index', optional: false },
+      { name: 'success', type: 'number', description: 'Whether the swap is expected to succeed', optional: false },
     ],
     category: 'Equipment',
     related: [],
@@ -2156,6 +2350,7 @@ export const EVENTS: WowEvent[] = [
     name: 'GLYPH_ADDED',
     description: 'Fires when a glyph is inscribed into the player\'s spellbook',
     parameters: [
+      { name: 'slotIndex', type: 'number', description: 'Glyph slot index (1-6)', optional: false },
     ],
     category: 'Glyph',
     related: [],
@@ -2176,6 +2371,10 @@ export const EVENTS: WowEvent[] = [
     name: 'GLYPH_ENABLED',
     description: 'Fires when a glyph slot becomes available. New glyph slots become available as the player gains levels.',
     parameters: [
+      { name: 'slotIndex', type: 'number', description: 'Glyph slot index', optional: false },
+      { name: 'glyphId', type: 'number', description: 'Glyph ID', optional: false },
+      { name: 'glyphType', type: 'number', description: 'Glyph type (1=Major, 2=Minor)', optional: false },
+      { name: 'spellId', type: 'number', description: 'Associated spell ID', optional: false },
     ],
     category: 'Glyph',
     related: [],
@@ -2186,6 +2385,7 @@ export const EVENTS: WowEvent[] = [
     name: 'GLYPH_REMOVED',
     description: 'Fires when the player removes an inscribed glyph',
     parameters: [
+      { name: 'slotIndex', type: 'number', description: 'Glyph slot index (1-6)', optional: false },
     ],
     category: 'Glyph',
     related: [],
@@ -2196,6 +2396,10 @@ export const EVENTS: WowEvent[] = [
     name: 'GLYPH_UPDATED',
     description: 'Fires when information about the player\'s inscribed glyphs becomes available',
     parameters: [
+      { name: 'slotIndex', type: 'number', description: 'Glyph slot index', optional: false },
+      { name: 'glyphId', type: 'number', description: 'Glyph ID', optional: false },
+      { name: 'glyphType', type: 'number', description: 'Glyph type (1=Major, 2=Minor)', optional: false },
+      { name: 'spellId', type: 'number', description: 'Associated spell ID', optional: false },
     ],
     category: 'Glyph',
     related: [],
@@ -2224,7 +2428,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'GM_PLAYER_INFO',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Misc',
@@ -2236,6 +2440,7 @@ export const EVENTS: WowEvent[] = [
     name: 'GOSSIP_CLOSED',
     description: 'Fires when an NPC gossip interaction ends. Many NPCs provide a single gossip option leading into another type of interaction (e.g. a flight master offering a greeting) -- in this case, the gossip interaction still happens but is automatically skipped by the default UI, so this event still fires.',
     parameters: [
+      { name: 'interactionIsPaused', type: 'number', description: 'Whether the NPC interaction is paused', optional: false },
     ],
     category: 'NPC',
     related: [],
@@ -2259,6 +2464,7 @@ export const EVENTS: WowEvent[] = [
     name: 'GOSSIP_CONFIRM_CANCEL',
     description: 'Fires when an attempt to confirm a gossip choice is canceled',
     parameters: [
+      { name: 'gossipId', type: 'number', description: 'Gossip option ID', optional: false },
     ],
     category: 'NPC',
     related: [],
@@ -2269,7 +2475,7 @@ export const EVENTS: WowEvent[] = [
     name: 'GOSSIP_ENTER_CODE',
     description: 'Fires when the player attempts a gossip choice which requires entering a code. Used for NPCs offering the ability to claim items such as Blizzcon special pets or loot cards from the WoW trading card game.',
     parameters: [
-      { name: 'id', type: 'number', description: 'The id of the gossip action you are attempting.', optional: false },
+      { name: 'gossipId', type: 'number', description: 'Gossip option ID', optional: false },
     ],
     category: 'NPC',
     related: [],
@@ -2280,6 +2486,7 @@ export const EVENTS: WowEvent[] = [
     name: 'GOSSIP_SHOW',
     description: 'Fires when an NPC gossip interaction begins',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'NPC',
     related: [],
@@ -2320,6 +2527,10 @@ export const EVENTS: WowEvent[] = [
     name: 'GUILDBANKLOG_UPDATE',
     description: 'Fires when information for the guild bank transaction or money log becomes available',
     parameters: [
+      { name: 'tabName', type: 'string', description: 'Name of the guild bank tab', optional: false },
+      { name: 'tabIndex', type: 'number', description: 'Guild bank tab index', optional: false },
+      { name: 'numTransactions', type: 'number', description: 'Number of transactions', optional: false },
+      { name: 'isMoneyTab', type: 'number', description: 'Whether this is the money log tab', optional: false },
     ],
     category: 'Guild',
     related: [],
@@ -2390,6 +2601,8 @@ export const EVENTS: WowEvent[] = [
     name: 'GUILDTABARD_UPDATE',
     description: 'Fires when the player\'s guild tabard design changes.',
     parameters: [
+      { name: 'emblemStyle', type: 'string', description: 'Tabard emblem style', optional: false },
+      { name: 'emblemColor', type: 'string', description: 'Tabard emblem color', optional: false },
     ],
     category: 'Guild',
     related: [],
@@ -2400,6 +2613,9 @@ export const EVENTS: WowEvent[] = [
     name: 'GUILD_EVENT_LOG_UPDATE',
     description: 'Fires when information for the guild event log becomes available',
     parameters: [
+      { name: 'numEvents', type: 'number', description: 'Number of guild events', optional: false },
+      { name: 'guildMemberCount', type: 'number', description: 'Number of guild members', optional: false },
+      { name: 'maxDisplayEvents', type: 'number', description: 'Maximum displayable events', optional: false },
     ],
     category: 'Guild',
     related: [],
@@ -2474,6 +2690,7 @@ export const EVENTS: WowEvent[] = [
     name: 'HONOR_CURRENCY_UPDATE',
     description: 'Fires when the player\'s amount of honor points changes',
     parameters: [
+      { name: 'honorChange', type: 'number', description: 'Amount of honor gained or lost', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2494,6 +2711,8 @@ export const EVENTS: WowEvent[] = [
     name: 'IGR_BILLING_NAG_DIALOG',
     description: 'Fires when a message should be shown about the player\'s paid-per-hour game time expiring soon. Only used in locales where World of Warcraft is played via paid-per-hour Internet Game Rooms (e.g. Korea).',
     parameters: [
+      { name: 'remainingMinutes', type: 'number', description: 'Minutes of play time remaining', optional: false },
+      { name: 'isPremium', type: 'number', description: 'Whether account is premium', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2524,6 +2743,7 @@ export const EVENTS: WowEvent[] = [
     name: 'INSPECT_TALENT_READY',
     description: 'Fires when information about the inspected player\'s talents becomes available',
     parameters: [
+      { name: 'success', type: 'number', description: 'Whether the talent inspection was successful', optional: false },
     ],
     category: 'Inspect',
     related: [],
@@ -2554,6 +2774,8 @@ export const EVENTS: WowEvent[] = [
     name: 'INSTANCE_ENCOUNTER_ENGAGE_UNIT',
     description: 'Fires when a boss has been engaged in an instance. Does not fire for every boss fights, as it is used to add the boss unit to the UI.',
     parameters: [
+      { name: 'encounterIndex', type: 'number', description: 'Index of the encounter', optional: false },
+      { name: 'encounterData', type: 'any', description: 'Encounter data', optional: false },
     ],
     category: 'Dungeon',
     related: [],
@@ -2618,6 +2840,7 @@ export const EVENTS: WowEvent[] = [
     name: 'ITEM_TEXT_BEGIN',
     description: 'Fires when the player begins interaction with a readable item or world object. Readable items include books, scrolls, and saved copies of mail messages; readable world objects include plaques, gravestones and books on tables.',
     parameters: [
+      { name: 'itemName', type: 'string', description: 'Name of the item', optional: false },
     ],
     category: 'Inventory',
     related: [],
@@ -2628,6 +2851,7 @@ export const EVENTS: WowEvent[] = [
     name: 'ITEM_TEXT_CLOSED',
     description: 'Fires when the player ends interaction with a readable item or world object. Readable items include books, scrolls, and saved copies of mail messages; readable world objects include plaques, gravestones and books on tables.',
     parameters: [
+      { name: 'itemName', type: 'string', description: 'Name of the item', optional: false },
     ],
     category: 'Inventory',
     related: [],
@@ -2648,7 +2872,8 @@ export const EVENTS: WowEvent[] = [
     name: 'ITEM_TEXT_TRANSLATION',
     description: 'Fires when a "translation" progress bar should be displayed while the player interacts with a readable item or world object. Such a UI element indicates the player character\'s progress in translating the text to a readable in-game language; this feature is generally not used in the current version of WoW. Readable items include books, scrolls, and saved copies of mail messages; readable world objects include plaques, gravestones and books on tables.',
     parameters: [
-      { name: 'maxvalue', type: 'number', description: 'The max value', optional: false },
+      { name: 'translatedText', type: 'string', description: 'Translated text', optional: false },
+      { name: 'sourceLanguage', type: 'string', description: 'Source language', optional: false },
     ],
     category: 'Inventory',
     related: [],
@@ -2659,6 +2884,7 @@ export const EVENTS: WowEvent[] = [
     name: 'ITEM_UNLOCKED',
     description: 'Fires when an item in the player\'s bags or equipped inventory is unlocked after moving',
     parameters: [
+      { name: 'bagSlot', type: 'number', description: 'Bag slot index of the unlocked item', optional: false },
     ],
     category: 'Inventory',
     related: [],
@@ -2669,6 +2895,7 @@ export const EVENTS: WowEvent[] = [
     name: 'KNOWLEDGE_BASE_ARTICLE_LOAD_FAILURE',
     description: 'Fires when a knowledge base article fails to load',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2719,6 +2946,7 @@ export const EVENTS: WowEvent[] = [
     name: 'KNOWLEDGE_BASE_SETUP_LOAD_FAILURE',
     description: 'Fires when the knowledge base\'s default listing fails to load',
     parameters: [
+      { name: 'errorData', type: 'any', description: 'Error information', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2729,6 +2957,8 @@ export const EVENTS: WowEvent[] = [
     name: 'KNOWLEDGE_BASE_SETUP_LOAD_SUCCESS',
     description: 'Fires when the knowledge base\'s default listing becomes available',
     parameters: [
+      { name: 'serverMessage', type: 'string', description: 'Server MOTD', optional: false },
+      { name: 'categories', type: 'any', description: 'Article categories', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2749,6 +2979,8 @@ export const EVENTS: WowEvent[] = [
     name: 'KNOWN_CURRENCY_TYPES_UPDATE',
     description: 'Fires when the currency list changes',
     parameters: [
+      { name: 'currencyType', type: 'string', description: 'The currency type', optional: false },
+      { name: 'count', type: 'number', description: 'The amount of currency', optional: false },
     ],
     category: 'Spells',
     related: [],
@@ -2791,6 +3023,7 @@ export const EVENTS: WowEvent[] = [
     name: 'LEVEL_GRANT_PROPOSED',
     description: 'Fires when the player is offered to instantly gain a level thanks to a Recruit-A-Friend partner',
     parameters: [
+      { name: 'senderInfo', type: 'any', description: 'Information about the granting player', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2799,7 +3032,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_BOOT_PROPOSAL_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2821,6 +3054,7 @@ export const EVENTS: WowEvent[] = [
     name: 'LFG_LOCK_INFO_RECEIVED',
     description: 'Fires when LFR information is available. Fires when LFR boss kill information is available to be queried using GetLFGDungeonNumEncounters() and GetLFGDungeonEncounterInfo()',
     parameters: [
+      { name: 'lockInfo', type: 'any', description: 'Lock info data', optional: false },
     ],
     category: 'Dungeon',
     related: [],
@@ -2829,8 +3063,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_OFFER_CONTINUE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'dungeonId', type: 'number', description: 'Dungeon ID for the continue offer', optional: false },
     ],
     category: 'Dungeon',
     related: [],
@@ -2839,7 +3074,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_OPEN_FROM_GOSSIP',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2849,7 +3084,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_PROPOSAL_FAILED',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2889,7 +3124,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_QUEUE_STATUS_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2899,7 +3134,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_ROLE_CHECK_HIDE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2909,7 +3144,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_ROLE_CHECK_ROLE_CHOSEN',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2919,8 +3154,10 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_ROLE_CHECK_SHOW',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'isRequeue', type: 'string', description: 'Whether this is a requeue', optional: false },
+      { name: 'dungeonName', type: 'string', description: 'Name of the dungeon', optional: false },
     ],
     category: 'Dungeon',
     related: [],
@@ -2929,8 +3166,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_ROLE_CHECK_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'success', type: 'number', description: 'Whether the role check passed', optional: false },
     ],
     category: 'Dungeon',
     related: [],
@@ -2939,7 +3177,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LFG_ROLE_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Dungeon',
@@ -2961,6 +3199,7 @@ export const EVENTS: WowEvent[] = [
     name: 'LFG_UPDATE_RANDOM_INFO',
     description: 'Fires when instance information is available for populating the LFD frame',
     parameters: [
+      { name: 'updated', type: 'number', description: 'Whether the random info was updated', optional: false },
     ],
     category: 'Dungeon',
     related: [],
@@ -2971,6 +3210,7 @@ export const EVENTS: WowEvent[] = [
     name: 'LOCALPLAYER_PET_RENAMED',
     description: 'Fires when the player\'s pet is renamed. Primarily applies to hunter pets.',
     parameters: [
+      { name: 'petData', type: 'any', description: 'Renamed pet information', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -2981,6 +3221,7 @@ export const EVENTS: WowEvent[] = [
     name: 'LOGOUT_CANCEL',
     description: 'Fires when the logout countdown is aborted. The player is required to wait several seconds before logging out or quitting if not in an inn, major city or other "resting" area -- this method fires if the player attempts to log out or quit, starting the countdown, and then performs an action which aborts it.',
     parameters: [
+      { name: 'forced', type: 'number', description: 'Whether the logout cancel was forced', optional: false },
     ],
     category: 'System',
     related: [],
@@ -3021,7 +3262,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'LOOT_SLOT_CHANGED',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Loot',
@@ -3054,6 +3295,7 @@ export const EVENTS: WowEvent[] = [
     name: 'MACRO_ACTION_FORBIDDEN',
     description: 'Fires when a macro script attempts to use a protected API',
     parameters: [
+      { name: 'blockedAction', type: 'number', description: 'The action that was blocked', optional: false },
     ],
     category: 'Macro',
     related: [],
@@ -3064,6 +3306,7 @@ export const EVENTS: WowEvent[] = [
     name: 'MAIL_CLOSED',
     description: 'Fires when the player ends interaction with a mailbox',
     parameters: [
+      { name: 'closedByServer', type: 'number', description: 'Whether the mailbox was closed by the server', optional: false },
     ],
     category: 'Mail',
     related: [],
@@ -3084,6 +3327,7 @@ export const EVENTS: WowEvent[] = [
     name: 'MAIL_INBOX_UPDATE',
     description: 'Fires when information about the contents of the player\'s inbox changes or becomes available',
     parameters: [
+      { name: 'mailData', type: 'any', description: 'Updated mailbox data', optional: false },
     ],
     category: 'Mail',
     related: [],
@@ -3092,7 +3336,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'MAIL_LOCK_SEND_ITEMS',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Mail',
@@ -3104,6 +3348,8 @@ export const EVENTS: WowEvent[] = [
     name: 'MAIL_SEND_INFO_UPDATE',
     description: 'Fires when information about the outgoing mail message\'s attachments changes',
     parameters: [
+      { name: 'recipientName', type: 'string', description: 'Name of the mail recipient', optional: false },
+      { name: 'subject', type: 'string', description: 'Mail subject', optional: false },
     ],
     category: 'Mail',
     related: [],
@@ -3114,6 +3360,8 @@ export const EVENTS: WowEvent[] = [
     name: 'MAIL_SEND_SUCCESS',
     description: 'Fires when an outgoing message is successfully sent',
     parameters: [
+      { name: 'recipientName', type: 'string', description: 'Name of the recipient', optional: false },
+      { name: 'mailType', type: 'string', description: 'Type of mail sent', optional: false },
     ],
     category: 'Mail',
     related: [],
@@ -3132,8 +3380,13 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'MAIL_SUCCESS',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'mailId', type: 'number', description: 'Mail message ID', optional: false },
+      { name: 'attachment1', type: 'any', description: 'First attachment data', optional: false },
+      { name: 'attachment2', type: 'any', description: 'Second attachment data', optional: false },
+      { name: 'attachment3', type: 'any', description: 'Third attachment data', optional: false },
+      { name: 'attachment4', type: 'any', description: 'Fourth attachment data', optional: false },
     ],
     category: 'Mail',
     related: [],
@@ -3142,7 +3395,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'MAIL_UNLOCK_SEND_ITEMS',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Mail',
@@ -3265,8 +3518,10 @@ export const EVENTS: WowEvent[] = [
     name: 'MODIFIER_STATE_CHANGED',
     description: 'Fires when a modifier key is pressed or released.',
     parameters: [
-      { name: 'key', type: 'string', description: 'The name of the key that you pressed.  Possible values are LSHIFT, RSHIFT, LCTRL, RCTRL, LALT, and RALT.', optional: false },
-      { name: 'state', type: 'number', description: 'The state the key has entered. 1 means that the the key has been pressed.  0 means that the key has been released.', optional: false },
+      { name: 'key', type: 'string', description: 'The modifier key (LSHIFT, RSHIFT, LCTRL, RCTRL, LALT, RALT)', optional: false },
+      { name: 'down', type: 'any', description: 'Whether the key is pressed (1) or released (0)', optional: false },
+      { name: 'state2', type: 'any', description: 'Additional modifier state', optional: false },
+      { name: 'state3', type: 'any', description: 'Additional modifier state', optional: false },
     ],
     category: 'Input',
     related: [],
@@ -3277,6 +3532,7 @@ export const EVENTS: WowEvent[] = [
     name: 'MOVIE_COMPRESSING_PROGRESS',
     description: 'Fires when compression of a movie recording starts',
     parameters: [
+      { name: 'progress', type: 'string', description: 'Compression progress', optional: false },
     ],
     category: 'Cinematic',
     related: [],
@@ -3297,7 +3553,8 @@ export const EVENTS: WowEvent[] = [
     name: 'MOVIE_UNCOMPRESSED_MOVIE',
     description: 'Fires when the client prompts the player to allow compression of a movie recording',
     parameters: [
-      { name: 'filename', type: 'string', description: 'The filename of the movie to compress', optional: false },
+      { name: 'moviePath', type: 'string', description: 'Path to the uncompressed movie file', optional: false },
+      { name: 'movieId', type: 'number', description: 'Movie identifier', optional: false },
     ],
     category: 'Cinematic',
     related: [],
@@ -3308,6 +3565,8 @@ export const EVENTS: WowEvent[] = [
     name: 'MUTELIST_UPDATE',
     description: 'Fires when the content of the player\'s muted list becomes available or changes',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
+      { name: 'arg2', type: 'number', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -3339,6 +3598,10 @@ export const EVENTS: WowEvent[] = [
     name: 'NPC_PVPQUEUE_ANYWHERE',
     description: 'Fires when the player begins interaction with an NPC which can queue the player for any battleground',
     parameters: [
+      { name: 'battlegroundId', type: 'number', description: 'Battleground ID', optional: false },
+      { name: 'minLevel', type: 'number', description: 'Minimum level', optional: false },
+      { name: 'maxLevel', type: 'number', description: 'Maximum level', optional: false },
+      { name: 'canQueue', type: 'number', description: 'Whether the player can queue', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -3370,6 +3633,12 @@ export const EVENTS: WowEvent[] = [
     name: 'OPEN_TABARD_FRAME',
     description: 'Fires when the player begins interaction with a tabard designer',
     parameters: [
+      { name: 'npcName', type: 'string', description: 'Name of the tabard vendor NPC', optional: false },
+      { name: 'iconStyle', type: 'number', description: 'Emblem icon style', optional: false },
+      { name: 'iconColor', type: 'number', description: 'Emblem icon color', optional: false },
+      { name: 'borderStyle', type: 'number', description: 'Border style', optional: false },
+      { name: 'borderColor', type: 'number', description: 'Border color', optional: false },
+      { name: 'backgroundColor', type: 'string', description: 'Background color', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -3400,7 +3669,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PARTY_INVITE_REQUEST',
     description: 'Fires when the player is invited to join a group',
     parameters: [
-      { name: 'sender', type: 'string', description: 'The name of the person who sent the invite.', optional: false },
+      { name: 'inviter', type: 'number', description: 'Name or ID of the inviter', optional: false },
     ],
     category: 'Group',
     related: [],
@@ -3411,6 +3680,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PARTY_LEADER_CHANGED',
     description: 'Fires when information about the leadership of the player\'s party changes or becomes available',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'Group',
     related: [],
@@ -3419,7 +3689,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'PARTY_LFG_RESTRICTED',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Group',
@@ -3483,6 +3753,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PETITION_SHOW',
     description: 'Fires when a guild or arena team charter is presented to the player',
     parameters: [
+      { name: 'petitionType', type: 'string', description: 'Type of petition (guild or arena team)', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3523,6 +3794,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PET_ATTACK_START',
     description: 'Fires when the player\'s pet starts auto-attacking',
     parameters: [
+      { name: 'petSlot', type: 'number', description: 'Pet action bar slot', optional: false },
+      { name: 'targetGUID', type: 'number', description: 'GUID of the attack target', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3533,6 +3806,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PET_ATTACK_STOP',
     description: 'Fires when the player\'s pet stops auto-attacking',
     parameters: [
+      { name: 'petSlot', type: 'number', description: 'Pet action bar slot', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3543,6 +3817,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PET_BAR_HIDE',
     description: 'Fires when the pet action bar should be hidden. Does not fire in all cases where the default UI automatically hides the pet bar if inapplicable.',
     parameters: [
+      { name: 'petType', type: 'string', description: 'Type of pet dismissed', optional: false },
+      { name: 'petName', type: 'string', description: 'Name of the pet', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3591,8 +3867,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'PET_BAR_UPDATE_USABLE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'slotId', type: 'number', description: 'Pet bar slot ID', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3613,6 +3890,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PET_FORCE_NAME_DECLENSION',
     description: 'Fires when the player is prompted to provide Russian declensions for a pet\'s name. Only applies in the Russian client.',
     parameters: [
+      { name: 'petName', type: 'string', description: 'Pet name to decline', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3631,7 +3909,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'PET_SPELL_POWER_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Companion',
@@ -3683,6 +3961,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PET_TALENT_UPDATE',
     description: 'Fires when the player\'s pet talent information changes - that is, when the pet is summoned, dismissed, gains or spends talent points. May fire multiple times in a row.',
     parameters: [
+      { name: 'numPoints', type: 'number', description: 'Number of available pet talent points', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3703,6 +3982,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PET_UI_UPDATE',
     description: 'Fires when information about the player\'s pet changes or becomes available',
     parameters: [
+      { name: 'petAction', type: 'number', description: 'Pet UI action type', optional: false },
+      { name: 'petName', type: 'string', description: 'Name of the pet', optional: false },
     ],
     category: 'Companion',
     related: [],
@@ -3774,6 +4055,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_CONTROL_LOST',
     description: 'Fires when the player loses control of his or her character. Occurs when the player is afflicted by a fear, mind control, or similar effect or when the player takes an automated flight path.',
     parameters: [
+      { name: 'reason', type: 'number', description: 'Reason control was lost', optional: false },
+      { name: 'spellId', type: 'number', description: 'Spell ID that caused loss of control', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3795,6 +4078,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_DEAD',
     description: 'Fires when the player dies',
     parameters: [
+      { name: 'releaseAllowed', type: 'number', description: 'Whether the player can release spirit', optional: false },
+      { name: 'durabilityLoss', type: 'number', description: 'Durability loss percentage', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3803,8 +4088,9 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'PLAYER_DIFFICULTY_CHANGED',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'newDifficulty', type: 'number', description: 'New dungeon difficulty (1=Normal, 2=Heroic)', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3825,6 +4111,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_ENTERING_WORLD',
     description: 'Fired when the player enters the world, reloads the UI, enters/leaves an instance or battleground, or respawns at a graveyard. Also fires any other time the player sees a loading screen',
     parameters: [
+      { name: 'isInitialLogin', type: 'string', description: 'Whether this is the initial login', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3835,6 +4122,11 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_ENTER_COMBAT',
     description: 'Fires when the player begins melee auto-attack mode. This event cannot be used to detect when the player is entering a combat situation (i.e. when targeted by a hostile creature); for such cases, see PLAYER_REGEN_DISABLED.',
     parameters: [
+      { name: 'combatAction', type: 'string', description: 'Type of combat action initiated', optional: false },
+      { name: 'targetName', type: 'string', description: 'Name of the target', optional: false },
+      { name: 'targetType', type: 'string', description: 'Type of the target', optional: false },
+      { name: 'targetLevel', type: 'number', description: 'Level of the target', optional: false },
+      { name: 'targetFlags', type: 'number', description: 'Target flags', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3867,7 +4159,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_FLAGS_CHANGED',
     description: 'Fires when a unit\'s AFK or DND status changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit of the effected player.', optional: false },
+      { name: 'unitTarget', type: 'number', description: 'The unit whose flags changed', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3878,6 +4170,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_FOCUS_CHANGED',
     description: 'Fires when the player\'s focus unit changes',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3948,6 +4241,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_LOGIN',
     description: 'Fires only the first time a player enters the game.',
     parameters: [
+      { name: 'isInitialLogin', type: 'number', description: 'Whether this is the initial login (not a reload)', optional: false },
+      { name: 'isReloadUI', type: 'number', description: 'Whether this login is from a UI reload', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3968,6 +4263,9 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_LOSES_VEHICLE_DATA',
     description: 'Fires when the player loses vehicle-related attributes without necessarily having been in a vehicle. This can occur when the player uses a multi-passenger mount -- like all other mounts it is considered an extension of the player rather than a separate vehicle unit, but it has vehicle-related attributes such as a seat diagram and passenger controls for exiting.',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit losing vehicle data', optional: false },
+      { name: 'vehicleType', type: 'number', description: 'Type of vehicle', optional: false },
+      { name: 'seatIndex', type: 'number', description: 'Seat index in the vehicle', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -3998,6 +4296,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_PVP_RANK_CHANGED',
     description: 'Fires when the player\'s PvP rank changes. Related to the old PvP rewards system from before WoW Patch 2.0; no longer used.',
     parameters: [
+      { name: 'newRank', type: 'number', description: 'The new PvP rank', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -4008,6 +4307,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_QUITING',
     description: 'Fires when the player attempts to exit WoW while not in a major city, inn, or other "resting" area',
     parameters: [
+      { name: 'isLogout', type: 'number', description: 'Whether this is a logout (vs. quit)', optional: false },
+      { name: 'reason', type: 'string', description: 'Reason for quitting', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -4036,8 +4337,12 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'PLAYER_ROLES_ASSIGNED',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'assignedBy', type: 'string', description: 'Name of the player who assigned roles', optional: false },
+      { name: 'isTank', type: 'any', description: 'Whether the tank role was assigned', optional: false },
+      { name: 'isHealer', type: 'any', description: 'Whether the healer role was assigned', optional: false },
+      { name: 'isDPS', type: 'any', description: 'Whether the DPS role was assigned', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -4058,6 +4363,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_TALENT_UPDATE',
     description: 'Fires when the player gains or spends talent points',
     parameters: [
+      { name: 'numPoints', type: 'number', description: 'Number of available talent points', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -4108,6 +4414,13 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAYER_UPDATE_RESTING',
     description: 'Fires when the player enters or leaves a major city, inn or other "resting" area',
     parameters: [
+      { name: 'isResting', type: 'number', description: 'Whether the player is in a rest area', optional: false },
+      { name: 'restAreaName', type: 'string', description: 'Name of the rest area', optional: false },
+      { name: 'posX', type: 'number', description: 'X coordinate', optional: false },
+      { name: 'posY', type: 'number', description: 'Y coordinate', optional: false },
+      { name: 'posZ', type: 'number', description: 'Z coordinate', optional: false },
+      { name: 'mapId', type: 'number', description: 'Map identifier', optional: false },
+      { name: 'areaId', type: 'number', description: 'Area identifier', optional: false },
     ],
     category: 'Player',
     related: [],
@@ -4138,6 +4451,8 @@ export const EVENTS: WowEvent[] = [
     name: 'PLAY_MOVIE',
     description: 'Fires when an in-game movie should be played. Currently used only for the video in the Wrathgate quest event.',
     parameters: [
+      { name: 'movieId', type: 'number', description: 'ID of the movie to play', optional: false },
+      { name: 'volume', type: 'number', description: 'Movie audio volume', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4148,6 +4463,10 @@ export const EVENTS: WowEvent[] = [
     name: 'PREVIEW_PET_TALENT_POINTS_CHANGED',
     description: 'Fires when pet talent points are spent or unspent in preview mode',
     parameters: [
+      { name: 'pointsSpent', type: 'number', description: 'Talent points spent in preview', optional: false },
+      { name: 'pointsAvailable', type: 'number', description: 'Talent points available', optional: false },
+      { name: 'tabIndex', type: 'number', description: 'Active talent tab index', optional: false },
+      { name: 'talentGroup', type: 'number', description: 'Talent group (spec) index', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4178,6 +4497,7 @@ export const EVENTS: WowEvent[] = [
     name: 'PVPQUEUE_ANYWHERE_UPDATE_AVAILABLE',
     description: 'Fires when information for the any-battleground queueing UI changes or becomes available',
     parameters: [
+      { name: 'available', type: 'number', description: 'Whether PvP queuing is available', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4188,7 +4508,7 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_ACCEPTED',
     description: 'Fires when a new quest is added to the player\'s quest log (which is what happens after a player accepts a quest).',
     parameters: [
-      { name: 'questIndex', type: 'number', description: 'Index where the accepted quest was placed in the quest log (between 1 and GetNumQuestLogEntries())', optional: false },
+      { name: 'questLogIndex', type: 'number', description: 'Index in the quest log', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4211,6 +4531,7 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_COMPLETE',
     description: 'Fires when the player is looking at the "Complete" page for a quest, at a questgiver.. This is the portion of a questgiver dialog in which the player is offered to choose a reward (or accept the only reward) and sees the "Complete" button available. This event does NOT fire when they actually complete the quest, it fires when they SEE the "Complete" button and are offered the ability to complete the quest, and has nothing to do with whether they actually turned in the quest or not. To avoid confusion: This event should not be used if you want to know when the player actually turns in a quest, that\'s not what this event does (see above). This event happens after the portion in which the questgiver verifies the player\'s progress on the quest.',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4221,6 +4542,8 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_DETAIL',
     description: 'Fires when details of an available quest are presented by a questgiver. Fires for the portion of a questgiver dialog in which the the quest is described and the player is offered to accept the quest, sometimes after choosing the available quest from a greeting dialog.',
     parameters: [
+      { name: 'questStarter', type: 'string', description: 'Name of the quest giver', optional: false },
+      { name: 'questId', type: 'number', description: 'Quest ID', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4231,6 +4554,7 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_FINISHED',
     description: 'Fires when the player ends interaction with a questgiver or ends a stage of the questgiver dialog. A typical dialogue with a questgiver is presented in four stages (though some stages may be skipped for some quests): This event fires when the player completes any of the above stages of dialog, before the event presenting the next stage fires, or when the player declines or aborts interaction with the questgiver.',
     parameters: [
+      { name: 'questId', type: 'number', description: 'Quest ID', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4261,6 +4585,9 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_LOG_UPDATE',
     description: 'Fires when the game client receives updates relating to the player\'s quest log (this event is not just related to the quests inside it). There are a LOT of various things that cause the server to send quest log information to the player\'s client, such as: Logging into the game world, zoning between servers (anytime you see a loading screen), accepting quests, deleting/abandoning quests, completing quests, quest progress updates (achieving whole or partial objective updates for a quest), when dailies reset (the "You can only complete 25 more daily quests today" event), and whenever something regarding the DISPLAY of the quest log VISUALLY changes (such as when you collapse or expand headers in the quest log; with headers being the lines such as "Terokkar Forest", that separate the quests into groups). This event (QUEST_LOG_UPDATE) should therefore only be used if you care about the QUEST LOG itself more than the quests; ie if you implement a custom quest log, then you\'d use this event to update the display when things like dailies reset or headers change. However, if you are ONLY interested in tracking QUEST-related information (accepting quests, abandoning quests, achieving quest progress, and completing quests), there\'s a better event: UNIT_QUEST_LOG_CHANGED. See its page for details.',
     parameters: [
+      { name: 'questLogIndex', type: 'number', description: 'Quest log index that changed', optional: false },
+      { name: 'questTitle', type: 'string', description: 'Title of the quest', optional: false },
+      { name: 'isComplete', type: 'number', description: 'Whether the quest objectives are complete', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4269,7 +4596,7 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'QUEST_POI_UPDATE',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
     ],
     category: 'Quest',
@@ -4291,6 +4618,8 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_QUERY_COMPLETE',
     description: 'Fires when quest completion information is available from the server. This event fires in response to a call to the QueryQuestsCompleted function.',
     parameters: [
+      { name: 'questId', type: 'number', description: 'Quest ID', optional: false },
+      { name: 'success', type: 'number', description: 'Whether the query was successful', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4301,7 +4630,8 @@ export const EVENTS: WowEvent[] = [
     name: 'QUEST_WATCH_UPDATE',
     description: 'Fires when the player\'s status regarding a quest\'s objectives changes, for instance picking up a required object or killing a mob for that quest. All forms of (quest objective) progress changes will trigger this event.',
     parameters: [
-      { name: 'questIndex', type: 'number', description: 'Index of the affected quest in the quest log (between 1 and GetNumQuestLogEntries())', optional: false },
+      { name: 'questTitle', type: 'string', description: 'Title of the watched quest', optional: false },
+      { name: 'questIndex', type: 'number', description: 'Quest log index', optional: false },
     ],
     category: 'Quest',
     related: [],
@@ -4324,6 +4654,7 @@ export const EVENTS: WowEvent[] = [
     name: 'RAID_ROSTER_UPDATE',
     description: 'Fires when the raid roster changes. This occurs when a raid is formed or disbanded, if members join or leave or are moved between raid subgroups, if the loot policy or loot master is changed, or if raid leader, assistant, main tank or main assist attributes are changed.',
     parameters: [
+      { name: 'reason', type: 'string', description: 'Reason for the roster update', optional: false },
     ],
     category: 'Group',
     related: [],
@@ -4334,6 +4665,7 @@ export const EVENTS: WowEvent[] = [
     name: 'RAID_TARGET_UPDATE',
     description: 'Fires when raid target icons are assigned or cleared',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
     ],
     category: 'Group',
     related: [],
@@ -4344,6 +4676,7 @@ export const EVENTS: WowEvent[] = [
     name: 'RAISED_AS_GHOUL',
     description: 'Fires when the player is raised as a ghoul by a friendly death knight',
     parameters: [
+      { name: 'casterName', type: 'string', description: 'Name of the player who raised you', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4385,8 +4718,10 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'RECEIVED_ACHIEVEMENT_LIST',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'achievementId', type: 'string', description: 'Achievement ID received', optional: false },
+      { name: 'isGuild', type: 'string', description: 'Whether it is a guild achievement', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4409,7 +4744,7 @@ export const EVENTS: WowEvent[] = [
     name: 'RESURRECT_REQUEST',
     description: 'Fires when another character offers to resurrect the player',
     parameters: [
-      { name: 'name', type: 'string', description: 'The name of the user who is attempting to ressurect you/', optional: false },
+      { name: 'casterName', type: 'number', description: 'Name of the player offering resurrection', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4420,8 +4755,7 @@ export const EVENTS: WowEvent[] = [
     name: 'RUNE_POWER_UPDATE',
     description: 'Fires when the availability of one of the player\'s rune resources changes',
     parameters: [
-      { name: 'runeIndex', type: 'string', description: 'the runeIndex that was affected.', optional: false },
-      { name: 'isEnergize', type: 'string', description: 'if the rune was energized.', optional: false },
+      { name: 'runeIndex', type: 'number', description: 'Index of the rune (0-5)', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4443,6 +4777,7 @@ export const EVENTS: WowEvent[] = [
     name: 'SCREENSHOT_FAILED',
     description: 'Fires if an attempt to take a screenshot fails',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4453,6 +4788,7 @@ export const EVENTS: WowEvent[] = [
     name: 'SCREENSHOT_SUCCEEDED',
     description: 'Fires when a screenshot is successfully taken',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4513,6 +4849,7 @@ export const EVENTS: WowEvent[] = [
     name: 'SOUND_DEVICE_UPDATE',
     description: 'Fires when information about sound input/output devices changes or becomes available',
     parameters: [
+      { name: 'deviceName', type: 'string', description: 'Name of the sound device', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4595,6 +4932,7 @@ export const EVENTS: WowEvent[] = [
     name: 'SYNCHRONIZE_SETTINGS',
     description: 'Fires when game options are manually synchronized with those saved on the server',
     parameters: [
+      { name: 'settingType', type: 'number', description: 'Type of setting to synchronize', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4605,6 +4943,7 @@ export const EVENTS: WowEvent[] = [
     name: 'TABARD_CANSAVE_CHANGED',
     description: 'Fires when information about the player\'s ability to save a guild tabard design changes or becomes available',
     parameters: [
+      { name: 'canSave', type: 'string', description: 'Whether the tabard design can be saved', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4625,6 +4964,11 @@ export const EVENTS: WowEvent[] = [
     name: 'TALENTS_INVOLUNTARILY_RESET',
     description: 'Fires when the player\'s talents have undergone a forced reset. This usually happens after a major patch or on test realms.',
     parameters: [
+      { name: 'isPetTalents', type: 'number', description: 'Whether pet talents were reset', optional: false },
+      { name: 'talentData1', type: 'any', description: 'Talent reset data', optional: false },
+      { name: 'talentData2', type: 'any', description: 'Talent reset data', optional: false },
+      { name: 'talentData3', type: 'any', description: 'Talent reset data', optional: false },
+      { name: 'talentData4', type: 'any', description: 'Talent reset data', optional: false },
     ],
     category: 'Talents',
     related: [],
@@ -4710,7 +5054,8 @@ export const EVENTS: WowEvent[] = [
     name: 'TRADE_PLAYER_ITEM_CHANGED',
     description: 'Fires when the set of items offered for trade by the player changes',
     parameters: [
-      { name: 'slotID', type: 'number', description: 'The slot id of the item you are trading (1-7).', optional: false },
+      { name: 'tradeSlot', type: 'string', description: 'Trade slot that changed', optional: false },
+      { name: 'itemLink', type: 'string', description: 'Item link of the changed item', optional: false },
     ],
     category: 'Trade',
     related: [],
@@ -4719,8 +5064,10 @@ export const EVENTS: WowEvent[] = [
   },
   {
     name: 'TRADE_POTENTIAL_BIND_ENCHANT',
-    description: 'This function has not been documented.  You could document this function by logging in, and clicking the \'Edit\' tab.',
+    description: 'No documentation available.',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
+      { name: 'arg2', type: 'string', description: '', optional: false },
     ],
     category: 'Trade',
     related: [],
@@ -4731,8 +5078,7 @@ export const EVENTS: WowEvent[] = [
     name: 'TRADE_REPLACE_ENCHANT',
     description: 'Fires if the player attempts to enchant an item offered by the trade target which is already enchanted',
     parameters: [
-      { name: 'current', type: 'string', description: 'The current item enchant', optional: false },
-      { name: 'new', type: 'string', description: 'The name of the new proposed item enchant', optional: false },
+      { name: 'existingEnchant', type: 'string', description: 'Name of the existing enchant that will be replaced', optional: false },
     ],
     category: 'Trade',
     related: [],
@@ -4743,6 +5089,7 @@ export const EVENTS: WowEvent[] = [
     name: 'TRADE_REQUEST',
     description: 'Unused. Was once used for presenting the player with a confirmation dialog before initiating a trade offered by another character.',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
     ],
     category: 'Trade',
     related: [],
@@ -4864,6 +5211,7 @@ export const EVENTS: WowEvent[] = [
     name: 'TRAINER_UPDATE',
     description: 'Fires when information about the contents of the trainer service list changes or becomes available',
     parameters: [
+      { name: 'trainerType', type: 'number', description: 'Type of trainer service', optional: false },
     ],
     category: 'Trainer',
     related: [],
@@ -4874,7 +5222,8 @@ export const EVENTS: WowEvent[] = [
     name: 'TUTORIAL_TRIGGER',
     description: 'Fires when a contextual tutorial should be shown',
     parameters: [
-      { name: 'id', type: 'number', description: 'The id for the tutorial that needs to show. Valid values are between 1 and 51.', optional: false },
+      { name: 'tutorialIndex', type: 'string', description: 'Tutorial index to display', optional: false },
+      { name: 'forceShow', type: 'string', description: 'Whether to force-show the tutorial', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -4896,7 +5245,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UI_INFO_MESSAGE',
     description: 'Fires when an informative message should be displayed. e.g. "No fish are hooked", "You must be at least level 80 and in a raid group to enter this instance"',
     parameters: [
-      { name: 'message', type: 'string', description: 'The message that needs to be displayed', optional: false },
+      { name: 'errorType', type: 'number', description: 'Error type index for GetGameMessageInfo()', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -4907,7 +5256,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_ATTACK',
     description: 'Fires when a unit\'s weapon (or standard melee attack damage) changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -4940,7 +5289,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_AURA',
     description: 'Fires when a unit loses or gains a buff or debuff.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -4951,7 +5300,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_CLASSIFICATION_CHANGED',
     description: 'Fires when a unit changes classification (e.g. if an elite unit becomes non-elite)',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -4962,11 +5311,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_COMBAT',
     description: 'Fires when a unit takes or recovers from damage due to a combat effect',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
-      { name: 'action', type: 'string', description: 'The action type that happened, i.e. WOUND, DODGE, HEAL', optional: false },
-      { name: 'descriptor', type: 'string', description: 'A descriptor that describes the action, i.e. CRITICAL, CRUSHING', optional: false },
-      { name: 'damage', type: 'number', description: 'The ammount of damage or healing received', optional: false },
-      { name: 'damageType', type: 'number', description: 'The type of damage dealt.  Is 0(physical) for healing.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Combat',
     related: [],
@@ -4977,6 +5322,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_COMBO_POINTS',
     description: 'Fires when a unit scores combo points on its target',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -4998,7 +5344,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_DEFENSE',
     description: 'Fires when a unit\'s defense changes.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5009,7 +5355,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_DISPLAYPOWER',
     description: 'Fires when a unit\'s primary power type (e.g. rage, energy, mana) changes. Occurs when a druid shapeshifts as well as in certain other cases.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5020,6 +5366,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_DYNAMIC_FLAGS',
     description: 'Fires when certain unit attributes change. Attribute changes covered by this event include UnitIsCorpse() and UnitIsTapped().',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5030,6 +5377,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_ENERGY',
     description: 'Fires when a unit\'s energy level changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5040,6 +5388,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_ENTERED_VEHICLE',
     description: 'Fires when a unit has entered a vehicle',
     parameters: [
+      { name: 'unitTarget', type: 'any', description: 'The unit that entered the vehicle', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5050,6 +5399,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_ENTERING_VEHICLE',
     description: 'Fires when a unit begins entering a vehicle. See UNIT_ENTERED_VEHICLE for when the vehicle boarding animation finishes.',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5060,6 +5410,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_EXITED_VEHICLE',
     description: 'Fires when a unit has exited a vehicle',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5070,6 +5421,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_EXITING_VEHICLE',
     description: 'Fires when a unit begins exiting a vehicle. See UNIT_EXITED_VEHICLE for when the vehicle exiting animation finishes.',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit exiting the vehicle', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5080,7 +5432,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_FACTION',
     description: 'Fires when a unit\'s PvP status changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5102,6 +5454,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_FOCUS',
     description: 'Fires when a unit\'s focus level changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5112,6 +5465,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_HAPPINESS',
     description: 'Fires when the player\'s pet\'s happiness level changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5122,7 +5476,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_HEALTH',
     description: 'Fires when a unit\'s health level changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5133,7 +5487,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_INVENTORY_CHANGED',
     description: 'Fires when the player (or inspected unit) equips or unequips items',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5144,7 +5498,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_LEVEL',
     description: 'Fires when a unit\'s character level changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5155,7 +5509,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MANA',
     description: 'Fires when a unit\'s mana level changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5166,6 +5520,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXENERGY',
     description: 'Fires when a unit\'s maximum energy changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5176,6 +5531,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXFOCUS',
     description: 'Fires when a unit\'s maximum focus changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5186,6 +5542,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXHAPPINESS',
     description: 'Fires when a unit\'s maximum happiness changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5196,7 +5553,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXHEALTH',
     description: 'Fires when a unit\'s maximum health changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5207,6 +5564,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXMANA',
     description: 'Fires when a unit\'s maximum mana changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5217,6 +5575,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXRAGE',
     description: 'Fires when a unit\'s maximum rage changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5227,6 +5586,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MAXRUNIC_POWER',
     description: 'Fires when a unit\'s maximum runic power changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5237,7 +5597,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_MODEL_CHANGED',
     description: 'Fires when a unit\'s 3D model changes (e.g. due to shapeshifting, being polymorphed, or equipping gear)',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5248,7 +5608,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_NAME_UPDATE',
     description: 'Fires when a unit\'s name is changed. Also fires when the client is first notified of a unit\'s name.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5270,6 +5630,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_PET_EXPERIENCE',
     description: 'Fires when the player\'s pet gains experience points',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: '', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5280,7 +5641,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_PORTRAIT_UPDATE',
     description: 'Fires when a unit\'s portrait changes (e.g. due to shapeshifting, being polymorphed, or equipping gear). Also fires when a unit\'s portrait changes from a generic race/gender image to one based on the unit\'s 3D model.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5302,7 +5663,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_RAGE',
     description: 'This function or event no longer exists in version 6.0.2 (19034) of World of Warcraft. Please check the main API page for an up-to-date listing of the valid API functions Fires when a unit\'s rage level changes',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was affected.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5346,6 +5707,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_RUNIC_POWER',
     description: 'Fires when a unit\'s runic power level changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5356,11 +5718,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_CHANNEL_START',
     description: 'Fires when a unit starts channeling a spell',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'lineID', type: 'number', description: 'Spell lineID counter. This number is always 0 for channels.', optional: false },
-      { name: 'spellID', type: 'number', description: 'The id of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit channeling a spell', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5371,9 +5729,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_CHANNEL_STOP',
     description: 'Fires when a unit stops or cancels a channeled spell',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that was casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that wass being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that wass being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5384,11 +5740,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_CHANNEL_UPDATE',
     description: 'Fires when a unit\'s channeled spell is interrupted or delayed',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'lineID', type: 'number', description: 'Spell lineID counter. This number is always 0 for channels.', optional: false },
-      { name: 'spellID', type: 'number', description: 'The id of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5399,9 +5751,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_DELAYED',
     description: 'Fires when a unit\'s spell cast is delayed',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5412,11 +5762,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_FAILED',
     description: 'Fires when a unit\'s spell cast fails',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'unknownid', type: 'number', description: 'A numeric identifier, likely some client-generated sequence id, probably related to UNIT_SPELLCAST_SENT.', optional: false },
-      { name: 'spellid', type: 'number', description: 'The numeric spell id of the spell that was attempted', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5427,9 +5773,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_FAILED_QUIET',
     description: 'Fires when a unit\'s spell cast fails and no error message should be displayed. The default UI displays an error message when UNIT_SPELLCAST_FAILED fires; in some situations (e.g. if the player attempts to cast while mind controlled), this event is used instead, preventing an error message from being displayed while still notifying interested scripts of the failure.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5440,11 +5784,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_INTERRUPTED',
     description: 'Fires when a unit\'s spell cast is interrupted',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'lineID', type: 'number', description: 'Spell lineID counter. The Nth spell that UNIT_SPELLCAST events have fired for. Unique to each spell cast - UNIT_SPELLCAST_START and UNIT_SPELLCAST_SUCCESS events referring to the same cast will have the same lineID. Resets to 0 when the count reaches 255, but this number may just always be 0 for some spells.', optional: false },
-      { name: 'spellID', type: 'number', description: 'The id of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5455,7 +5795,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_INTERRUPTIBLE',
     description: 'Fires when a unit\'s spell cast becomes interruptible again',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit who\'s casted spell has become interruptible again.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5466,7 +5806,10 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_NOT_INTERRUPTIBLE',
     description: 'Fires when a unit\'s spell cast becomes uninterruptible',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit who\'s currently casting spell has cannot be interrupted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit casting the spell', optional: false },
+      { name: 'spellName', type: 'string', description: 'Name of the spell', optional: false },
+      { name: 'spellRank', type: 'string', description: 'Rank of the spell', optional: false },
+      { name: 'spellId', type: 'string', description: 'Spell ID', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5477,10 +5820,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_SENT',
     description: 'Fires when a spell cast attempt is started.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'target', type: 'string', description: 'The name of the target of your spell.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5491,11 +5831,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_START',
     description: 'Fires when a unit begins casting a spell',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'lineID', type: 'number', description: 'Spell lineID counter. The Nth spell that UNIT_SPELLCAST events have fired for. Unique to each spell cast - UNIT_SPELLCAST_START and UNIT_SPELLCAST_SUCCESS events referring to the same cast will have the same lineID. Resets to 0 when the count reaches 255, but this number may just always be 0 for some spells.', optional: false },
-      { name: 'spellID', type: 'number', description: 'The id of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5506,11 +5842,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_STOP',
     description: 'Fires when a unit stops or cancels casting a spell',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: 'lineID', type: 'number', description: 'Spell lineID counter. The Nth spell that UNIT_SPELLCAST events have fired for. Unique to each spell cast - UNIT_SPELLCAST_START and UNIT_SPELLCAST_SUCCESS events referring to the same cast will have the same lineID. Resets to 0 when the count reaches 255, but this number may just always be 0 for some spells.', optional: false },
-      { name: 'spellID', type: 'number', description: 'The id of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5521,11 +5853,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_SPELLCAST_SUCCEEDED',
     description: 'Fires when a unit\'s spell cast succeeds',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s casting.', optional: false },
-      { name: 'spell', type: 'string', description: 'The name of the spell that\'s being casted.', optional: false },
-      { name: 'rank', type: 'string', description: 'The rank of the spell that\'s being casted.', optional: false },
-      { name: '?', type: 'number', description: 'unknown.', optional: false },
-      { name: 'spellID', type: 'number', description: 'The id of the spell that\'s being casted.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit whose spell succeeded', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5547,7 +5875,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_TARGET',
     description: 'Fires when a unit\'s target changes.',
     parameters: [
-      { name: 'unitID', type: 'string', description: 'The unit that\'s being affected by the event.', optional: false },
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5558,6 +5886,8 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_THREAT_LIST_UPDATE',
     description: 'Fires when a non-player unit\'s threat list is updated',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit whose threat list changed', optional: false },
+      { name: 'threatDelta', type: 'number', description: 'Change in threat value', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5568,6 +5898,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UNIT_THREAT_SITUATION_UPDATE',
     description: 'Fires when a unit\'s threat state changes. Only fires when changes in the unit\'s general threat state (see UnitThreatSituation()) occur, not due to changes in the underlying threat values.',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: 'The unit affected by this event', optional: false },
     ],
     category: 'Unit',
     related: [],
@@ -5578,6 +5909,8 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_BATTLEFIELD_SCORE',
     description: 'Fires when information for the battleground scoreboard changes or becomes available',
     parameters: [
+      { name: 'arg1', type: 'string', description: '', optional: false },
+      { name: 'arg2', type: 'number', description: '', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5588,6 +5921,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_BATTLEFIELD_STATUS',
     description: 'Fires when the player\'s status in a battleground or queue changes',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: '', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5598,6 +5932,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_BINDINGS',
     description: 'Fires when information about the player\'s key binding settings changes or becomes available',
     parameters: [
+      { name: 'unitTarget', type: 'string', description: '', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5642,6 +5977,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_CHAT_WINDOWS',
     description: 'Fires when saved chat window settings are loaded',
     parameters: [
+      { name: 'chatFrame', type: 'number', description: 'Chat frame index', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5703,6 +6039,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_INVENTORY_ALERTS',
     description: 'Fires when an equipped item\'s durability alert status changes. Only fires for changes affecting durability alert status (conditions displayed as red or yellow on the default UI\'s durability warning frame); for other changes to item durability levels, see UPDATE_INVENTORY_DURABILITY.',
     parameters: [
+      { name: 'alertType', type: 'string', description: 'Type of inventory alert', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5713,6 +6050,8 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_INVENTORY_DURABILITY',
     description: 'Fires when an equipped item\'s durability changes',
     parameters: [
+      { name: 'slot', type: 'string', description: 'Equipment slot with durability change', optional: false },
+      { name: 'hasLowDurability', type: 'string', description: 'Whether durability is critically low', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5723,6 +6062,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_LFG_LIST',
     description: 'Fires when results of a Looking for More query become available',
     parameters: [
+      { name: 'listType', type: 'number', description: 'Type of LFG list that updated', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5733,6 +6073,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_LFG_LIST_INCREMENTAL',
     description: 'Fires when results of a Looking for More query are updated',
     parameters: [
+      { name: 'listType', type: 'number', description: 'Type of LFG list that updated', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5743,6 +6084,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_LFG_TYPES',
     description: 'Fires when information about possible Looking for Group settings changes or becomes available',
     parameters: [
+      { name: 'typeId', type: 'number', description: 'LFG type that was updated', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5773,6 +6115,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_MOUSEOVER_UNIT',
     description: 'Fires when the mouse cursor moves over a visible unit. Fires both when mousing over units in the 3D world or when mousing over secure frames whose unit attribute refers to a unit in the player\'s area of interest.',
     parameters: [
+      { name: 'unitExists', type: 'number', description: 'Whether a unit is under the mouse cursor', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5783,6 +6126,10 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_MULTI_CAST_ACTIONBAR',
     description: 'Fires when the contents of the multi-cast action bar change or become available. This action bar is currently used only for allowing shaman characters to place multiple totems at once.',
     parameters: [
+      { name: 'slot1', type: 'number', description: 'First totem slot index', optional: false },
+      { name: 'slot2', type: 'number', description: 'Second totem slot index', optional: false },
+      { name: 'slot3', type: 'number', description: 'Third totem slot index', optional: false },
+      { name: 'slot4', type: 'number', description: 'Fourth totem slot index', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5843,6 +6190,10 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_STEALTH',
     description: 'Fires when the player uses or cancels a stealth ability',
     parameters: [
+      { name: 'stealthType', type: 'string', description: 'Type of stealth effect', optional: false },
+      { name: 'isActive', type: 'any', description: 'Whether stealth is active', optional: false },
+      { name: 'fadeTime', type: 'any', description: 'Stealth fade time', optional: false },
+      { name: 'flags', type: 'any', description: 'Stealth flags', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5853,6 +6204,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_TICKET',
     description: 'Fires when information about an active GM ticket changes or becomes available',
     parameters: [
+      { name: 'hasTicket', type: 'number', description: 'Whether the player has an open GM ticket', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5863,6 +6215,7 @@ export const EVENTS: WowEvent[] = [
     name: 'UPDATE_TRADESKILL_RECAST',
     description: 'Fires for each cast when performing multiple casts of a trade skill recipe. Fires before each cast and when casting is canceled.',
     parameters: [
+      { name: 'craftId', type: 'string', description: 'Tradeskill craft identifier', optional: false },
     ],
     category: 'UI',
     related: [],
@@ -5943,6 +6296,7 @@ export const EVENTS: WowEvent[] = [
     name: 'VEHICLE_POWER_SHOW',
     description: 'Fires when controls for vehicle weapon power should be displayed',
     parameters: [
+      { name: 'powerData', type: 'any', description: 'Vehicle power display data', optional: false },
     ],
     category: 'Vehicle',
     related: [],
@@ -5953,6 +6307,7 @@ export const EVENTS: WowEvent[] = [
     name: 'VEHICLE_UPDATE',
     description: 'Fires when information about the player\'s vehicle changes or becomes available',
     parameters: [
+      { name: 'vehicleAction', type: 'number', description: 'Type of vehicle update', optional: false },
     ],
     category: 'Vehicle',
     related: [],
@@ -5963,6 +6318,7 @@ export const EVENTS: WowEvent[] = [
     name: 'VOICE_CHANNEL_STATUS_UPDATE',
     description: 'Fires when voice-related status of a chat channel changes',
     parameters: [
+      { name: 'channelId', type: 'number', description: 'Voice channel ID', optional: false },
     ],
     category: 'Voice',
     related: [],
@@ -6005,8 +6361,8 @@ export const EVENTS: WowEvent[] = [
     name: 'VOICE_PLATE_STOP',
     description: 'Fires when a channel member finishes speaking in voice chat',
     parameters: [
-      { name: 'name', type: 'string', description: 'The username of the player thats talking', optional: false },
-      { name: 'unit', type: 'string', description: 'The unit of the player thats talking, i.e. party1.', optional: false },
+      { name: 'unitGUID', type: 'number', description: 'GUID of the speaking unit', optional: false },
+      { name: 'channelId', type: 'number', description: 'Voice channel ID', optional: false },
     ],
     category: 'Voice',
     related: [],
@@ -6017,6 +6373,8 @@ export const EVENTS: WowEvent[] = [
     name: 'VOICE_PUSH_TO_TALK_START',
     description: 'Fires when the "Push to Talk" key binding is activated',
     parameters: [
+      { name: 'arg1', type: 'number', description: '', optional: false },
+      { name: 'arg2', type: 'number', description: '', optional: false },
     ],
     category: 'Voice',
     related: [],
@@ -6037,6 +6395,7 @@ export const EVENTS: WowEvent[] = [
     name: 'VOICE_SELF_MUTE',
     description: 'Fires when the player\'s self mute setting changes',
     parameters: [
+      { name: 'isMuted', type: 'number', description: 'Whether the player is muted', optional: false },
     ],
     category: 'Voice',
     related: [],
@@ -6068,6 +6427,9 @@ export const EVENTS: WowEvent[] = [
     name: 'VOICE_STATUS_UPDATE',
     description: 'Fires when a member of the player\'s group changes voice chat status',
     parameters: [
+      { name: 'statusMessage', type: 'string', description: 'Voice chat status message', optional: false },
+      { name: 'statusCode', type: 'number', description: 'Status code', optional: false },
+      { name: 'isEnabled', type: 'number', description: 'Whether voice chat is enabled', optional: false },
     ],
     category: 'Voice',
     related: [],
@@ -6089,6 +6451,8 @@ export const EVENTS: WowEvent[] = [
     name: 'VOTE_KICK_REASON_NEEDED',
     description: 'Fires when the player attempts to vote-kick another player and the game requests a reason',
     parameters: [
+      { name: 'targetName', type: 'string', description: 'Name of the player to be kicked', optional: false },
+      { name: 'targetData', type: 'any', description: 'Additional target information', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -6139,6 +6503,8 @@ export const EVENTS: WowEvent[] = [
     name: 'WORLD_STATE_UI_TIMER_UPDATE',
     description: 'Fires when the state of a timer world state UI element changes or becomes available. World State UI elements include PvP, instance, and quest objective information (displayed at the top center of the screen in the default UI) as well as more specific information for "control point" style PvP objectives. Timer world state elements include the countdown between battles in Wintergrasp, the countdown between periods in which the PvP objectives in Terokkar Forest are available, and timers shown for the quests The Light of Dawn and The Battle For The Undercity.',
     parameters: [
+      { name: 'timerData', type: 'any', description: 'Timer display data', optional: false },
+      { name: 'timerLabel', type: 'string', description: 'Timer label text', optional: false },
     ],
     category: 'Misc',
     related: [],
@@ -6149,6 +6515,9 @@ export const EVENTS: WowEvent[] = [
     name: 'WOW_MOUSE_NOT_FOUND',
     description: 'This event fires when a man buttoned WoW mouse is not found, in response to a DetectWowMouse() function call',
     parameters: [
+      { name: 'errorCode', type: 'number', description: 'Error code', optional: false },
+      { name: 'deviceInfo', type: 'any', description: 'Device information', optional: false },
+      { name: 'driverInfo', type: 'any', description: 'Driver information', optional: false },
     ],
     category: 'Misc',
     related: [],

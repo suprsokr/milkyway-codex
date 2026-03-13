@@ -1,7 +1,25 @@
 import { createGlobalStyle } from 'styled-components'
-import { theme } from '../theme/theme.ts'
+import {
+  darkColors,
+  lightColors,
+  theme,
+  type ThemeColors,
+} from '../theme/theme.ts'
 
-export const GlobalStyle = createGlobalStyle`
+function buildCssVars(colors: ThemeColors): string {
+  return Object.entries(colors)
+    .map(([key, value]) => `--color-${key}: ${value};`)
+    .join('\n    ')
+}
+
+const darkVars = buildCssVars(darkColors)
+const lightVars = buildCssVars(lightColors)
+
+export const GlobalStyle = createGlobalStyle<{ $mode: 'dark' | 'light' }>`
+  :root {
+    ${({ $mode }) => ($mode === 'dark' ? darkVars : lightVars)}
+  }
+
   *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -19,6 +37,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${theme.colors.text};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background 0.2s ease, color 0.2s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {

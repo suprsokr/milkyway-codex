@@ -62,7 +62,7 @@ export const API_CATEGORIES: string[] = [
   'Money functions',
   'Movement functions',
   'Multi-cast actions',
-  'NPC \\"Gossip\\" Dialog functions',
+  'NPC "Gossip" Dialog functions',
   'Objectives tracking functions',
   'Party functions',
   'Pet Stable functions',

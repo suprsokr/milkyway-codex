@@ -5,19 +5,22 @@ import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { CodeBlock } from '../../../components/shared/CodeBlock.tsx'
 import { Tag } from '../../../components/shared/Tag.tsx'
+import { Tooltip } from '../../../components/shared/Tooltip.tsx'
+import { TypeLink } from '../../../components/shared/TypeLink.tsx'
+import { FreshnessBadge } from '../../../components/shared/FreshnessBadge.tsx'
 import {
   DetailContainer,
   BackLink,
   DetailHeader,
   DetailName,
   Badges,
-  Description,
   Section,
   SectionTitle,
   RelatedList,
   ExternalRef,
   NotFound,
 } from '../../../components/shared/DetailPage.tsx'
+import { LinkedDescription } from '../../../components/shared/LinkedDescription.tsx'
 import { DataTable, NameCell, TypeCell } from '../../../components/shared/DataTable.tsx'
 import { API_FUNCTIONS_MAP } from '../../../data/api-functions.ts'
 
@@ -31,7 +34,7 @@ const ApiFunctionPage = (): ReactNode => {
     return (
       <DetailContainer>
         <BackLink onClick={() => navigate('/api')}>
-          <ArrowLeft size={16} /> Back to API Functions
+          <ArrowLeft size={16} /> Back to Game Functions
         </BackLink>
         <NotFound>
           <h2>Function not found</h2>
@@ -44,22 +47,32 @@ const ApiFunctionPage = (): ReactNode => {
   return (
     <DetailContainer>
       <BackLink onClick={() => navigate('/api')}>
-        <ArrowLeft size={16} /> Back to API Functions
+        <ArrowLeft size={16} /> Back to Game Functions
       </BackLink>
 
       <DetailHeader>
-        <DetailName>{fn.name}</DetailName>
+        <NameRow>
+          <DetailName>{fn.name}</DetailName>
+          {fn.memoryAddress && (
+            <Tooltip text="Memory address in WoW.exe (build 12340)">
+              <MemoryAddress>{fn.memoryAddress}</MemoryAddress>
+            </Tooltip>
+          )}
+        </NameRow>
         <Badges>
-          {fn.protected && <Tag label="Protected" variant="protected" />}
-          {fn.hwEvent && <Tag label="Hardware Event" variant="hwEvent" />}
-          <Tag label={fn.category} variant="category" />
+          <FreshnessBadge
+            description={fn.description}
+            memoryAddress={fn.memoryAddress}
+            documentationUrl={fn.documentationUrl}
+          />
+          <Tag label={fn.category.replace(/ functions$/i, '').replace(/ actions$/i, '')} variant="category" />
           {fn.tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
         </Badges>
       </DetailHeader>
 
-      <Description>{fn.description}</Description>
+      <LinkedDescription text={fn.description} />
 
       <Section>
         <SectionTitle>Signature</SectionTitle>
@@ -161,16 +174,25 @@ const ApiFunctionPage = (): ReactNode => {
   )
 }
 
-const TypeLink = ({ type }: { type: string }): ReactNode => {
-  const knownTypes = ['string', 'number', 'boolean', 'nil', 'table', 'function', 'unitId', 'itemLink', 'spellId', 'achievementId']
-  const isKnown = knownTypes.some((t) => type.toLowerCase().includes(t))
-  if (isKnown && type.toLowerCase() !== 'string' && type.toLowerCase() !== 'number' && type.toLowerCase() !== 'boolean' && type.toLowerCase() !== 'nil') {
-    return <TypeAnchor to={`/data-types`}>{type}</TypeAnchor>
-  }
-  return <>{type}</>
-}
-
 export default ApiFunctionPage
+
+const NameRow = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+`
+
+const MemoryAddress = styled.span`
+  font-family: ${theme.fonts.code};
+  font-size: 12px;
+  color: ${theme.colors.textMuted};
+  background: ${theme.colors.bgCode};
+  border: 1px solid ${theme.colors.border};
+  border-radius: ${theme.radius.sm};
+  padding: 2px 8px;
+  cursor: help;
+`
 
 const SignatureBlock = styled.div`
   background: ${theme.colors.bgCode};
@@ -191,16 +213,6 @@ const Optional = styled.span`
   color: ${theme.colors.textMuted};
   margin-left: 6px;
   font-style: italic;
-`
-
-const TypeAnchor = styled(Link)`
-  color: ${theme.colors.luaType};
-  text-decoration: underline;
-  text-decoration-style: dotted;
-
-  &:hover {
-    color: ${theme.colors.primaryHover};
-  }
 `
 
 const RelatedLink = styled(Link)`

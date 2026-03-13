@@ -1,9 +1,12 @@
 import { type ReactNode, useState, useMemo } from 'react'
+import { ExternalLink } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
 import { ListHeader, ListTitle, ListCount } from '../../../components/shared/ListPage.tsx'
-import { DataTable, NameCell, TypeCell } from '../../../components/shared/DataTable.tsx'
+import { ExternalRef } from '../../../components/shared/DetailPage.tsx'
+import { DataTable } from '../../../components/shared/DataTable.tsx'
+import { LinkedDescription } from '../../../components/shared/LinkedDescription.tsx'
 import { DATA_TYPES } from '../../../data/data-types.ts'
 
 const DataTypesPage = (): ReactNode => {
@@ -36,7 +39,11 @@ const DataTypesPage = (): ReactNode => {
         {filtered.map((t) => (
           <TypeCard key={t.name} id={t.name}>
             <TypeName>{t.name}</TypeName>
-            {t.description && <TypeDesc>{t.description}</TypeDesc>}
+            {t.description && (
+              <TypeDesc>
+                <LinkedDescription text={t.description} />
+              </TypeDesc>
+            )}
             {t.values.length > 0 && (
               <DataTable>
                 <thead>
@@ -49,8 +56,8 @@ const DataTypesPage = (): ReactNode => {
                 <tbody>
                   {t.values.map((v) => (
                     <tr key={v.name}>
-                      <NameCell>{v.name}</NameCell>
-                      <TypeCell>{v.value}</TypeCell>
+                      <CodeCell>{v.name}</CodeCell>
+                      <CodeCell>{v.value}</CodeCell>
                       <td>{v.description}</td>
                     </tr>
                   ))}
@@ -60,6 +67,17 @@ const DataTypesPage = (): ReactNode => {
           </TypeCard>
         ))}
       </TypesList>
+
+      <SourceLink>
+        <ExternalRef
+          href="https://web.archive.org/web/20100701213739/http://wowprogramming.com/docs/api_types"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ExternalLink size={14} />
+          Source: WoWProgramming.com API Types (archived)
+        </ExternalRef>
+      </SourceLink>
     </Container>
   )
 }
@@ -67,7 +85,7 @@ const DataTypesPage = (): ReactNode => {
 export default DataTypesPage
 
 const Container = styled.div`
-  max-width: 860px;
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -84,6 +102,7 @@ const TypeCard = styled.div`
   border: 1px solid ${theme.colors.border};
   border-radius: ${theme.radius.lg};
   padding: 20px;
+  overflow: hidden;
 `
 
 const TypeName = styled.h2`
@@ -93,9 +112,21 @@ const TypeName = styled.h2`
   margin-bottom: 8px;
 `
 
+const CodeCell = styled.td`
+  font-family: ${theme.fonts.code};
+  font-size: 13px;
+  color: ${theme.colors.textBright} !important;
+`
+
+const SourceLink = styled.div`
+  padding-top: 4px;
+`
+
 const TypeDesc = styled.p`
   font-size: 14px;
   color: ${theme.colors.text};
   line-height: 1.6;
   margin-bottom: 12px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 `

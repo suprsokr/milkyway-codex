@@ -4,13 +4,13 @@ import { ArrowLeft, ExternalLink } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { Tag } from '../../../components/shared/Tag.tsx'
+import { FreshnessBadge } from '../../../components/shared/FreshnessBadge.tsx'
 import {
   DetailContainer,
   BackLink,
   DetailHeader,
   DetailName,
   Badges,
-  Description,
   Section,
   SectionTitle,
   RelatedList,
@@ -18,6 +18,7 @@ import {
   PatchInfo,
   NotFound,
 } from '../../../components/shared/DetailPage.tsx'
+import { LinkedDescription } from '../../../components/shared/LinkedDescription.tsx'
 import { DataTable, NameCell, TypeCell } from '../../../components/shared/DataTable.tsx'
 import { EVENTS_MAP } from '../../../data/events.ts'
 
@@ -50,11 +51,15 @@ const EventDetailPage = (): ReactNode => {
       <DetailHeader>
         <DetailName $color={theme.colors.accent}>{evt.name}</DetailName>
         <Badges>
+          <FreshnessBadge
+            description={evt.description}
+            documentationUrl={evt.documentationUrl}
+          />
           <Tag label={evt.category} variant="category" />
         </Badges>
       </DetailHeader>
 
-      {evt.description && <Description>{evt.description}</Description>}
+      {evt.description && <LinkedDescription text={evt.description} />}
 
       {evt.parameters.length > 0 && (
         <Section>

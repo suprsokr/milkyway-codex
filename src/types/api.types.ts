@@ -62,6 +62,8 @@ export interface WidgetMethod {
   name: string
   signature: string
   description: string
+  parameters: ApiParameter[]
+  returns: ApiReturn[]
 }
 
 export interface WidgetScriptHandler {

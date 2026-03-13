@@ -1,6 +1,6 @@
 import { type ReactNode, useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Code2, Zap, Database, Layout as LayoutIcon, Shield, BookOpen } from 'lucide-react'
+import { Code2, Zap, Database, Layout as LayoutIcon, Shield, BookOpen, Terminal } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
@@ -8,12 +8,16 @@ import { API_FUNCTIONS } from '../../../data/api-functions.ts'
 import { EVENTS } from '../../../data/events.ts'
 import { DATA_TYPES } from '../../../data/data-types.ts'
 import { WIDGETS } from '../../../data/widgets.ts'
+import { CVARS } from '../../../data/cvars.ts'
+import { SECURE_TEMPLATES } from '../../../data/secure-templates.ts'
 
 const QUICK_STATS = [
-  { label: 'API Functions', count: API_FUNCTIONS.length, icon: Code2, path: '/api' },
+  { label: 'Game Functions', count: API_FUNCTIONS.length, icon: Code2, path: '/api' },
+  { label: 'Client Functions', count: WIDGETS.length, icon: LayoutIcon, path: '/widgets' },
   { label: 'Events', count: EVENTS.length, icon: Zap, path: '/events' },
-  { label: 'Widgets', count: WIDGETS.length, icon: LayoutIcon, path: '/widgets' },
   { label: 'Data Types', count: DATA_TYPES.length, icon: Database, path: '/data-types' },
+  { label: 'Secure Templates', count: SECURE_TEMPLATES.length, icon: Shield, path: '/secure-templates' },
+  { label: 'CVars', count: CVARS.length, icon: Terminal, path: '/cvars' },
 ] as const
 
 const HomePage = (): ReactNode => {
@@ -26,7 +30,7 @@ const HomePage = (): ReactNode => {
     const funcs = API_FUNCTIONS
       .filter((f) => f.name.toLowerCase().includes(q) || f.description.toLowerCase().includes(q))
       .slice(0, 12)
-      .map((f) => ({ type: 'api' as const, name: f.name, desc: f.description, protected: f.protected }))
+      .map((f) => ({ type: 'api' as const, name: f.name, desc: f.description, protected: f.tags.includes('protected') }))
     const events = EVENTS
       .filter((e) => e.name.toLowerCase().includes(q) || e.description.toLowerCase().includes(q))
       .slice(0, 6)
@@ -35,19 +39,44 @@ const HomePage = (): ReactNode => {
       .filter((w) => w.name.toLowerCase().includes(q) || w.description.toLowerCase().includes(q))
       .slice(0, 4)
       .map((w) => ({ type: 'widget' as const, name: w.name, desc: w.description, protected: false }))
-    return [...funcs, ...events, ...widgets]
+    const methods = WIDGETS.flatMap((w) =>
+      w.methods
+        .filter((m) => {
+          const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
+          return short.toLowerCase().includes(q)
+        })
+        .map((m) => {
+          const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
+          return { type: 'method' as const, name: `${w.name}:${short}`, desc: m.description, protected: false }
+        }),
+    ).slice(0, 6)
+    const dataTypes = DATA_TYPES
+      .filter((t) => t.name.toLowerCase().includes(q) || t.description.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((t) => ({ type: 'datatype' as const, name: t.name, desc: t.description, protected: false }))
+    const cvars = CVARS
+      .filter((c) => `${c.name} ${c.description} ${c.category}`.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((c) => ({ type: 'cvar' as const, name: c.name, desc: c.description, protected: false }))
+    const secureTemplates = SECURE_TEMPLATES
+      .filter((s) => s.name.toLowerCase().includes(q) || s.description.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((s) => ({ type: 'secure' as const, name: s.name, desc: s.description, protected: false }))
+    return [...funcs, ...events, ...widgets, ...methods, ...dataTypes, ...cvars, ...secureTemplates]
   }, [searchQuery])
 
   const handleResultClick = useCallback((type: string, name: string) => {
     if (type === 'api') navigate(`/api/${name}`)
     else if (type === 'event') navigate(`/events/${name}`)
     else if (type === 'widget') navigate(`/widgets/${name}`)
+    else if (type === 'method') {
+      const [widget, method] = name.split(':')
+      navigate(`/widgets/${widget}#${method}`)
+    }
+    else if (type === 'datatype') navigate(`/data-types#${name}`)
+    else if (type === 'cvar') navigate(`/cvars`)
+    else if (type === 'secure') navigate(`/secure-templates#${name}`)
   }, [navigate])
-
-  const protectedCount = useMemo(
-    () => API_FUNCTIONS.filter((f) => f.protected).length,
-    [],
-  )
 
   return (
     <Container>
@@ -74,7 +103,7 @@ const HomePage = (): ReactNode => {
                   onClick={() => handleResultClick(r.type, r.name)}
                 >
                   <ResultType $type={r.type}>
-                    {r.type === 'api' ? 'fn' : r.type === 'event' ? 'event' : 'widget'}
+                    {r.type === 'api' ? 'fn' : r.type === 'event' ? 'event' : r.type === 'widget' || r.type === 'method' ? 'widget' : r.type === 'datatype' ? 'type' : r.type === 'cvar' ? 'cvar' : 'template'}
                   </ResultType>
                   <ResultName>{r.name}</ResultName>
                   {r.protected && <ProtectedBadge>Protected</ProtectedBadge>}
@@ -94,28 +123,33 @@ const HomePage = (): ReactNode => {
             <StatLabel>{label}</StatLabel>
           </StatCard>
         ))}
-        <StatCard onClick={() => navigate('/api?filter=protected')}>
-          <Shield size={24} color={theme.colors.protected} />
-          <StatCount>{protectedCount}</StatCount>
-          <StatLabel>Protected</StatLabel>
-        </StatCard>
       </StatsGrid>
 
       <InfoSection>
         <InfoCard>
           <InfoTitle>About this Reference</InfoTitle>
           <InfoText>
-            An open-source project built for the WoW 3.3.5a modding community. All data has been
-            extracted from the client binary (build 12340), scraped from archived documentation,
-            and cross-referenced across multiple sources to provide the most complete reference available.
+            MilkyWay Codex is an open-source reference built for the WoW 3.3.5a (WotLK) modding community.
+            It documents the Lua API, UI widgets, game events, data types, console variables, and secure
+            templates available in the client.
           </InfoText>
           <InfoText>
-            <strong>Protected functions</strong> require a hardware event (mouse click, key press) to execute.
-            They cannot be called programmatically from addon code without user interaction.
+            Most of the data was assembled by scraping archived versions of WoWWiki, Wowpedia,
+            and other community resources — using pre-Cataclysm snapshots from the Wayback Machine
+            to ensure accuracy for the 3.3.5a client. Descriptions, event payloads, usage notes,
+            and function signatures were all recovered from these archives.
+            Where the community documentation was incomplete, the client binary (build 12340) was
+            reverse-engineered to extract additional function signatures, widget methods, CVar
+            definitions, and internal structures that were never publicly documented.
+            Every entry is then reconciled across these sources to provide the most complete
+            3.3.5a reference available today.
           </InfoText>
           <InfoText>
-            Found something wrong or missing? Contributions are welcome on{' '}
+            This is a community-driven project — if you spot an error, a missing function, or
+            want to improve a description, contributions are very welcome on{' '}
             <a href="https://github.com/Shard-MW/milkyway-codex" target="_blank" rel="noopener noreferrer">GitHub</a>.
+            Whether it's fixing a typo or adding undocumented API details, every contribution helps
+            make this reference better for the whole 3.3.5a modding community.
           </InfoText>
         </InfoCard>
       </InfoSection>
@@ -197,8 +231,26 @@ const ResultType = styled.span<{ $type: string }>`
   font-size: 10px;
   padding: 2px 6px;
   border-radius: ${theme.radius.sm};
-  background: ${(p) => p.$type === 'api' ? 'rgba(56, 189, 248, 0.1)' : p.$type === 'event' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(192, 132, 252, 0.1)'};
-  color: ${(p) => p.$type === 'api' ? theme.colors.primary : p.$type === 'event' ? theme.colors.accent : theme.colors.luaType};
+  background: ${(p) => {
+    switch (p.$type) {
+      case 'api': return 'rgba(56, 189, 248, 0.1)'
+      case 'event': return 'rgba(245, 158, 11, 0.1)'
+      case 'widget': case 'method': return 'rgba(192, 132, 252, 0.1)'
+      case 'datatype': return 'rgba(134, 239, 172, 0.1)'
+      case 'cvar': return 'rgba(148, 163, 184, 0.1)'
+      default: return 'rgba(248, 113, 113, 0.1)'
+    }
+  }};
+  color: ${(p) => {
+    switch (p.$type) {
+      case 'api': return theme.colors.primary
+      case 'event': return theme.colors.accent
+      case 'widget': case 'method': return theme.colors.luaType
+      case 'datatype': return theme.colors.returnType
+      case 'cvar': return theme.colors.textMuted
+      default: return theme.colors.protected
+    }
+  }};
   white-space: nowrap;
 `
 
@@ -231,7 +283,7 @@ const ResultDesc = styled.span`
 
 const StatsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 32px 0;
 `

@@ -18,7 +18,7 @@ import {
 import { WIDGETS } from '../../../data/widgets.ts'
 import type { Widget } from '../../../types/api.types.ts'
 
-const ROW_HEIGHT = 60
+const ROW_HEIGHT = 52
 
 const CATEGORY_LABELS: Record<Widget['category'], string> = {
   frame: 'Frames',
@@ -28,6 +28,10 @@ const CATEGORY_LABELS: Record<Widget['category'], string> = {
 }
 
 const CATEGORIES = ['all', 'frame', 'region', 'animation', 'abstract'] as const
+
+type WidgetRow = { kind: 'widget'; widget: Widget }
+type MethodRow = { kind: 'method'; widgetName: string; methodName: string; description: string; category: Widget['category'] }
+type ResultRow = WidgetRow | MethodRow
 
 const WidgetsPage = (): ReactNode => {
   const navigate = useNavigate()
@@ -49,22 +53,39 @@ const WidgetsPage = (): ReactNode => {
     return () => observer.disconnect()
   }, [])
 
-  const filtered = useMemo(() => {
+  const rows = useMemo((): ResultRow[] => {
     let items = WIDGETS
 
     if (activeCategory !== 'all') {
       items = items.filter((w) => w.category === activeCategory)
     }
 
-    if (query.length > 0) {
-      const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
-      items = items.filter((w) => {
-        const text = `${w.name} ${w.description} ${w.inherits.join(' ')}`.toLowerCase()
-        return terms.every((t) => text.includes(t))
-      })
+    if (query.length === 0) {
+      return items.map((w) => ({ kind: 'widget', widget: w }))
     }
 
-    return items
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
+    const results: ResultRow[] = []
+
+    for (const w of items) {
+      const widgetText = `${w.name} ${w.description} ${w.inherits.join(' ')}`.toLowerCase()
+      const widgetMatches = terms.every((t) => widgetText.includes(t))
+
+      if (widgetMatches) {
+        results.push({ kind: 'widget', widget: w })
+      }
+
+      // Search methods individually
+      for (const m of w.methods) {
+        const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
+        const methodText = `${short} ${m.description}`.toLowerCase()
+        if (terms.every((t) => methodText.includes(t))) {
+          results.push({ kind: 'method', widgetName: w.name, methodName: short, description: m.description, category: w.category })
+        }
+      }
+    }
+
+    return results
   }, [query, activeCategory])
 
   const handleCategoryChange = useCallback(
@@ -80,38 +101,56 @@ const WidgetsPage = (): ReactNode => {
 
   const renderRow = useCallback(
     ({ index, style }: { index: number; style: React.CSSProperties }) => {
-      const w = filtered[index]
+      const row = rows[index]
+      if (row.kind === 'widget') {
+        const w = row.widget
+        return (
+          <Row style={style} onClick={() => navigate(`/widgets/${w.name}`)} key={`w-${w.name}`}>
+            <WidgetName>{w.name}</WidgetName>
+            <WidgetMeta>
+              <MethodCountBadge>{w.methods.length} methods</MethodCountBadge>
+              {w.inherits.length > 0 && (
+                <InheritInfo>: {w.inherits.slice(0, 3).join(', ')}{w.inherits.length > 3 ? ` +${w.inherits.length - 3}` : ''}</InheritInfo>
+              )}
+            </WidgetMeta>
+            <WidgetDesc>{w.description}</WidgetDesc>
+            <CategoryBadge $category={w.category}>
+              {CATEGORY_LABELS[w.category]}
+            </CategoryBadge>
+          </Row>
+        )
+      }
+
       return (
-        <Row style={style} onClick={() => navigate(`/widgets/${w.name}`)} key={w.name}>
-          <WidgetName>{w.name}</WidgetName>
+        <Row style={style} onClick={() => navigate(`/widgets/${row.widgetName}#${row.methodName}`)} key={`m-${row.widgetName}-${row.methodName}`}>
+          <WidgetName>
+            <MethodWidget>{row.widgetName}</MethodWidget>:<MethodShort>{row.methodName}</MethodShort>
+          </WidgetName>
           <WidgetMeta>
-            <MethodCount>{w.methods.length} methods</MethodCount>
-            {w.inherits.length > 0 && (
-              <InheritInfo>: {w.inherits.slice(0, 3).join(', ')}{w.inherits.length > 3 ? ` +${w.inherits.length - 3}` : ''}</InheritInfo>
-            )}
+            <MethodBadge>method</MethodBadge>
           </WidgetMeta>
-          <WidgetDesc>{w.description}</WidgetDesc>
-          <CategoryBadge $category={w.category}>
-            {CATEGORY_LABELS[w.category]}
+          <WidgetDesc>{row.description}</WidgetDesc>
+          <CategoryBadge $category={row.category}>
+            {CATEGORY_LABELS[row.category]}
           </CategoryBadge>
         </Row>
       )
     },
-    [filtered, navigate],
+    [rows, navigate],
   )
 
   return (
     <ListPageContainer>
       <ListHeader>
-        <ListTitle>Widgets</ListTitle>
-        <ListCount>{filtered.length} widget types</ListCount>
+        <ListTitle>Client Functions</ListTitle>
+        <ListCount>{rows.length} results</ListCount>
       </ListHeader>
 
       <SearchBar
         value={query}
         onChange={setQuery}
-        placeholder="Search widgets by name or description..."
-        resultCount={query.length > 0 ? filtered.length : undefined}
+        placeholder="Search widgets, methods..."
+        resultCount={query.length > 0 ? rows.length : undefined}
       />
 
       <Filters>
@@ -132,7 +171,7 @@ const WidgetsPage = (): ReactNode => {
         <FixedSizeList
           height={listHeight}
           width="100%"
-          itemCount={filtered.length}
+          itemCount={rows.length}
           itemSize={ROW_HEIGHT}
           overscanCount={20}
         >
@@ -147,24 +186,44 @@ export default WidgetsPage
 
 const WidgetName = styled.span`
   font-family: ${theme.fonts.code};
-  font-size: 14px;
+  font-size: 13px;
   color: ${theme.colors.luaType};
-  min-width: 200px;
+  min-width: 240px;
   white-space: nowrap;
 `
 
-const WidgetMeta = styled.span`
+const MethodWidget = styled.span`
+  color: ${theme.colors.textMuted};
+`
+
+const MethodShort = styled.span`
+  color: ${theme.colors.textBright};
+`
+
+const WidgetMeta = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  min-width: 180px;
+  min-width: 160px;
   white-space: nowrap;
 `
 
-const MethodCount = styled.span`
+const MethodCountBadge = styled.span`
   font-family: ${theme.fonts.code};
-  font-size: 11px;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: ${theme.radius.sm};
+  background: rgba(56, 189, 248, 0.08);
   color: ${theme.colors.primary};
+`
+
+const MethodBadge = styled.span`
+  font-family: ${theme.fonts.code};
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: ${theme.radius.sm};
+  background: rgba(192, 132, 252, 0.08);
+  color: ${theme.colors.luaType};
 `
 
 const InheritInfo = styled.span`

@@ -1,11 +1,11 @@
 import { type ReactNode, useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Shield } from 'lucide-react'
+import { Filter } from 'lucide-react'
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
-import { Tag } from '../../../components/shared/Tag.tsx'
+import { Tag, getTagVariant } from '../../../components/shared/Tag.tsx'
 import {
   ListPageContainer,
   ListHeader,
@@ -22,12 +22,22 @@ import { API_CATEGORIES } from '../../../data/categories.ts'
 
 const ROW_HEIGHT = 52
 
+const ALL_FLAGS = [
+  'protected', 'nocombat', 'hardware', 'blizzardui', 'framexml',
+  'deprecated', 'internal', 'luaapi', 'maconly', 'confirmation',
+  'server', 'review',
+] as const
+
 const ApiListPage = (): ReactNode => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') ?? '')
   const [activeCategory, setActiveCategory] = useState(searchParams.get('category') ?? 'all')
-  const [showProtectedOnly, setShowProtectedOnly] = useState(searchParams.get('filter') === 'protected')
+  const [activeFlags, setActiveFlags] = useState<Set<string>>(() => {
+    const flags = searchParams.get('flags')
+    return flags ? new Set(flags.split(',')) : new Set()
+  })
+  const [showFlagPanel, setShowFlagPanel] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
   const [listHeight, setListHeight] = useState(600)
 
@@ -46,8 +56,13 @@ const ApiListPage = (): ReactNode => {
   const filtered = useMemo(() => {
     let items = API_FUNCTIONS
 
-    if (showProtectedOnly) {
-      items = items.filter((f) => f.protected)
+    if (activeFlags.size > 0) {
+      items = items.filter((f) => {
+        for (const flag of activeFlags) {
+          if (!f.tags.includes(flag)) return false
+        }
+        return true
+      })
     }
 
     if (activeCategory !== 'all') {
@@ -63,7 +78,7 @@ const ApiListPage = (): ReactNode => {
     }
 
     return items
-  }, [query, activeCategory, showProtectedOnly])
+  }, [query, activeCategory, activeFlags])
 
   const handleCategoryChange = useCallback(
     (cat: string) => {
@@ -76,15 +91,27 @@ const ApiListPage = (): ReactNode => {
     [searchParams, setSearchParams],
   )
 
-  const handleProtectedToggle = useCallback(() => {
-    setShowProtectedOnly((prev) => {
-      const next = !prev
-      const params = new URLSearchParams(searchParams)
-      if (next) params.set('filter', 'protected')
-      else params.delete('filter')
-      setSearchParams(params)
-      return next
-    })
+  const handleFlagToggle = useCallback(
+    (flag: string) => {
+      setActiveFlags((prev) => {
+        const next = new Set(prev)
+        if (next.has(flag)) next.delete(flag)
+        else next.add(flag)
+        const params = new URLSearchParams(searchParams)
+        if (next.size > 0) params.set('flags', [...next].join(','))
+        else params.delete('flags')
+        setSearchParams(params)
+        return next
+      })
+    },
+    [searchParams, setSearchParams],
+  )
+
+  const clearFlags = useCallback(() => {
+    setActiveFlags(new Set())
+    const params = new URLSearchParams(searchParams)
+    params.delete('flags')
+    setSearchParams(params)
   }, [searchParams, setSearchParams])
 
   const renderRow = useCallback(
@@ -94,15 +121,12 @@ const ApiListPage = (): ReactNode => {
         <Row style={style} onClick={() => navigate(`/api/${fn.name}`)} key={fn.name}>
           <FnName>{fn.name}</FnName>
           <FnBadges>
-            {fn.protected && (
-              <Tag label="Protected" variant="protected" />
-            )}
-            {fn.hwEvent && (
-              <Tag label="HW Event" variant="hwEvent" />
-            )}
+            {fn.tags.map((tag) => (
+              <Tag key={tag} label={tag} />
+            ))}
           </FnBadges>
           <FnDesc>{fn.description}</FnDesc>
-          <FnCategory>{fn.category}</FnCategory>
+          <CategoryBadge>{fn.category.replace(/ functions$/i, '').replace(/ actions$/i, '')}</CategoryBadge>
         </Row>
       )
     },
@@ -112,7 +136,7 @@ const ApiListPage = (): ReactNode => {
   return (
     <ListPageContainer>
       <ListHeader>
-        <ListTitle>API Functions</ListTitle>
+        <ListTitle>Game Functions</ListTitle>
         <ListCount>{filtered.length.toLocaleString()} functions</ListCount>
       </ListHeader>
 
@@ -137,15 +161,39 @@ const ApiListPage = (): ReactNode => {
               $active={activeCategory === cat}
               onClick={() => handleCategoryChange(cat)}
             >
-              {cat}
+              {cat.replace(/ functions$/i, '').replace(/ actions$/i, '')}
             </FilterButton>
           ))}
         </FilterGroup>
-        <ToggleButton $active={showProtectedOnly} onClick={handleProtectedToggle}>
-          <Shield size={14} />
-          Protected only
-        </ToggleButton>
+        <FlagToggleButton
+          $active={showFlagPanel || activeFlags.size > 0}
+          onClick={() => setShowFlagPanel((p) => !p)}
+        >
+          <Filter size={14} />
+          Flags
+          {activeFlags.size > 0 && <FlagCount>{activeFlags.size}</FlagCount>}
+        </FlagToggleButton>
       </Filters>
+
+      {showFlagPanel && (
+        <FlagPanel>
+          <FlagChips>
+            {ALL_FLAGS.map((flag) => (
+              <FlagChip
+                key={flag}
+                $active={activeFlags.has(flag)}
+                $variant={getTagVariant(flag)}
+                onClick={() => handleFlagToggle(flag)}
+              >
+                {flag}
+              </FlagChip>
+            ))}
+          </FlagChips>
+          {activeFlags.size > 0 && (
+            <ClearFlags onClick={clearFlags}>Clear all</ClearFlags>
+          )}
+        </FlagPanel>
+      )}
 
       <ListContainer ref={listRef}>
         <FixedSizeList
@@ -164,7 +212,7 @@ const ApiListPage = (): ReactNode => {
 
 export default ApiListPage
 
-const ToggleButton = styled.button<{ $active: boolean }>`
+const FlagToggleButton = styled.button<{ $active: boolean }>`
   display: flex;
   align-items: center;
   gap: 6px;
@@ -172,15 +220,74 @@ const ToggleButton = styled.button<{ $active: boolean }>`
   font-size: 11px;
   padding: 4px 10px;
   border-radius: ${theme.radius.sm};
-  border: 1px solid ${(p) => (p.$active ? theme.colors.protected : theme.colors.border)};
-  background: ${(p) => (p.$active ? 'rgba(239, 68, 68, 0.1)' : 'transparent')};
-  color: ${(p) => (p.$active ? theme.colors.protected : theme.colors.textMuted)};
+  border: 1px solid ${(p) => (p.$active ? theme.colors.accent : theme.colors.border)};
+  background: ${(p) => (p.$active ? theme.colors.bgElevated : 'transparent')};
+  color: ${(p) => (p.$active ? theme.colors.textBright : theme.colors.textMuted)};
   cursor: pointer;
   transition: all 0.15s ease;
 
   &:hover {
-    border-color: ${theme.colors.protected};
-    color: ${theme.colors.protected};
+    border-color: ${theme.colors.borderLight};
+    color: ${theme.colors.textBright};
+  }
+`
+
+const FlagCount = styled.span`
+  font-size: 10px;
+  background: ${theme.colors.accent};
+  color: ${theme.colors.bg};
+  border-radius: 10px;
+  padding: 0 6px;
+  font-weight: 700;
+`
+
+const FlagPanel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: ${theme.colors.bgCard};
+  border: 1px solid ${theme.colors.border};
+  border-radius: ${theme.radius.md};
+`
+
+const FlagChips = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+`
+
+const FlagChip = styled.button<{ $active: boolean; $variant: string }>`
+  font-family: ${theme.fonts.code};
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: ${theme.radius.sm};
+  border: 1px solid ${(p) => (p.$active ? theme.colors.borderLight : theme.colors.border)};
+  background: ${(p) => (p.$active ? theme.colors.bgElevated : 'transparent')};
+  color: ${(p) => (p.$active ? theme.colors.textBright : theme.colors.textMuted)};
+  cursor: pointer;
+  transition: all 0.15s ease;
+  opacity: ${(p) => (p.$active ? 1 : 0.7)};
+
+  &:hover {
+    opacity: 1;
+    border-color: ${theme.colors.borderLight};
+  }
+`
+
+const ClearFlags = styled.button`
+  font-family: ${theme.fonts.body};
+  font-size: 11px;
+  color: ${theme.colors.textMuted};
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+
+  &:hover {
+    color: ${theme.colors.textBright};
   }
 `
 
@@ -208,10 +315,12 @@ const FnDesc = styled.span`
   min-width: 0;
 `
 
-const FnCategory = styled.span`
+const CategoryBadge = styled.span`
   font-family: ${theme.fonts.code};
   font-size: 10px;
-  color: ${theme.colors.textMuted};
-  opacity: 0.6;
+  padding: 2px 8px;
+  border-radius: ${theme.radius.sm};
   white-space: nowrap;
+  background: rgba(56, 189, 248, 0.1);
+  color: ${theme.colors.primary};
 `

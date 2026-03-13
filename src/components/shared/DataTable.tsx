@@ -22,6 +22,8 @@ export const DataTable = styled.table`
     border-bottom: 1px solid ${theme.colors.border};
     color: ${theme.colors.text};
     vertical-align: top;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   tr:last-child td {
