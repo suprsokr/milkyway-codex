@@ -6978,8 +6978,9 @@ function addLootIcons(self, event, msg, ...)
     local texture = GetItemIcon(link)
     return "\\124T"..texture..":"..fontSize.."\\124t"..link
   end
-  msg = string.gsub(msg,"(\\124c%x+\\124Hitem:.-\\124h\\124r)",iconForLink)
-  return false, msg, ... end
+  msg = string.gsub(msg, "(\\124c%x+\\124Hitem:.-\\124h\\124r)", iconForLink)
+  return false, msg, ...
+end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", addLootIcons)`, language: 'lua' },
     ],
     tags: ['blizzardui'],
@@ -13855,11 +13856,11 @@ print("name:", name, "killingBlows:", killingBlows, "honorableKills:", honorable
     ],
     examples: [
       { title: 'Example', code: `-- Print out the player's battleground statistics
-localplayerName = UnitName("player")
+local playerName = UnitName("player")
 for playerIndex = 1, GetNumBattlefieldStats() do
-  localname = GetBattlefieldScore(playerIndex)
-  ifname == playerName then
-    localoutput = "Battleground stats for "..name..":\\n"
+  local name = GetBattlefieldScore(playerIndex)
+  if name == playerName then
+    local output = "Battleground stats for "..name..":\\n"
     for statIndex = 1, GetNumBattlefieldStats() do
 output = output .. "    ".. GetBattlefieldStatInfo(statIndex) .. ": "..GetBattlefieldStatData(statIndex) .. "\\n"
     end
@@ -14764,12 +14765,12 @@ print("channel:", channel, "channelName:", channelName, "instanceID:", instanceI
 -- voice chat enabled, and prints it to chat.
 
 -- This script should be run with the "Chat" window open and a channel selected
-localindex = GetSelectedDisplayChannel()
-localcount = select(5, GetChannelDisplayInfo(index))
-localactiveCount = 0
+local index = GetSelectedDisplayChannel()
+local count = select(5, GetChannelDisplayInfo(index))
+local activeCount = 0
 for i=1,count do
-  localactive = select(6, GetChannelRosterInfo(index, i))
-  ifactive then
+  local active = select(6, GetChannelRosterInfo(index, i))
+  if active then
     activeCount = activeCount + 1
   end
 end
@@ -25475,7 +25476,7 @@ LFDQueueFrame_SetTypeRandomDungeon();
 LFDQueueFrameRandom_UpdateFrame();
 
 --Toggle the LFG mode between active and inactive
-ifnotGetLFGMode() then
+if not GetLFGMode() then
   ClearAllLFGDungeons();
   SetLFGDungeon(LFDQueueFrame.type);
   JoinLFG();
@@ -28409,11 +28410,11 @@ print("link:", link)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print any multi-item recipes
-localnumSkills = GetNumTradeSkills()
+local numSkills = GetNumTradeSkills()
 for i=1,numSkills do
-  localminMade,maxMade = GetTradeSkillNumMade(i)
-  ifminMade > 1 then
-    locallink = GetTradeSkillRecipeLink(i)
+  local minMade,maxMade = GetTradeSkillNumMade(i)
+  if minMade > 1 then
+    local link = GetTradeSkillRecipeLink(i)
     if(minMade == maxMade) then
       print(link .. " always creates ".. minMade .. " items")
     else
@@ -28968,14 +28969,14 @@ print("reqLevel:", reqLevel)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- prints a list of trainer services with their ability requirements
 for index = 1, GetNumTrainerServices() do
-   localname, rank, serviceType = GetTrainerServiceInfo(index)
-   ifserviceType ~= "header"then
-      localnumRequirements = GetTrainerServiceNumAbilityReq(index)
-      ifnumRequirements > 0 then
+   local name, rank, serviceType = GetTrainerServiceInfo(index)
+   if serviceType ~= "header" then
+      local numRequirements = GetTrainerServiceNumAbilityReq(index)
+      if numRequirements > 0 then
          print("Ability requirements for ".. name .. " (".. rank .. "):")
          for i=1,numRequirements do
-            localability, hasReq = GetTrainerServiceAbilityReq(index, i)
-            ifhasReq then
+            local ability, hasReq = GetTrainerServiceAbilityReq(index, i)
+            if hasReq then
                print(" + ".. ability)
             else
                print(" - ".. ability)
@@ -32514,8 +32515,8 @@ TestFrame:SetWidth(100)
 TestFrame:SetHeight(24)
 TestFrame:SetPoint("CENTER", 0, -30)
 TestFrame:RegisterForClicks("AnyUp")
-TestFrame:SetScript("OnEnter", function(self) print(IsModifiedClick("CHATLINK") and"true on enter"or"false on enter") end)
-TestFrame:SetScript("OnClick", function(self) print(IsModifiedClick("CHATLINK") and"true on click"or"false on click") end)
+TestFrame:SetScript("OnEnter", function(self) print(IsModifiedClick("CHATLINK") and "true on enter" or "false on enter") end)
+TestFrame:SetScript("OnClick", function(self) print(IsModifiedClick("CHATLINK") and "true on click" or "false on click") end)
 
 -- prints "true on enter" if the Shift key is held while mousing over the button, regardless of mouse button state
 -- prints "false on enter" if not holding Shift
@@ -35764,7 +35765,7 @@ print("isItem:", isItem)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- Calculate the data rate required for the following:
 -- 1024x768 video at 29.97 frames per second with sound
-localdataRate = MovieRecording_DataRate(1024, 29.97, 1)
+local dataRate = MovieRecording_DataRate(1024, 29.97, 1)
 print(dataRate .. " is required for this recording.")`, language: 'lua' },
     ],
     tags: ['maconly'],
@@ -41175,15 +41176,15 @@ end`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- Creates a button in the center of the screen which can be moused over 
 -- repeatedly to show all of the available cursors
-localcursors = { "NORMAL_CURSOR", "ATTACK_CURSOR", "ATTACK_ERROR_CURSOR", "BUY_CURSOR", "BUY_ERROR_CURSOR", "CAST_CURSOR", "CAST_ERROR_CURSOR", "GATHER_CURSOR", "GATHER_ERROR_CURSOR", "INNKEEPER_CURSOR", "INNKEEPER_ERROR_CURSOR", "INSPECT_CURSOR", "INSPECT_ERROR_CURSOR", "INTERACT_CURSOR", "INTERACT_ERROR_CURSOR", "ITEM_CURSOR", "ITEM_ERROR_CURSOR", "LOCK_CURSOR", "LOCK_ERROR_CURSOR", "LOOT_ALL_CURSOR", "LOOT_ALL_ERROR_CURSOR", "MAIL_CURSOR", "MAIL_ERROR_CURSOR", "MINE_CURSOR", "MINE_ERROR_CURSOR", "PICKUP_CURSOR", "PICKUP_ERROR_CURSOR", "POINT_CURSOR", "POINT_ERROR_CURSOR", "QUEST_CURSOR", "QUEST_ERROR_CURSOR", "REPAIRNPC_CURSOR", "REPAIRNPC_ERROR_CURSOR", "REPAIR_CURSOR", "REPAIR_ERROR_CURSOR", "SKIN_ALLIANCE_CURSOR", "SKIN_ALLIANCE_ERROR_CURSOR", "SKIN_CURSOR", "SKIN_ERROR_CURSOR", "SKIN_HORDE_CURSOR", "SKIN_HORDE_ERROR_CURSOR", "SPEAK_CURSOR", "SPEAK_ERROR_CURSOR", "TAXI_CURSOR", "TAXI_ERROR_CURSOR", "TRAINER_CURSOR", "TRAINER_ERROR_CURSOR"}
+local cursors = { "NORMAL_CURSOR", "ATTACK_CURSOR", "ATTACK_ERROR_CURSOR", "BUY_CURSOR", "BUY_ERROR_CURSOR", "CAST_CURSOR", "CAST_ERROR_CURSOR", "GATHER_CURSOR", "GATHER_ERROR_CURSOR", "INNKEEPER_CURSOR", "INNKEEPER_ERROR_CURSOR", "INSPECT_CURSOR", "INSPECT_ERROR_CURSOR", "INTERACT_CURSOR", "INTERACT_ERROR_CURSOR", "ITEM_CURSOR", "ITEM_ERROR_CURSOR", "LOCK_CURSOR", "LOCK_ERROR_CURSOR", "LOOT_ALL_CURSOR", "LOOT_ALL_ERROR_CURSOR", "MAIL_CURSOR", "MAIL_ERROR_CURSOR", "MINE_CURSOR", "MINE_ERROR_CURSOR", "PICKUP_CURSOR", "PICKUP_ERROR_CURSOR", "POINT_CURSOR", "POINT_ERROR_CURSOR", "QUEST_CURSOR", "QUEST_ERROR_CURSOR", "REPAIRNPC_CURSOR", "REPAIRNPC_ERROR_CURSOR", "REPAIR_CURSOR", "REPAIR_ERROR_CURSOR", "SKIN_ALLIANCE_CURSOR", "SKIN_ALLIANCE_ERROR_CURSOR", "SKIN_CURSOR", "SKIN_ERROR_CURSOR", "SKIN_HORDE_CURSOR", "SKIN_HORDE_ERROR_CURSOR", "SPEAK_CURSOR", "SPEAK_ERROR_CURSOR", "TAXI_CURSOR", "TAXI_ERROR_CURSOR", "TRAINER_CURSOR", "TRAINER_ERROR_CURSOR"}
 
-localcurrent = 0
+local current = 0
 
 CreateFrame("Button", "CursorTestFrame", UIParent, "GameMenuButtonTemplate")
 CursorTestFrame:SetPoint("CENTER", 0, 0)
 CursorTestFrame:SetText("Hover to change cursor")
-localfunctionOnEnter(self) current = current + 1
-  ifcurrent > #cursors then
+local function OnEnter(self) current = current + 1
+  if current > #cursors then
     current = 1
   end
   SetCursor(cursors[current])
@@ -48054,7 +48055,7 @@ print("level:", level)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print your targets remaining mana percentage
-localpercent = 100 * UnitMana("target")/UnitManaMax("target")
+local percent = 100 * UnitMana("target")/UnitManaMax("target")
 DEFAULT_CHAT_FRAME:AddMessage(format("Target has %f%% mana", percent))`, language: 'lua' },
     ],
     tags: ['deprecated'],
@@ -50728,7 +50729,7 @@ print("count:", count)`, language: 'lua' },
       { name: 'handler', type: 'function', description: 'The current error handler' },
     ],
     examples: [
-      { title: 'Example', code: `localmyError = "Something went horribly wrong!"
+      { title: 'Example', code: `local myError = "Something went horribly wrong!"
 geterrorhandler()(myError)`, language: 'lua' },
     ],
     tags: [],
@@ -50920,8 +50921,8 @@ gsub("banana", "(a)", strupper)
     ],
     examples: [
       { title: 'Example', code: `-- Keep a counter of how many times your character has jumped, and display in chat
-localcounter = 0
-localfunctionhook_JumpOrAscendStart(...)
+local counter = 0
+local function hook_JumpOrAscendStart(...)
   counter = counter + 1
   ChatFrame1:AddMessage("Boing! Boing! - ".. counter .. " jumps.")
 end
@@ -50930,17 +50931,17 @@ hooksecurefunc("JumpOrAscendStart", hook_JumpOrAscendStart)`, language: 'lua' },
 -- It does this by scanning the second line of the tooltip, and matching
 -- it against the pattern "(%d+) " .. MANA, where MANA is the global string for
 -- "Mana" in the current locale.
-localfunctionhook_SetAction(self, ...)
+local function hook_SetAction(self, ...)
   -- The second line of the tooltip is getglobal(self:GetName().."TextLeft2")
-  localline = _G[self:GetName() .. "TextLeft2"]
-  localtext = line:GetText() or""
-  localmanaCost = text:match("(%d+) ".. MANA)
-  ifmanaCost then
+  local line = _G[self:GetName() .. "TextLeft2"]
+  local text = line:GetText() or ""
+  local manaCost = text:match("(%d+) ".. MANA)
+  if manaCost then
     -- Convert the mana cost to a number
     manaCost = tostring(manaCost)
     -- Get the player's current mana, and calculate the numnber of casts
-    localmana = UnitMana("player")
-    localnumCasts = math.floor(mana / manaCost)
+    local mana = UnitMana("player")
+    local numCasts = math.floor(mana / manaCost)
     -- Add the line to the tooltip, colored blue
     self:AddLine("You can cast this spell ".. numCasts .. " times", 0.4, 0.4, 1.0)
     -- Call this to ensure the tooltip is properly resized
@@ -51215,7 +51216,7 @@ print("remainder:", remainder)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `proxy = newproxy(true)
-getmetatable(proxy).__len = function() return3 end
+getmetatable(proxy).__len = function() return 3 end
 print(#proxy) -- prints 3`, language: 'lua' },
     ],
     tags: ['luaapi'],

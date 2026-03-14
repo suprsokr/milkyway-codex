@@ -141,9 +141,11 @@ const ApiFunctionPage = (): ReactNode => {
       {fn.examples.length > 0 && (
         <Section>
           <SectionTitle>Examples</SectionTitle>
-          {fn.examples.map((ex, i) => (
-            <CodeBlock key={i} code={ex.code} language={ex.language} title={ex.title} />
-          ))}
+          <ExamplesList>
+            {fn.examples.map((ex, i) => (
+              <CodeBlock key={i} code={ex.code} language={ex.language} title={ex.title} />
+            ))}
+          </ExamplesList>
         </Section>
       )}
 
@@ -243,4 +245,10 @@ const RelatedLink = styled(Link)`
     background: rgba(56, 189, 248, 0.12);
     border-color: rgba(56, 189, 248, 0.3);
   }
+`
+
+const ExamplesList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `
