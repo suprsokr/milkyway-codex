@@ -1,20 +1,23 @@
-import { type ReactNode, useState, useCallback } from 'react'
+import { type ReactNode, useState, useCallback, useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../theme/theme.ts'
 import { Sidebar } from './Sidebar.tsx'
 import { CodexIcon } from '../shared/CodexIcon.tsx'
-import { useEffect } from 'react'
 
 export const Layout = (): ReactNode => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
+  const mainRef = useRef<HTMLElement>(null)
 
-  // Close sidebar on navigation
+  // Close sidebar + scroll to top on navigation
   useEffect(() => {
     setSidebarOpen(false)
-  }, [location.pathname])
+    if (!location.hash) {
+      mainRef.current?.scrollTo(0, 0)
+    }
+  }, [location.pathname, location.hash])
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
@@ -39,7 +42,7 @@ export const Layout = (): ReactNode => {
       <SidebarWrapper $open={sidebarOpen}>
         <Sidebar onNavigate={closeSidebar} />
       </SidebarWrapper>
-      <Main>
+      <Main ref={mainRef}>
         <Outlet />
       </Main>
     </Container>
