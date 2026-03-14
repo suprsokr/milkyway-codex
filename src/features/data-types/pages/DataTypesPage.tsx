@@ -1,10 +1,10 @@
 import { type ReactNode, useState, useMemo } from 'react'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
 import { ListHeader, ListTitle, ListCount } from '../../../components/shared/ListPage.tsx'
-import { ExternalRef } from '../../../components/shared/DetailPage.tsx'
+import { ExternalRef, BookRefLink } from '../../../components/shared/DetailPage.tsx'
 import { DataTable } from '../../../components/shared/DataTable.tsx'
 import { LinkedDescription } from '../../../components/shared/LinkedDescription.tsx'
 import { DATA_TYPES } from '../../../data/data-types.ts'
@@ -68,7 +68,11 @@ const DataTypesPage = (): ReactNode => {
         ))}
       </TypesList>
 
-      <SourceLink>
+      <SourceLinks>
+        <BookRefLink href="/book?page=581">
+          <BookOpen size={14} />
+          View in Reference Book (Ch 27 — API Reference)
+        </BookRefLink>
         <ExternalRef
           href="https://web.archive.org/web/20100701213739/http://wowprogramming.com/docs/api_types"
           target="_blank"
@@ -77,7 +81,7 @@ const DataTypesPage = (): ReactNode => {
           <ExternalLink size={14} />
           Source: WoWProgramming.com API Types (archived)
         </ExternalRef>
-      </SourceLink>
+      </SourceLinks>
     </Container>
   )
 }
@@ -118,7 +122,10 @@ const CodeCell = styled.td`
   color: ${theme.colors.textBright} !important;
 `
 
-const SourceLink = styled.div`
+const SourceLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding-top: 4px;
 `
 

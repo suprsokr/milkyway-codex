@@ -1,12 +1,13 @@
 import { type ReactNode, useState, useMemo } from 'react'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
 import { ListHeader, ListTitle, ListCount } from '../../../components/shared/ListPage.tsx'
-import { ExternalRef } from '../../../components/shared/DetailPage.tsx'
+import { ExternalRef, BookRefLink } from '../../../components/shared/DetailPage.tsx'
 import { DataTable } from '../../../components/shared/DataTable.tsx'
 import { CodeBlock } from '../../../components/shared/CodeBlock.tsx'
+import { LinkedText } from '../../../components/shared/LinkedText.tsx'
 import { SECURE_TEMPLATES } from '../../../data/secure-templates.ts'
 
 const SecureTemplatesPage = (): ReactNode => {
@@ -38,8 +39,8 @@ const SecureTemplatesPage = (): ReactNode => {
       <TemplatesList>
         {filtered.map((t) => (
           <TemplateCard key={t.name} id={t.name}>
-            <TemplateName>{t.name}</TemplateName>
-            {t.description && <TemplateDesc>{t.description}</TemplateDesc>}
+            <TemplateName><LinkedText text={t.name} /></TemplateName>
+            {t.description && <TemplateDesc><LinkedText text={t.description} /></TemplateDesc>}
 
             {t.attributes.length > 0 && (
               <DataTable>
@@ -70,7 +71,15 @@ const SecureTemplatesPage = (): ReactNode => {
         ))}
       </TemplatesList>
 
-      <SourceLink>
+      <SourceLinks>
+        <BookRefLink href="/book?page=327">
+          <BookOpen size={14} />
+          View in Reference Book (Ch 15 — Secure Templates)
+        </BookRefLink>
+        <BookRefLink href="/book?page=527">
+          <BookOpen size={14} />
+          View in Reference Book (Ch 25 — Protected Actions)
+        </BookRefLink>
         <ExternalRef
           href="https://web.archive.org/web/20100701213739/http://wowprogramming.com/docs/secure_template"
           target="_blank"
@@ -79,7 +88,7 @@ const SecureTemplatesPage = (): ReactNode => {
           <ExternalLink size={14} />
           Source: WoWProgramming.com Secure Templates (archived)
         </ExternalRef>
-      </SourceLink>
+      </SourceLinks>
     </Container>
   )
 }
@@ -127,7 +136,10 @@ const TemplateDesc = styled.p`
   }
 `
 
-const SourceLink = styled.div`
+const SourceLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding-top: 4px;
 `
 

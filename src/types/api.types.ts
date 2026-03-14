@@ -52,6 +52,7 @@ export interface DataType {
   description: string
   values: DataTypeValue[]
   related: string[]
+  bookPage?: number
 }
 
 export interface DataTypeValue {
@@ -83,6 +84,7 @@ export interface Widget {
   inheritedMethods: WidgetMethod[]
   scriptHandlers: WidgetScriptHandler[]
   category: 'frame' | 'region' | 'animation' | 'abstract'
+  bookPage?: number
 }
 
 export interface CVar {
@@ -103,6 +105,22 @@ export interface SecureTemplate {
   description: string
   attributes: SecureTemplateAttribute[]
   examples: CodeExample[]
+}
+
+export interface CombatLogSubEvent {
+  name: string
+  description: string
+  type: 'prefix' | 'suffix' | 'special'
+  prefixes?: string[]
+  arguments: CombatLogArgument[]
+  bookPage: number
+}
+
+export interface CombatLogArgument {
+  name: string
+  type: string
+  description: string
+  values?: { value: string; label: string }[]
 }
 
 export interface SearchResult {

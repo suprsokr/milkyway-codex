@@ -4,12 +4,13 @@ import styled from 'styled-components'
 import { theme } from '../../theme/theme.ts'
 import { Tooltip } from './Tooltip.tsx'
 
-type FreshnessStatus = 'confirmed' | 'review' | 'unverified'
+export type FreshnessStatus = 'confirmed' | 'review' | 'unverified'
 
 interface FreshnessBadgeProps {
   description: string
   memoryAddress?: string
   documentationUrl?: string
+  bookPage?: number
 }
 
 // WotLK 3.3.5a era ends Oct 12 2010 — snapshots before this date are confirmed WotLK
@@ -28,11 +29,14 @@ const isWotlkEra = (url: string): boolean => {
   return Number(match[1]) < WOTLK_END
 }
 
-const getStatus = (props: FreshnessBadgeProps): FreshnessStatus => {
+export const getStatus = (props: FreshnessBadgeProps): FreshnessStatus => {
   const hasRealDesc =
     props.description !== 'No documentation available.' && props.description.length > 0
 
   if (!hasRealDesc) return 'unverified'
+
+  // Book reference = verified from the WotLK Programming book (golden source)
+  if (props.bookPage) return 'confirmed'
 
   // Function confirmed in the 3.3.5a binary
   const hasAddr = Boolean(props.memoryAddress)
@@ -60,6 +64,9 @@ const buildTooltip = (props: FreshnessBadgeProps, status: FreshnessStatus): stri
 
   if (status === 'confirmed') {
     parts.push('Verified WotLK 3.3.5a information')
+    if (props.bookPage) {
+      parts.push(`Source: WoW Programming book, 2nd Ed. (p.${props.bookPage})`)
+    }
     if (props.memoryAddress) {
       parts.push('Function confirmed in client binary (build 12340)')
     }

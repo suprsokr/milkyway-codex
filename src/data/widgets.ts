@@ -3,6 +3,7 @@ import type { Widget } from '../types/api.types.ts'
 export const WIDGETS: Widget[] = [
   {
     name: "Alpha",
+    bookPage: 1296,
     description: "An animation type that smoothly changes the opacity (alpha) of its parent region over time.",
     inherits: ["Animation"],
     methods: [
@@ -58,6 +59,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Animation",
+    bookPage: 1285,
     description: "Base type for all animation objects. Animations change visual properties of regions over time.",
     inherits: ["ScriptObject","ParentedObject"],
     methods: [
@@ -111,6 +113,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "AnimationGroup",
+    bookPage: 1280,
     description: "A container that manages a set of animations, controlling their playback order and looping.",
     inherits: ["ScriptObject","ParentedObject"],
     methods: [
@@ -156,6 +159,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Button",
+    bookPage: 1206,
     description: "A clickable frame that supports normal, pushed, highlighted, and disabled states with text and textures.",
     inherits: ["Frame"],
     methods: [
@@ -335,6 +339,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "CheckButton",
+    bookPage: 1212,
     description: "A button that toggles between checked and unchecked states, like a checkbox.",
     inherits: ["Button"],
     methods: [
@@ -526,6 +531,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "ColorSelect",
+    bookPage: 1214,
     description: "A frame that provides an interactive color picker using a color wheel and value slider.",
     inherits: ["Frame"],
     methods: [
@@ -706,6 +712,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Cooldown",
+    bookPage: 1217,
     description: "A frame that displays a clock-like sweep animation, commonly used for ability cooldowns.",
     inherits: ["Frame"],
     methods: [
@@ -851,6 +858,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "DressUpModel",
+    bookPage: 1244,
     description: "A model frame that can display character models with equipped items for preview.",
     inherits: ["PlayerModel"],
     methods: [
@@ -1038,6 +1046,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "EditBox",
+    bookPage: 1273,
     description: "A frame that accepts and displays text input from the keyboard.",
     inherits: ["Frame","FontInstance"],
     methods: [
@@ -1246,6 +1255,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Font",
+    bookPage: 1263,
     description: "A virtual object that defines font properties (face, size, style) that can be shared by multiple text objects.",
     inherits: ["FontInstance"],
     methods: [
@@ -1311,6 +1321,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "FontString",
+    bookPage: 1177,
     description: "A layered region that renders a string of text using a specified font.",
     inherits: ["LayeredRegion","FontInstance"],
     methods: [
@@ -1390,6 +1401,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Frame",
+    bookPage: 1187,
     description: "The base interactive UI element. Frames can receive events, contain child frames and regions, and respond to scripts.",
     inherits: ["VisibleRegion","ScriptObject"],
     methods: [
@@ -1533,6 +1545,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "GameTooltip",
+    bookPage: 1218,
     description: "A specialized frame for displaying information tooltips with formatted text, icons, and money values.",
     inherits: ["Frame"],
     methods: [
@@ -1804,6 +1817,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "MessageFrame",
+    bookPage: 1264,
     description: "A frame that displays scrolling text messages with fade-in/out effects.",
     inherits: ["Frame","FontInstance"],
     methods: [
@@ -1978,6 +1992,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Minimap",
+    bookPage: 1234,
     description: "The minimap frame that displays a top-down view of the area around the player.",
     inherits: ["Frame"],
     methods: [
@@ -2140,6 +2155,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Model",
+    bookPage: 1237,
     description: "A frame that renders 3D models from the game data files.",
     inherits: ["Frame"],
     methods: [
@@ -2313,6 +2329,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "MovieFrame",
+    bookPage: 1246,
     description: "A frame that plays in-game cinematic movie files.",
     inherits: ["Frame"],
     methods: [
@@ -2466,6 +2483,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "ParentedObject",
+    bookPage: 1164,
     description: "Abstract base type providing parent-child relationship functionality.",
     inherits: ["UIObject"],
     methods: [
@@ -2481,6 +2499,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Path",
+    bookPage: 1290,
     description: "An animation type that moves a region along a defined path made of control points.",
     inherits: ["Animation"],
     methods: [
@@ -2539,6 +2558,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "PlayerModel",
+    bookPage: 1243,
     description: "A model frame specifically designed to display player character models.",
     inherits: ["Model"],
     methods: [
@@ -2883,6 +2903,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Region",
+    bookPage: 1166,
     description: "Base type for all UI elements that occupy screen space with position and dimensions.",
     inherits: ["ParentedObject"],
     methods: [
@@ -2923,6 +2944,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Rotation",
+    bookPage: 1293,
     description: "An animation type that rotates a region around a specified point.",
     inherits: ["Animation"],
     methods: [
@@ -2982,6 +3004,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Scale",
+    bookPage: 1294,
     description: "An animation type that changes the scale (size) of a region over time.",
     inherits: ["Animation"],
     methods: [
@@ -3039,6 +3062,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "ScriptObject",
+    bookPage: 1164,
     description: "Abstract base type providing script handler functionality (OnEvent, OnUpdate, etc.).",
     inherits: ["UIObject"],
     methods: [
@@ -3053,6 +3077,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "ScrollFrame",
+    bookPage: 1248,
     description: "A frame that provides scrollable viewing of a child frame larger than the visible area.",
     inherits: ["Frame"],
     methods: [
@@ -3212,6 +3237,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "ScrollingMessageFrame",
+    bookPage: 1267,
     description: "A frame that displays a scrollable backlog of text messages with configurable font and fading.",
     inherits: ["Frame","FontInstance"],
     methods: [
@@ -3411,6 +3437,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "SimpleHTML",
+    bookPage: 1250,
     description: "A frame that renders formatted HTML-like text content with support for hyperlinks.",
     inherits: ["Frame","FontInstance"],
     methods: [
@@ -3584,6 +3611,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Slider",
+    bookPage: 1257,
     description: "A frame with a draggable thumb for selecting a value within a range.",
     inherits: ["Frame"],
     methods: [
@@ -3746,6 +3774,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "StatusBar",
+    bookPage: 1261,
     description: "A frame that displays a horizontal or vertical bar indicating a value within a range (e.g., health, XP).",
     inherits: ["Frame"],
     methods: [
@@ -3903,6 +3932,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "TabardModel",
+    bookPage: 1244,
     description: "A model frame used to preview tabard designs with custom emblems and colors.",
     inherits: ["PlayerModel"],
     methods: [
@@ -4096,6 +4126,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Texture",
+    bookPage: 1180,
     description: "A layered region that displays an image from a texture file or a solid color.",
     inherits: ["LayeredRegion"],
     methods: [
@@ -4163,6 +4194,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "Translation",
+    bookPage: 1295,
     description: "An animation type that moves a region by a specified offset over time.",
     inherits: ["Animation"],
     methods: [
@@ -4218,6 +4250,7 @@ export const WIDGETS: Widget[] = [
   },
   {
     name: "UIObject",
+    bookPage: 1163,
     description: "The root base type for all UI objects. Provides name and type identification.",
     inherits: [],
     methods: [

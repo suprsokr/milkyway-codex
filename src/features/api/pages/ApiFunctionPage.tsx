@@ -65,6 +65,7 @@ const ApiFunctionPage = (): ReactNode => {
             description={fn.description}
             memoryAddress={fn.memoryAddress}
             documentationUrl={fn.documentationUrl}
+            bookPage={fn.bookPage}
           />
           <Tag label={fn.category.replace(/ functions$/i, '').replace(/ actions$/i, '')} variant="category" />
           {fn.tags.map((tag) => (
@@ -159,7 +160,7 @@ const ApiFunctionPage = (): ReactNode => {
         </Section>
       )}
 
-      <Section>
+      <RefsSection>
         {fn.documentationUrl && (
           <ExternalRef
             href={fn.documentationUrl}
@@ -176,7 +177,7 @@ const ApiFunctionPage = (): ReactNode => {
             View in Reference Book (p.{fn.bookPage})
           </BookRefLink>
         )}
-      </Section>
+      </RefsSection>
     </DetailContainer>
   )
 }
@@ -220,6 +221,13 @@ const Optional = styled.span`
   color: ${theme.colors.textMuted};
   margin-left: 6px;
   font-style: italic;
+`
+
+const RefsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
 `
 
 const RelatedLink = styled(Link)`

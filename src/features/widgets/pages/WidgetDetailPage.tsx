@@ -1,11 +1,12 @@
 import { type ReactNode, useState, useMemo, useCallback, useEffect } from 'react'
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom'
-import { ArrowLeft, ChevronDown, ChevronRight } from 'lucide-react'
+import { ArrowLeft, ChevronDown, ChevronRight, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { WIDGETS_MAP } from '../../../data/widgets.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
 import { Tag } from '../../../components/shared/Tag.tsx'
+import { FreshnessBadge } from '../../../components/shared/FreshnessBadge.tsx'
 import {
   DetailContainer,
   BackLink,
@@ -17,6 +18,7 @@ import {
   SectionTitle,
   NotFound,
   RelatedList,
+  BookRefLink,
 } from '../../../components/shared/DetailPage.tsx'
 import { DataTable, NameCell, TypeCell } from '../../../components/shared/DataTable.tsx'
 import { TypeLink } from '../../../components/shared/TypeLink.tsx'
@@ -103,6 +105,10 @@ const WidgetDetailPage = (): ReactNode => {
       <DetailHeader>
         <DetailName $color={theme.colors.luaType}>{widget.name}</DetailName>
         <Badges>
+          <FreshnessBadge
+            description={widget.description}
+            bookPage={widget.bookPage}
+          />
           <Tag label={widget.category} variant="category" />
           <Tag label={`${widget.methods.length} own methods`} />
           <Tag label={`${widget.inheritedMethods.length} inherited`} />
@@ -178,6 +184,13 @@ const WidgetDetailPage = (): ReactNode => {
             })}
           </MethodList>
         </Section>
+      )}
+
+      {widget.bookPage && (
+        <BookRefLink href={`/book?page=${widget.bookPage}`}>
+          <BookOpen size={14} />
+          View in Reference Book (p.{widget.bookPage})
+        </BookRefLink>
       )}
     </DetailContainer>
   )

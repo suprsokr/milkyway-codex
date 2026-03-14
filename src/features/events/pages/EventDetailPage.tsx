@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ExternalLink, BookOpen } from 'lucide-react'
+import { ArrowLeft, ExternalLink, BookOpen, Swords } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { Tag } from '../../../components/shared/Tag.tsx'
@@ -22,6 +22,8 @@ import {
 import { LinkedDescription } from '../../../components/shared/LinkedDescription.tsx'
 import { DataTable, NameCell, TypeCell } from '../../../components/shared/DataTable.tsx'
 import { EVENTS_MAP } from '../../../data/events.ts'
+
+const COMBAT_LOG_EVENTS = new Set(['COMBAT_LOG_EVENT', 'COMBAT_LOG_EVENT_UNFILTERED'])
 
 const EventDetailPage = (): ReactNode => {
   const { eventName } = useParams<{ eventName: string }>()
@@ -55,6 +57,7 @@ const EventDetailPage = (): ReactNode => {
           <FreshnessBadge
             description={evt.description}
             documentationUrl={evt.documentationUrl}
+            bookPage={evt.bookPage}
           />
           <Tag label={evt.category} variant="category" />
         </Badges>
@@ -78,7 +81,15 @@ const EventDetailPage = (): ReactNode => {
                 <tr key={p.name}>
                   <NameCell>{p.name}</NameCell>
                   <TypeCell>{p.type}</TypeCell>
-                  <td>{p.description}</td>
+                  <td>
+                    {p.description}
+                    {COMBAT_LOG_EVENTS.has(evt.name) && p.name === '...' && (
+                      <CombatLogInlineLink to="/combat-log">
+                        <Swords size={12} />
+                        View all sub-events and their arguments
+                      </CombatLogInlineLink>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -99,7 +110,7 @@ const EventDetailPage = (): ReactNode => {
         </Section>
       )}
 
-      <Section>
+      <RefsSection>
         {evt.documentationUrl && (
           <ExternalRef
             href={evt.documentationUrl}
@@ -116,7 +127,7 @@ const EventDetailPage = (): ReactNode => {
             View in Reference Book (p.{evt.bookPage})
           </BookRefLink>
         )}
-      </Section>
+      </RefsSection>
 
       <Section>
         <PatchInfo>Patch: {evt.patch}</PatchInfo>
@@ -126,6 +137,26 @@ const EventDetailPage = (): ReactNode => {
 }
 
 export default EventDetailPage
+
+const RefsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+`
+
+const CombatLogInlineLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: ${theme.colors.primary};
+  margin-top: 6px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
 
 const RelatedLink = styled(Link)`
   font-family: ${theme.fonts.code};

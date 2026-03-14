@@ -1,6 +1,6 @@
 import { type ReactNode, useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Code2, Zap, Database, Layout as LayoutIcon, Shield, Terminal } from 'lucide-react'
+import { Code2, Zap, Database, Layout as LayoutIcon, Terminal, Swords } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
@@ -11,13 +11,16 @@ import { DATA_TYPES } from '../../../data/data-types.ts'
 import { WIDGETS } from '../../../data/widgets.ts'
 import { CVARS } from '../../../data/cvars.ts'
 import { SECURE_TEMPLATES } from '../../../data/secure-templates.ts'
+import { COMBAT_LOG_SUB_EVENTS } from '../../../data/combat-log-events.ts'
+
+const WIDGET_METHOD_COUNT = WIDGETS.reduce((sum, w) => sum + w.methods.length, 0)
 
 const QUICK_STATS = [
   { label: 'Game Functions', count: API_FUNCTIONS.length, icon: Code2, path: '/api' },
-  { label: 'Client Functions', count: WIDGETS.length, icon: LayoutIcon, path: '/widgets' },
+  { label: 'Client Functions', count: WIDGET_METHOD_COUNT, icon: LayoutIcon, path: '/widgets' },
   { label: 'Events', count: EVENTS.length, icon: Zap, path: '/events' },
+  { label: 'Combat Log', count: COMBAT_LOG_SUB_EVENTS.length, icon: Swords, path: '/combat-log' },
   { label: 'Data Types', count: DATA_TYPES.length, icon: Database, path: '/data-types' },
-  { label: 'Secure Templates', count: SECURE_TEMPLATES.length, icon: Shield, path: '/secure-templates' },
   { label: 'CVars', count: CVARS.length, icon: Terminal, path: '/cvars' },
 ] as const
 
@@ -135,22 +138,20 @@ const HomePage = (): ReactNode => {
             templates available in the client.
           </InfoText>
           <InfoText>
-            Most of the data was assembled by scraping archived versions of WoWWiki, Wowpedia,
-            and other community resources — using pre-Cataclysm snapshots from the Wayback Machine
-            to ensure accuracy for the 3.3.5a client. Descriptions, event payloads, usage notes,
-            and function signatures were all recovered from these archives.
-            Where the community documentation was incomplete, the client binary (build 12340) was
-            reverse-engineered to extract additional function signatures, widget methods, CVar
-            definitions, and internal structures that were never publicly documented.
-            Every entry is then reconciled across these sources to provide the most complete
-            3.3.5a reference available today.
+            The primary source is the <em>World of Warcraft Programming</em> book (2nd Edition), the
+            definitive WotLK 3.3.5a reference. This was supplemented by scraping pre-Cataclysm
+            snapshots of WoWProgramming.com from the Wayback Machine. Where documentation was
+            incomplete, the client binary (build 12340) was reverse-engineered to extract function
+            signatures, widget methods, CVar definitions, and internal structures that were never
+            publicly documented. Every entry is reconciled across these sources to provide the most
+            complete 3.3.5a reference available today.
           </InfoText>
           <InfoText>
             This is a community-driven project — if you spot an error, a missing function, or
             want to improve a description, contributions are very welcome on{' '}
             <a href="https://github.com/Shard-MW/milkyway-codex" target="_blank" rel="noopener noreferrer">GitHub</a>.
-            Whether it's fixing a typo or adding undocumented API details, every contribution helps
-            make this reference better for the whole 3.3.5a modding community.
+            Check the <a href="/contribute">Contribute</a> page to see which entries still need
+            documentation or verification.
           </InfoText>
         </InfoCard>
       </InfoSection>

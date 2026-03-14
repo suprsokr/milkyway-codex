@@ -10,9 +10,11 @@ import {
   Moon,
   Terminal,
   Shield,
+  Swords,
   BookOpen,
   Globe,
   ExternalLink,
+  Users,
 } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../theme/theme.ts'
@@ -48,6 +50,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: null,
     items: [
       { to: '/data-types', icon: Database, label: 'Data Types' },
+      { to: '/combat-log', icon: Swords, label: 'Combat Log' },
       { to: '/secure-templates', icon: Shield, label: 'Secure Templates' },
       { to: '/cvars', icon: Terminal, label: 'CVars' },
     ],
@@ -57,6 +60,12 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { to: '/book', icon: BookOpen, label: 'Reference Book' },
       { to: 'https://web.archive.org/web/20100815080955/http://wowprogramming.com/docs', icon: Globe, label: 'WoWProgramming', external: true },
+    ],
+  },
+  {
+    title: null,
+    items: [
+      { to: '/contribute', icon: Users, label: 'Contribute' },
     ],
   },
 ]

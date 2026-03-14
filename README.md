@@ -1,6 +1,6 @@
 # MilkyWay Codex
 
-An open-source documentation webapp for the **World of Warcraft 3.3.5a** (Wrath of the Lich King) modding community. Browse and search the complete Lua API, events, widgets, data types, CVars, and secure templates extracted from client build 12340.
+An open-source documentation webapp for the **World of Warcraft 3.3.5a** (Wrath of the Lich King) modding community. Browse and search the complete Lua API, events, widgets, data types, CVars, combat log sub-events, and secure templates extracted from the WoW Programming book and client build 12340.
 
 **Live site:** [https://milkyway-codex.vercel.app/](https://milkyway-codex.vercel.app/)
 
@@ -8,16 +8,21 @@ Built to give addon developers and modders a fast, searchable, and always-availa
 
 ## Features
 
-- **2,067 API Functions** — full signatures, parameters, return values, and code examples
+- **2,140 API Functions** — full signatures, parameters, return values, and code examples
 - **558 Events** — game events with payload parameters and categories
+- **48 Combat Log Sub-Events** — prefixes, suffixes, spell schools, and argument tables
 - **38 Widget Types** — methods, inheritance chains, and script handlers
 - **449 Console Variables** — CVars with default values and descriptions
-- **33 Data Types** — enums and constants used across the API
+- **33 Data Types** — enums, flags, and constants used across the API
 - **14 Secure Templates** — secure frame templates and attributes
+- **Reference Book** — embedded PDF viewer for the WoW Programming book (2nd Edition)
 - **Instant Search** — search across all categories from the home page
 - **Virtualized Lists** — smooth scrolling through thousands of entries
 - **Category Filters** — filter by category, protection status, and more
 - **Cross-References** — linked related functions, events, and data types
+- **Verification Badges** — every entry shows its verification status
+- **Dark & Light Themes** — toggle between dark and light mode
+- **Contribute Page** — find entries that need documentation or verification
 
 ## Tech Stack
 
@@ -59,9 +64,12 @@ src/
 │   ├── api/            # Game Functions list + detail
 │   ├── events/         # Events list + detail
 │   ├── widgets/        # Client Functions (widgets) list + detail
+│   ├── combat-log/     # Combat log sub-events reference
 │   ├── data-types/     # Data types reference
 │   ├── cvars/          # Console variables
-│   └── secure-templates/ # Secure frame templates
+│   ├── secure-templates/ # Secure frame templates
+│   ├── book/           # Embedded PDF reference book
+│   └── contribute/     # Entries needing documentation
 ├── data/               # All reference data (static TypeScript)
 ├── hooks/              # Shared React hooks
 ├── theme/              # Design tokens (colors, fonts, radii)
@@ -71,19 +79,19 @@ src/
 
 ## Data Sources
 
-All data was scraped from archived snapshots of [WoWProgramming.com](https://web.archive.org/web/2010/http://wowprogramming.com/docs) (pre-Cataclysm, before October 12, 2010) and supplemented with data from [Warcraft Wiki](https://warcraft.wiki.gg) and [Wowpedia](https://wowpedia.fandom.com). Memory addresses and internal function mappings were obtained through reverse engineering of the WoW 3.3.5a client (build 12340). No external API calls are made at runtime — everything is statically bundled.
+The primary source is the *World of Warcraft Programming* book (2nd Edition), the definitive WotLK 3.3.5a reference. This was supplemented by scraping pre-Cataclysm snapshots of [WoWProgramming.com](https://web.archive.org/web/2010/http://wowprogramming.com/docs) from the Wayback Machine (before October 12, 2010). Memory addresses and internal function mappings were obtained through reverse engineering of the WoW 3.3.5a client (build 12340). No external API calls are made at runtime — everything is statically bundled.
 
 ## Contributing
 
-Contributions are welcome! Whether it's fixing a typo, improving a description, or adding undocumented API details — every contribution helps make this reference better for the whole 3.3.5a modding community.
+Contributions are welcome! Visit the [Contribute page](https://milkyway-codex.vercel.app/contribute) to see entries that need documentation or verification.
 
 ### Verification Badges
 
-Every function and event entry displays a verification badge. This status is **computed automatically** from the data — there is no manual flag to set.
+Every function, event, and widget entry displays a verification badge. This status is **computed automatically** from the data — there is no manual flag to set.
 
 | Badge | Criteria | Meaning |
 |-------|----------|---------|
-| **Verified** (green) | Real description + memory address in binary OR documentation from a pre-Cataclysm archive snapshot (before Oct 12, 2010) | Confirmed WotLK 3.3.5a information |
+| **Verified** (green) | Has a `bookPage` reference (from the WoW Programming book), OR memory address in binary + pre-Cata archive docs, OR pre-Cata archive docs alone | Confirmed WotLK 3.3.5a information |
 | **To review** (orange) | Real description but documentation URL points to a post-WotLK snapshot | Info exists but may differ from the 3.3.5a version |
 | **Unverified** (red) | No description or "No documentation available." | Needs community contribution |
 
@@ -103,6 +111,10 @@ Every function and event entry displays a verification badge. This status is **c
 - If you have reverse-engineered WoW.exe build 12340, add the `memoryAddress` field (e.g. `"0x004A2F30"`)
 - A function with a memory address + real description is automatically **Verified**, even without a documentation URL
 
+**Adding a book page reference:**
+- If you can find the entry in the *WoW Programming* book (2nd Edition), add the `bookPage` field with the page number
+- Any entry with a `bookPage` is automatically **Verified**
+
 ### Data Files
 
 All reference data is in `src/data/`:
@@ -114,6 +126,7 @@ All reference data is in `src/data/`:
 | `widgets.ts` | UI widget types and methods |
 | `data-types.ts` | Enums, flags, and types |
 | `cvars.ts` | Console variables |
+| `combat-log-events.ts` | Combat log sub-events |
 | `secure-templates.ts` | Secure frame templates |
 
 ## License

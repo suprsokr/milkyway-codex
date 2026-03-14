@@ -95,10 +95,10 @@ export const BookRefLink = styled.a`
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: ${theme.colors.accent};
+  color: ${theme.colors.textMuted};
 
   &:hover {
-    color: ${theme.colors.textBright};
+    color: ${theme.colors.primary};
   }
 `
 
