@@ -2340,7 +2340,7 @@ print("isSelf:", isSelf)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- While mousing over a button in the bank
 local button = GetMouseFocus()
-print("Inventory Slot:", BankButtonIDToInvSlotID(button:GetID(), button.isBag))`, language: 'lua' },
+print(“Inventory Slot:“, BankButtonIDToInvSlotID(button:GetID(), button.isBag))`, language: 'lua' },
     ],
     tags: [],
     category: 'Bank functions',
@@ -5940,8 +5940,7 @@ print("canSummon:", canSummon)`, language: 'lua' },
       { name: 'canSwitch', type: 'boolean', description: 'Can the player change vehicle seats' },
     ],
     examples: [
-      { title: 'Example', code: `local controlType, occupantName, occupantRealm, canEject, i
-canSwitchSeats = UnitVehicleSeatInfo(“player“, 1)
+      { title: 'Example', code: `local controlType, occupantName, occupantRealm, canEject, canSwitchSeats = UnitVehicleSeatInfo(“player“, 1)
 if( CanSwitchVehicleSeat() and canSwitchSeats ) then
 print(“You can switch to seat #1!“)
 end`, language: 'lua' },
@@ -6980,8 +6979,7 @@ function addLootIcons(self, event, msg, ...)
     return "\\124T"..texture..":"..fontSize.."\\124t"..link
   end
   msg = string.gsub(msg,"(\\124c%x+\\124Hitem:.-\\124h\\124r)",iconForLink)
-  return false, msg, ...
-end
+  return false, msg, ... end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", addLootIcons)`, language: 'lua' },
     ],
     tags: ['blizzardui'],
@@ -7528,7 +7526,8 @@ ClickSendMailItemButton()`, language: 'lua' },
     returns: [
     ],
     examples: [
-      { title: 'Example', code: `-- Put the item in the top left slot of the backpack into the first gem socket
+      { title: 'Example', code: `-- Put the item in the top left slot of the backpack into the
+-- first gem socket
 PickupContainerItem(0,1)
 ClickSocketButton(1)`, language: 'lua' },
     ],
@@ -9593,8 +9592,9 @@ print("isMatch:", isMatch)`, language: 'lua' },
       { name: 'inventoryID', type: 'number', description: 'Identifier for the container usable with Inventory APIs' },
     ],
     examples: [
-      { title: 'Example', code: `-- Switches the player's first bag (the one immediately left of the backpack)
--- with the first bank bag (or puts the bag into the bank if the bank bag slot is empty)
+      { title: 'Example', code: `-- Switches the player’s first bag (the one immediately left of the
+-- backpack) with the first bank bag (or puts the bag into the bank
+-- if the bank bag slot is empty)
 local firstBagSlot = ContainerIDToInventoryID(1)
 local firstBankBagSlot = ContainerIDToInventoryID(5)
 PickupInventoryItem(firstBagSlot)
@@ -9697,8 +9697,8 @@ print("fontObject:", fontObject)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- creates a generic button in the middle of the screen
-mybutton = CreateFrame("Button","mybutton",UIParent,"UIPanelButtonTemplate")
-mybutton:SetPoint("CENTER",0,0)
+mybutton = CreateFrame(“Button“,“mybutton“,UIParent, “UIPanelButtonTemplate“)
+mybutton:SetPoint(“CENTER“,0,0)
 mybutton:SetWidth(80)
 mybutton:SetHeight(22)`, language: 'lua' },
     ],
@@ -9728,10 +9728,11 @@ mybutton:SetHeight(22)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Create a character specific macro
-local index = CreateMacro("DanceMonkey", 13, "/emote dances like a monkey!!!", 1)
-
+local index = CreateMacro(“DanceMonkey“, 13, “/emote dances like a
+monkey!!!“, 1)
 -- Create a general macro
-local index = CreateMacro("Heal", 73, "/cast Flash Heal\\n/say Let the light of Elune cleanse you!")`, language: 'lua' },
+local index = CreateMacro(“Heal“, 73, “/cast Flash Heal\\n/say Let
+the light of Elune cleanse you!“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Macro functions',
@@ -10584,11 +10585,10 @@ print("genitive:", genitive, "dative:", dative, "accusative:", accusative, "inst
     returns: [
     ],
     examples: [
-      { title: 'Example', code: `DoEmote("wave")
+      { title: 'Example', code: `DoEmote(“wave“)
 -- Player waves
-
-DoEmote("doom", "Thrall")
--- Player threatens Thrall with the wrath of doom`, language: 'lua' },
+DoEmote(“threaten“, “King Varian Wrynn“)
+-- Player threatens King Varian Wrynn with the wrath of doom`, language: 'lua' },
     ],
     tags: [],
     category: 'Chat functions',
@@ -10913,12 +10913,13 @@ print("newIndex:", newIndex)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print all visible frames under the mouse cursor
-localframe = EnumerateFrames(); -- Get the first frame
-whileframe do
-  if( frame:IsVisible() andMouseIsOver(frame) ) then
-    print(frame:GetName() orstring.format("[Unnamed Frame: %s]", tostring(frame)));
-  end
-  frame = EnumerateFrames(frame); -- Get the next frame
+local frame = EnumerateFrames(); -- Get the first frame
+while frame do
+
+if ( frame:IsVisible() and MouseIsOver(frame) ) then
+print(frame:GetName() or string.format(“[Unnamed Frame: %s]“, tostring(frame)));
+end
+frame = EnumerateFrames(frame); -- Get the next frame
 end`, language: 'lua' },
     ],
     tags: [],
@@ -11395,8 +11396,8 @@ print("isLocked:", isLocked)`, language: 'lua' },
 local classes = {}
 FillLocalizedClassList(classes, true)
 for token, localizedName in pairs(classes) do
-   local color = RAID_CLASS_COLORS[token];
-   ChatFrame1:AddMessage(localizedName, color.r, color.g, color.b)
+local color = RAID_CLASS_COLORS[token];
+ChatFrame1:AddMessage(localizedName, color.r, color.g, color.b)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -11940,7 +11941,6 @@ MAX_PLAYER_LEVEL_TABLE = {};
 MAX_PLAYER_LEVEL_TABLE[0] = 60;
 MAX_PLAYER_LEVEL_TABLE[1] = 70;
 MAX_PLAYER_LEVEL_TABLE[2] = 80;
-MAX_PLAYER_LEVEL_TABLE[3] = 85;
 MAX_PLAYER_LEVEL = 0;
 MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL_TABLE[GetAccountExpansionLevel()];`, language: 'lua' },
     ],
@@ -13145,9 +13145,10 @@ print("link:", link)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- prints a list of the subclasses for each item class
 function printSubClasses(...)
-  for class = 1, select("#", ...) do
-    print(select(class, ...).. ":", strjoin(", ", GetAuctionItemSubClasses(class)))
-  end
+for class = 1, select(“#“, ...) do
+print(select(class, ...).. “:“, strjoin(“, “, GetAuctionItemSubClasses(class)))
+
+end
 end
 printSubClasses(GetAuctionItemClasses())`, language: 'lua' },
     ],
@@ -13280,11 +13281,11 @@ print("criterion:", criterion, "reverse:", reverse)`, language: 'lua' },
       { name: '...', type: 'list', description: 'A list of strings, each the name of a character matching the search parameters' },
     ],
     examples: [
-      { title: 'Example', code: `-- prints up to 10 names of friends and guild members starting with "G"
-print(GetAutoCompleteResults("g", bit.bor(AUTOCOMPLETE_FLAG_IN_GUILD, AUTOCOMPLETE_FLAG_FRIEND), AUTOCOMPLETE_FLAG_NONE, 10))
-
--- prints up to 10 names of guild members not on the friends list starting with "G"
-print(GetAutoCompleteResults("g", AUTOCOMPLETE_FLAG_IN_GUILD, AUTOCOMPLETE_FLAG_FRIEND, 10))`, language: 'lua' },
+      { title: 'Example', code: `-- prints up to 10 names of friends and guild members starting with “G“
+print(GetAutoCompleteResults(“g“, bit.bor(AUTOCOMPLETE_FLAG_IN_GUILD, AUTOCOMPLETE_FLAG_FRIEND), AUTOCOMPLETE_FLAG_NONE, 10))
+-- prints up to 10 names of guild members not on the friends list
+-- starting with “G“
+print(GetAutoCompleteResults(“g“, AUTOCOMPLETE_FLAG_IN_GUILD, AUTOCOMPLETE_FLAG_FRIEND, 10))`, language: 'lua' },
     ],
     tags: [],
     category: 'Utility functions',
@@ -13434,12 +13435,12 @@ print("name:", name, "count:", count, "extraCurrencyType:", extraCurrencyType, "
       { name: 'name', type: 'string', description: 'Name of the container' },
     ],
     examples: [
-      { title: 'Example', code: `-- Print the names of the player's bags to chat
+      { title: 'Example', code: `-- Print the names of the player’s bags to chat
 for i=0,4 do
-  local name = GetBagName(i)
-  if name then
-    print("Bag", i, ":", name)
-  end
+local name = GetBagName(i)
+if name then
+print(“Bag“, i, “:“, name)
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -13729,7 +13730,7 @@ print(SecondsToTime(GetBattlefieldInstanceRunTime()/1000))`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Set the size of an icon scaled by this value
-localsize = DEFAULT_POI_ICON_SIZE * GetBattlefieldMapIconScale()
+local size = DEFAULT_POI_ICON_SIZE * GetBattlefieldMapIconScale()
 icon:SetWidth(size)
 icon:SetHeight(size)`, language: 'lua' },
     ],
@@ -13757,15 +13758,10 @@ icon:SetHeight(size)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- Print the time left for all active battleground queues
 for index=1, MAX_BATTLEFIELD_QUEUES do
-  localstatus, name = GetBattlefieldStatus(index)
-  
-  ifstatus == "confirm"then
-    print(format(
-      "Your invitation to %s will expire in %d seconds.",
-      name, GetBattlefieldPortExpiration(index)
-    ))
-  end
-  
+local status, name = GetBattlefieldStatus(index)
+if status == “confirm“ then
+print(format( “Your invitation to %s will expire in %d seconds.“, name, GetBattlefieldPortExpiration(index) ))
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -14369,10 +14365,10 @@ print("name:", name, "texture:", texture, "price:", price, "quantity:", quantity
     examples: [
       { title: 'Example', code: `-- Print item links for every item in the buyback tab
 for i=1,12 do
-  locallink = GetBuybackItemLink(i)
-  iflink then
-    print(link .. " is available for buyback")
-  end
+local link = GetBuybackItemLink(i)
+if link then
+print(link .. “ is available for buyback“)
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -15007,13 +15003,11 @@ print("icon:", icon)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `GetCoinTextureString(10000)
--- returns "1 Gold"
-
+-- returns “1 Gold“
 GetCoinTextureString(500050)
--- returns "50 Gold, 50 Copper"
-
-GetCoinTextureString(123456, " / ")
--- returns "12 Gold / 4 Silver / 56 Copper"`, language: 'lua' },
+-- returns “50 Gold, 50 Copper“
+GetCoinTextureString(123456, “ / “)
+-- returns “12 Gold / 4 Silver / 56 Copper“`, language: 'lua' },
     ],
     tags: [],
     category: 'Money functions',
@@ -15039,13 +15033,14 @@ GetCoinTextureString(123456, " / ")
     ],
     examples: [
       { title: 'Example', code: `GetCoinTextureString(10000)
--- returns "1|TInterface\\\\MoneyFrame\\\\UI_GoldIcon:14:14:2:0|t"
-
+-- returns “1|TInterface\\\\MoneyFrame\\\\UI_GoldIcon:14:14:2:0|t“
 GetCoinTextureString(500050)
--- returns "50|TInterface\\\\MoneyFrame\\\\UI_GoldIcon:14:14:2:0|t 50|TInterface\\\\MoneyFrame\\\\UI_CopperIcon:14:14:2:0|t"
-
+-- returns “50|TInterface\\\\MoneyFrame\\\\UI_GoldIcon:14:14:2:0|t
+50|TInterface\\\\MoneyFrame\\\\UI_CopperIcon:14:14:2:0|t“
 GetCoinTextureString(123456)
--- returns "12|TInterface\\\\MoneyFrame\\\\UI_GoldIcon:14:14:2:0|t 34|TInterface\\\\MoneyFrame\\\\UI_SilverIcon:14:14:2:0|t 56|TInterface\\\\MoneyFrame\\\\UI_CopperIcon:14:14:2:0|t"`, language: 'lua' },
+-- returns “12|TInterface\\\\MoneyFrame\\\\UI_GoldIcon:14:14:2:0|t
+34|TInterface\\\\MoneyFrame\\\\UI_SilverIcon:14:14:2:0|t
+56|TInterface\\\\MoneyFrame\\\\UI_CopperIcon:14:14:2:0|t“`, language: 'lua' },
     ],
     tags: [],
     category: 'Money functions',
@@ -15279,19 +15274,20 @@ print("info:", info)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- assuming the first two rows of slots in your backpack are full...
-localbagSpaces = GetContainerFreeSlots(0)
+local bagSpaces = GetContainerFreeSlots(0)
 print(unpack(bagSpaces))
--- Chat window shows "9 10 11 12 13 14 15 16"
-
--- assuming all slots but the first in the bag immediately left of your backpack are full...
+-- Chat window shows “9 10 11 12 13 14 15 16“
+-- assuming all slots but the first in the bag immediately left
+-- of your backpack are full...
 GetContainerFreeSlots(1, bagSpaces)
 print(unpack(bagSpaces))
--- Chat window shows "1 10 11 12 13 14 15 16"
--- oops, it overwrote the table from before... let's try again
+-- Chat window shows “1 10 11 12 13 14 15 16“
+
+-- oops, it overwrote the table from before... let’s try again
 wipe(bagSpaces)
 GetContainerFreeSlots(1, bagSpaces)
 print(unpack(bagSpaces))
--- Chat window shows "1"`, language: 'lua' },
+-- Chat window shows “1“`, language: 'lua' },
     ],
     tags: [],
     category: 'Container functions',
@@ -15845,9 +15841,10 @@ print("bindingSet:", bindingSet)`, language: 'lua' },
       { name: 'frame', type: 'table', description: 'Frame currently handling keyboard input, or nil if no frame is currently focused' },
     ],
     examples: [
-      { title: 'Example', code: `# put this in a macro and try running it (from an action bar or somesuch)
-# while typing in different text boxes
-/run frame = GetCurrentKeyBoardFocus () print(frame and frame:GetName() or "no focus")`, language: 'lua' },
+      { title: 'Example', code: `# put this in a macro and try running it (from an action bar or
+# somesuch) while typing in different text boxes
+/run frame = GetCurrentKeyBoardFocus ()
+print(frame and frame:GetName() or “no focus“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Keyboard functions',
@@ -15993,7 +15990,7 @@ print("index:", index)`, language: 'lua' },
       { title: 'Example', code: `-- Print the current resolution to chat
 local index = GetCurrentResolution();
 local resolution = select(index, GetScreenResolutions());
-print("Current resolution:", resolution);`, language: 'lua' },
+print(“Current resolution:“, resolution);`, language: 'lua' },
     ],
     tags: [],
     category: 'Video functions',
@@ -16599,9 +16596,9 @@ print("expertisePerc:", expertisePerc, "offhandExpertisePercent:", offhandExpert
     ],
     examples: [
       { title: 'Example', code: `-- prints localized names for customization options
--- e.g. "Facial Hair", "Earrings", "Tusks"
-localtoken = GetFacialHairCustomization();
-print(_G["FACIAL_HAIR_"..token]);`, language: 'lua' },
+-- e.g. “Facial Hair“, “Earrings“, “Tusks“
+local token = GetFacialHairCustomization();
+print(_G[“FACIAL_HAIR_“..token]);`, language: 'lua' },
     ],
     tags: [],
     category: 'Barbershop functions',
@@ -16798,16 +16795,15 @@ print("framerate:", framerate)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- Print the names of any named frames registered for an event
 local function printFrameNames(...)
-  for i=1,select("#", ...) do
-    local frame = select(i, ...)
-    local name = frame:GetName()
-    if name then
-      ChatFrame1:AddMessage(name)
-    end
-  end
+for i=1,select(“#“, ...) do
+local frame = select(i, ...)
+local name = frame:GetName()
+if name then
+ChatFrame1:AddMessage(name)
 end
-
-printFrameNames(GetFramesRegisteredForEvent("UNIT_HEALTH"))`, language: 'lua' },
+end
+end
+printFrameNames(GetFramesRegisteredForEvent(“UNIT_HEALTH“))`, language: 'lua' },
     ],
     tags: [],
     category: 'Utility functions',
@@ -17787,10 +17783,10 @@ print("tabardBackgroundUpper:", tabardBackgroundUpper, "tabardBackgroundLower:",
     ],
     examples: [
       { title: 'Example', code: `-- prints localized names for customization options
--- e.g. "Hair Style"/"Hair Color" or "Horn Style"/"Horn Color"
+-- e.g. “Hair Style“/“Hair Color“ or “Horn Style“/“Horn Color“
 local token = GetHairCustomization();
-print(_G["HAIR_"..token.."_STYLE"]);
-print(_G["HAIR_"..token.."_COLOR"]);`, language: 'lua' },
+print(_G[“HAIR_“..token..“_STYLE“]);
+print(_G[“HAIR_“..token..“_COLOR“]);`, language: 'lua' },
     ],
     tags: [],
     category: 'Barbershop functions',
@@ -18167,8 +18163,9 @@ print("timeleft:", timeleft)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print your current difficulty setting
-localdifficulty = getglobal("DUNGEON_DIFFICULTY"..GetInstanceDifficulty())
-print("Your dungeon difficulty is set to ".. difficulty)`, language: 'lua' },
+local difficulty =
+getglobal(“DUNGEON_DIFFICULTY“..GetInstanceDifficulty())
+print(“Your dungeon difficulty is set to “ .. difficulty)`, language: 'lua' },
     ],
     tags: [],
     category: 'Instance functions',
@@ -18374,11 +18371,9 @@ print("count:", count)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Query HeadSlot durability
-localslot = GetInventorySlotInfo("HeadSlot")
-localdurability,max = GetInventoryItemDurability(slot)
-print("Head armor is currently at", durability, "of", max, "durability")
-
--- Might print: "Head armor is current at 78 of 80 durability"`, language: 'lua' },
+local slot = GetInventorySlotInfo(“HeadSlot“)
+local durability,max = GetInventoryItemDurability(slot)
+print(“Head armor is currently at“, durability, “of“, max, “durability“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Inventory functions',
@@ -18618,15 +18613,15 @@ print("start:", start, "duration:", duration, "enable:", enable)`, language: 'lu
       { name: 'itemCount', type: 'number', description: 'The number of the given item the player has in possession (possibly including items in the bank), or the total number of charges on those items' },
     ],
     examples: [
-      { title: 'Example', code: `_, link = GetItemInfo("Hearthstone")
+      { title: 'Example', code: `_, link = GetItemInfo(“Hearthstone“)
 GetItemCount(link)
 -- nearly always returns 1 for most players
-
 GetItemCount(34722, true) - GetItemCount(34722)
--- returns number of Heavy Frostweave Bandages in the player's bank (not counting those on hand)
-
-GetItemCount("Drums of Speed", nil, true)
--- return of 99 could indicate player has two drums in inventory, one of which has been used only once`, language: 'lua' },
+-- returns number of Heavy Frostweave Bandages in the player’s
+-- bank (not counting those on hand)
+GetItemCount(“Drums of Speed“, nil, true)
+-- return of 99 could indicate player has two drums in inventory,
+-- one of which has been used only once`, language: 'lua' },
     ],
     tags: [],
     category: 'Item functions',
@@ -18652,20 +18647,18 @@ GetItemCount("Drums of Speed", nil, true)
       { name: 'bagType', type: 'number', description: 'Bitwise OR of bag type flags: (number, bitfield) 0x0001 - Quiver0x0002 - Ammo Pouch0x0004 - Soul Bag0x0008 - Leatherworking Bag0x0010 - Inscription Bag0x0020 - Herb Bag0x0040 - Enchanting Bag0x0080 - Engineering Bag0x0100 - Keyring0x0200 - Gem Bag0x0400 - Mining Bag0x0800 - Unused0x1000 - Vanity Pets' },
     ],
     examples: [
-      { title: 'Example', code: `functionCanGoInBag(item, bag)
-   -- Get the item's family
-   localitemFamily = GetItemFamily(item)
-   
-   -- If the item is a container, then the itemFamily should be 0
-   localequipSlot = select(9, GetItemInfo(item))
-   ifequipSlot == "INVTYPE_BAG"then
-      itemFamily = 0
-   end
+      { title: 'Example', code: `function CanGoInBag(item, bag)
+-- Get the item’s family
+local itemFamily = GetItemFamily(item)
+-- If the item is a container, then the itemFamily should be 0
 
-   -- Get the bag's family
-   localbagFamily = select(2, GetContainerNumFreeSlots(bag))
-
-   returnbagFamily == 0 orbit.band(itemFamily, bagFamily) > 0
+local equipSlot = select(9, GetItemInfo(item))
+if equipSlot == “INVTYPE_BAG“ then
+itemFamily = 0
+end
+-- Get the bag’s family
+local bagFamily = select(2, GetContainerNumFreeSlots(bag))
+return bagFamily == 0 or bit.band(itemFamily, bagFamily) > 0
 end`, language: 'lua' },
     ],
     tags: [],
@@ -18842,16 +18835,16 @@ print("name:", name, "rank:", rank)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- links to some early death knight gear for illustrating the example...
-local _, ring1Link = GetItemInfo("Valanar's Signet Ring")
-local _, ring2Link = GetItemInfo("Keleseth's Signet Ring")
-
+local _, ring1Link = GetItemInfo(“Valanar’s Signet Ring“)
+local _, ring2Link = GetItemInfo(“Keleseth’s Signet Ring“)
 local statDelta = GetItemStatDelta(ring1Link, ring2Link)
+
 for stat, value in pairs(statDelta) do print(value, _G[stat]) end
 -- prints (approximately, on enUS client):
---   12 Critical Strike Rating
---   -6 Strength
---   -6 Hit Rating
---   3 Stamina`, language: 'lua' },
+-- 12 Critical Strike Rating
+-- -6 Strength
+-- -6 Hit Rating
+-- 3 Stamina`, language: 'lua' },
     ],
     tags: [],
     category: 'Item functions',
@@ -18877,34 +18870,33 @@ for stat, value in pairs(statDelta) do print(value, _G[stat]) end
     ],
     examples: [
       { title: 'Example', code: `-- links to some early death knight gear for illustrating the example...
-local _, swordLink = GetItemInfo("Greatsword of the Ebon Blade")
-local _, ring1Link = GetItemInfo("Valanar's Signet Ring")
-
+local _, swordLink = GetItemInfo(“Greatsword of the Ebon Blade“)
+local _, ring1Link = GetItemInfo(“Valanar’s Signet Ring“)
 local stats = GetItemStats(swordLink)
 for stat, value in pairs(stats) do print(value, _G[stat]) end
 -- prints (approximately, on enUS client):
---   60.5 Damage Per Second
---   30 Strength
---   12 Hit Rating
---   24 Stamina
-
+-- 60.5 Damage Per Second
+-- 30 Strength
+-- 12 Hit Rating
+-- 24 Stamina
 -- reusing the table...
 GetItemStats(ring1Link, stats)
 for stat, value in pairs(stats) do print(value, _G[stat]) end
---   60.5 Damage Per Second
---   12 Strength
---   12 Hit Rating
---   12 Critical Strike Rating
---   18 Stamina
--- oops, it overwrote the table from before, keeping some of the sword's stats...
+-- 60.5 Damage Per Second
+-- 12 Strength
+-- 12 Hit Rating
+-- 12 Critical Strike Rating
 
--- let's try again and make sure it shows just the ring stats
+-- 18 Stamina
+-- oops, it overwrote the table from before, keeping some
+-- of the sword’s stats...
+-- let’s try again and make sure it shows just the ring stats
 wipe(stats)
 GetItemStats(ring1Link, stats)
 for stat, value in pairs(stats) do print(value, _G[stat]) end
---   12 Strength
---   12 Critical Strike Rating
---   18 Stamina`, language: 'lua' },
+-- 12 Strength
+-- 12 Critical Strike Rating
+-- 18 Stamina`, language: 'lua' },
     ],
     tags: [],
     category: 'Item functions',
@@ -18931,13 +18923,14 @@ for stat, value in pairs(stats) do print(value, _G[stat]) end
       { name: 'maxEquipped', type: 'number', description: 'The maximum number of items under this restriction that can be equipped' },
     ],
     examples: [
-      { title: 'Example', code: `GetItemUniqueness("Rigid Dragon's Eye")
+      { title: 'Example', code: `GetItemUniqueness(“Rigid Dragon’s Eye“)
 -- returns 2, 3 if your WoW client has seen this gem
--- up to 3 gems in the Jeweler's Gems family can be equipped at any given time
-GetItemUniqueness("Rigid Stormjewel")
+-- up to 3 gems in the Jeweler’s Gems family can be equipped
+-- at any given time
+GetItemUniqueness(“Rigid Stormjewel“)
 -- returns 6, 1 if your WoW client has seen this gem
 -- only 1 gem in the Stormjewel family can be equipped at any given time
-GetItemUniqueness("Figurine - Ruby Hare")
+GetItemUniqueness(“Figurine - Ruby Hare“)
 -- returns -1, 1 if your WoW client has seen this item
 -- only 1 Ruby Hare can be equipped at any given time`, language: 'lua' },
     ],
@@ -20139,15 +20132,14 @@ print("name:", name, "texture:", texture, "body:", body, "isLocal:", isLocal)`, 
       { name: 'link', type: 'string', description: 'A hyperlink for the item' },
     ],
     examples: [
-      { title: 'Example', code: `CreateMacro("health",1,"/use [combat] Runic Healing Potion ; [nocombat] Salted Venison")
-
+      { title: 'Example', code: `CreateMacro(“health“,1,“/use [combat] Runic Healing Potion ;
+[nocombat] Salted Venison“)
 -- when in combat:
-GetMacroItem("health")
--- returns "Runic Healing Potion" (and hyperlink)
-
+GetMacroItem(“health“)
+-- returns “Runic Healing Potion“ (and hyperlink)
 -- when not in combat:
-GetMacroItem("health")
--- returns "Salted Venison" (and hyperlink)`, language: 'lua' },
+GetMacroItem(“health“)
+-- returns “Salted Venison“ (and hyperlink)`, language: 'lua' },
     ],
     tags: [],
     category: 'Hyperlink functions',
@@ -20198,15 +20190,14 @@ print("texture:", texture)`, language: 'lua' },
       { name: 'rank', type: 'string', description: 'Secondary text associated with the spell (e.g. "Rank 4", "Racial")' },
     ],
     examples: [
-      { title: 'Example', code: `CreateMacro("fort",1,"/cast [party] Prayer of Fortitude ; [noparty] Power Word: Fortitude")
-
+      { title: 'Example', code: `CreateMacro(“fort“,1,“/cast [party] Prayer of Fortitude ; [noparty]
+Power Word: Fortitude“)
 -- when in a party:
-GetMacroSpell("fort")
--- returns "Prayer of Fortitude", "Rank 3"
-
+GetMacroSpell(“fort“)
+-- returns “Prayer of Fortitude“, “Rank 3“
 -- when not in combat:
-GetMacroSpell("fort")
--- returns "Power Word: Fortitude", "Rank 7"`, language: 'lua' },
+GetMacroSpell(“fort“)
+-- returns “Power Word: Fortitude“, “Rank 7“`, language: 'lua' },
     ],
     tags: [],
     category: 'Macro functions',
@@ -20388,10 +20379,10 @@ print("textureName:", textureName, "textureWidth:", textureWidth, "textureHeight
       { name: '...', type: 'list', description: 'A list of strings, each the localized name of a zone within the continent' },
     ],
     examples: [
-      { title: 'Example', code: `localcontinent = GetCurrentMapContinent()
-localzones = {GetMapZones(continent)}
+      { title: 'Example', code: `local continent = GetCurrentMapContinent()
+local zones = {GetMapZones(continent)}
 for idx,zone in ipairs(zones) do
-  print("Zone #"..idx .. ": ".. zone)
+print(“Zone #“..idx .. “: “ .. zone)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -20421,7 +20412,7 @@ local grp = ceil(i / 5)
 local slot = i % 5
 local raider = GetMasterLootCandidate (i)
 if (raider) then
-i print (string.format(“Raider %q (group %d, position %d) is
+print (string.format(“Raider %q (group %d, position %d) is
 eligible for loot.“, raider, grp, slot))
 end
 end`, language: 'lua' },
@@ -20850,11 +20841,11 @@ print("action:", action)`, language: 'lua' },
       { name: 'money', type: 'number', description: 'Amount of money currently in the player’s possession (in copper)' },
     ],
     examples: [
-      { title: 'Example', code: `localmoney = GetMoney()
-localgold = floor(abs(money / 10000))
-localsilver = floor(abs(mod(money / 100, 100)))
-localcopper = floor(abs(mod(money, 100)))
-print(format("I have %d gold %d silver %d copper.", gold, silver, copper))`, language: 'lua' },
+      { title: 'Example', code: `local money = GetMoney()
+local gold = floor(abs(money / 10000))
+local silver = floor(abs(mod(money / 100, 100)))
+local copper = floor(abs(mod(money, 100)))
+print(format(“I have %d gold %d silver %d copper.“, gold, silver, copper))`, language: 'lua' },
     ],
     tags: [],
     category: 'Money functions',
@@ -20926,13 +20917,15 @@ print("buttonName:", buttonName)`, language: 'lua' },
       { name: 'frame', type: 'table', description: 'The frame that currently has the mouse focus' },
     ],
     examples: [
-      { title: 'Example', code: `-- Returns the name of the frame under the mouse, if it's named
+      { title: 'Example', code: `-- Returns the name of the frame under the mouse, if it’s named
 local frame = GetMouseFocus()
 if not frame then
-  ChatFrame1:AddMessage("There is no mouse enabled frame under the cursor")
+
+ChatFrame1:AddMessage(“There is no mouse enabled frame under
+the cursor“)
 else
-  local name = frame:GetName() or tostring(frame)
-  ChatFrame1:AddMessage(name .. " has the mouse focus")
+local name = frame:GetName() or tostring(frame)
+ChatFrame1:AddMessage(name .. “ has the mouse focus“)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -21028,7 +21021,7 @@ print("resolution:", resolution)`, language: 'lua' },
       { title: 'Example', code: `local index = GetCurrentMultisampleFormat()
 local formatsIndex = (index - 1) * 3 + 1
 local color, depth, samples = select(formatsIndex, GetMultisampleFormats())
-print(format("%d-bit color %d-bit depth %dx multisample", color, depth, samples))`, language: 'lua' },
+print(format(“%d-bit color %d-bit depth %dx multisample“, color, depth, samples))`, language: 'lua' },
     ],
     tags: [],
     category: 'Video functions',
@@ -22882,8 +22875,8 @@ print("numSockets:", numSockets)`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- Prints the names of all spell tabs to chat
 for i = 1, GetNumSpellTabs() do
-  local name = GetSpellTabInfo(i);
-  print(name);
+local name = GetSpellTabInfo(i);
+print(name);
 end`, language: 'lua' },
     ],
     tags: [],
@@ -24931,10 +24924,10 @@ print("experience:", experience)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Prints information about the currently selected quest
-localindex = GetQuestLogSelection()
-localname = GetQuestLogTitle(index)
-ifname then
-  print("Currently viewing ".. name)
+local index = GetQuestLogSelection()
+local name = GetQuestLogTitle(index)
+if name then
+print(“Currently viewing “ .. name)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -26177,7 +26170,7 @@ print("height:", height)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print all available screen resolutions:
-print("Available resolutions:", string.join(", ", GetScreenResolutions()))`, language: 'lua' },
+print(“Available resolutions:“, string.join(“, “, GetScreenResolutions()))`, language: 'lua' },
     ],
     tags: [],
     category: 'Video functions',
@@ -26541,10 +26534,10 @@ print("itemName:", itemName, "itemTexture:", itemTexture, "stackCount:", stackCo
     examples: [
       { title: 'Example', code: `-- Scan all the send mail item slots, printing a link for each item
 for slot=1,ATTACHMENTS_MAX_SEND do
-  local link = GetSendMailItemLink(slot)
-  if link then
-    print("Item " .. link .. " is in slot " .. slot)
-  end
+local link = GetSendMailItemLink(slot)
+if link then
+print(“Item “ .. link .. “ is in slot “ .. slot)
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -27169,10 +27162,10 @@ print("penetration:", penetration)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print the valid spellIds for each tab
-localnumTabs = GetNumSpellTabs()
+local numTabs = GetNumSpellTabs()
 for i=1,numTabs do
-  localname,texture,offset,numSpells = GetSpellTabInfo(i)
-  print("Spell tab \\"".. name .. "\\" contains spells from id ".. offset + 1 .. " through ".. offset + numSpells)
+local name,texture,offset,numSpells = GetSpellTabInfo(i)
+print(“Spell tab \\““ .. name .. “\\“ contains spells from id “ .. offset + 1 .. “ through “ .. offset + numSpells)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -27773,12 +27766,13 @@ print("terrainDetail:", terrainDetail)`, language: 'lua' },
       { name: 'text', type: 'string', description: 'The localized string according to the given parameters' },
     ],
     examples: [
-      { title: 'Example', code: `GetText("FACTION_STANDING_LABEL1")
--- returns the value of "FACTION_STANDING_LABEL1" 
--- ("Hated" on enUS clients)
-GetText("FACTION_STANDING_LABEL1",3)
--- returns the value of "FACTION_STANDING_LABEL1_FEMALE" 
--- ("Hated" on enUS clients, but distinct from the male form in certain other locales)`, language: 'lua' },
+      { title: 'Example', code: `GetText(“FACTION_STANDING_LABEL1“)
+-- returns the value of “FACTION_STANDING_LABEL1“
+-- (“Hated“ on enUS clients)
+GetText(“FACTION_STANDING_LABEL1“,3)
+-- returns the value of “FACTION_STANDING_LABEL1_FEMALE“
+-- (“Hated“ on enUS clients, but distinct from the male form in
+-- certain other locales)`, language: 'lua' },
     ],
     tags: [],
     category: 'Utility functions',
@@ -27875,6 +27869,7 @@ print("time:", time)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print all available titles
+
 for i=1,GetNumTitles() do
 print(GetTitleName(i))
 end`, language: 'lua' },
@@ -28133,12 +28128,12 @@ print("link:", link)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print cooldowns for any applicable recipes
-for i=1,GetNumTradeSkills() do 
-    local cooldown = GetTradeSkillCooldown(i)
-    if cooldown then
-        local name = GetTradeSkillInfo(i)
-        print("Cooldown remaining for " .. name .. ": " .. SecondsToTime(cooldown))
-    end
+for i=1,GetNumTradeSkills() do
+local cooldown = GetTradeSkillCooldown(i)
+if cooldown then
+local name = GetTradeSkillInfo(i)
+print(“Cooldown remaining for “ .. name .. “: “ .. SecondsToTime(cooldown))
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -28478,13 +28473,15 @@ print("numReagents:", numReagents)`, language: 'lua' },
       { name: 'playerReagentCount', type: 'number', description: 'Quantity of the reagent in the player’s possession' },
     ],
     examples: [
-      { title: 'Example', code: `-- Prints the reagent(s) required for the first trade skill recipe listed
-localskillIndex = GetFirstTradeSkill()
-localname = GetTradeSkillInfo(skillIndex)
-print(format("%s takes the following reagent(s):", name))
+      { title: 'Example', code: `-- Prints the reagent(s) required for the first trade skill
+-- recipe listed
+local skillIndex = GetFirstTradeSkill()
+local name = GetTradeSkillInfo(skillIndex)
+print(format(“%s takes the following reagent(s):“, name))
 for reagentIndex = 1, GetTradeSkillNumReagents(skillIndex) do
-   localreagentName, _, reagentCount = GetTradeSkillReagentInfo(skillIndex, reagentIndex)
-   print(format("    %dx %s", reagentCount, reagentName))
+local reagentName, _, reagentCount =
+GetTradeSkillReagentInfo(skillIndex, reagentIndex)
+print(format(“ %dx %s“, reagentCount, reagentName))
 end`, language: 'lua' },
     ],
     tags: [],
@@ -29719,14 +29716,12 @@ print("name:", name, "guild:", guild, "level:", level, "race:", race, "class:", 
     examples: [
       { title: 'Example', code: `--Prints the players status for their queued non-instanced pvp zones
 for index=1, MAX_WORLD_PVP_QUEUES do
-   localstatus, mapName = GetWorldPVPQueueStatus(index)
-   
-   if( status == "queued") then
-      print("You are queued for", mapName)
-   elseif( status == "confirm") then
-      print("Queue is ready, can join", mapName)
-   end
-   
+local status, mapName = GetWorldPVPQueueStatus(index)
+if( status == “queued“ ) then
+print(“You are queued for“, mapName)
+elseif( status == “confirm“ ) then
+print(“Queue is ready, can join“, mapName)
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -30002,12 +29997,12 @@ print("numRanks:", numRanks)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print rank flags for the first rank in the guild
-functionPrintFlags(...)
-  localoutput = ""
-  for i = 1, select("#", ...) do
-    output = output .. _G["GUILDCONTROL_OPTION"..i] .. ": ".. tostring(select(i, ...)) .. "; "
-  end
-  print(output)
+function PrintFlags(...)
+local output = ““
+for i = 1, select(“#“, ...) do
+output = output .. getglobal(“GUILDCONTROL_OPTION“..i) .. “: “ .. select(i, ...) .. “; “
+end
+print(output)
 end
 GuildControlSetRank(1)
 PrintFlags(GuildControlGetRankFlags())`, language: 'lua' },
@@ -30357,10 +30352,10 @@ print("rankName:", rankName)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Set a message of the day
-GuildSetMOTD("This is a message of the day")
-
+GuildSetMOTD(“This is a message of the day“)
 -- Set a two-line message of the day
-GuildSetMOTD("Please vote for the following applicants on our forums:\\nCladhaire\\nCairthas")`, language: 'lua' },
+GuildSetMOTD(“Please vote for the following applicants on our
+forums:\\nCladhaire\\nCairthas“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Guild functions',
@@ -31772,17 +31767,17 @@ print("isEquipped:", isEquipped)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Check to see if your Alliance PvP trinket is equipped
-IsEquippedItem("Medallion of the Alliance") then
-  print("Your PvP trinket is already equipped.")
+IsEquippedItem(“Medallion of the Alliance“) then
+print(“Your PvP trinket is already equipped.“)
 else
-  print("*** Make sure to equip your PvP trinket ***")
+print(“*** Make sure to equip your PvP trinket ***“)
 end
-
--- Check to see if Staff of Infinite Mysteries (itemId 28633) is equipped
+-- Check to see if Staff of Infinite Mysteries (itemId 28633)
+-- is equipped
 if IsEquippedItem(28633) then
-  print("Your staff is equipped")
+print(“Your staff is equipped“)
 else
-  print("Your staff is not equipped")
+print(“Your staff is not equipped“)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -31808,11 +31803,11 @@ end`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Check to see if the player currently has a shield equipped
-local hasShield = IsEquippedItemType("Shields")
+local hasShield = IsEquippedItemType(“Shields“)
 if hasShield then
-  print("You currently have a shield equipped")
+print(“You currently have a shield equipped“)
 else
-  print("You do not have a shield equipped")
+print(“You do not have a shield equipped“)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -32792,17 +32787,17 @@ print("isLeader:", isLeader)`, language: 'lua' },
       { name: 'isPassive', type: '1nil', description: '1 if the spell is passive; otherwise nil' },
     ],
     examples: [
-      { title: 'Example', code: `-- prints a list of passive spells in the player's spellbook
-localnumTabs = GetNumSpellTabs()
+      { title: 'Example', code: `-- prints a list of passive spells in the player’s spellbook
+local numTabs = GetNumSpellTabs()
 for tabID=1,numTabs do
-  localname,texture,offset,numSpells = GetSpellTabInfo(tabID)
-  
-  for spellID = offset + 1, offset + numSpells do
-    ifIsPassiveSpell(spellID, BOOKTYPE_SPELL) then
-      localspell,rank = GetSpellName(spellID, BOOKTYPE_SPELL)
-      print(" - ".. spell)
-    end
-  end
+local name,texture,offset,numSpells = GetSpellTabInfo(tabID)
+for spellID = offset + 1, offset + numSpells do
+if IsPassiveSpell(spellID, BOOKTYPE_SPELL) then
+local spell,rank = GetSpellName(spellID, BOOKTYPE_SPELL)
+
+print(“ - “ .. spell)
+end
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -33337,15 +33332,14 @@ print("isKnown:", isKnown)`, language: 'lua' },
       { name: 'isStackable', type: '1nil', description: '1 if the action uses stackable items; otherwise nil' },
     ],
     examples: [
-      { title: 'Example', code: `-- Print all "stackable actions" to your chat window
+      { title: 'Example', code: `-- Print all “stackable actions“ to your chat window
 for i=1,120 do
-  ifIsStackableAction(i) then
-    localcount = GetActionCount(i)
-    localt,id = GetActionInfo(i)
-    localname = GetItemInfo(id)
-    
-    print("Action:", i, "Item:", name, "Count:", count)
-  end
+if IsStackableAction(i) then
+local count = GetActionCount(i)
+local t,id = GetActionInfo(i)
+local name = GetItemInfo(id)
+print(“Action:“, i, “Item:“, name, “Count:“, count)
+end
 end`, language: 'lua' },
     ],
     tags: [],
@@ -35134,13 +35128,7 @@ print("loaded:", loaded, "reason:", reason)`, language: 'lua' },
       { name: 'isLogging', type: '1nil', description: '1 if chat logging is enabled; otherwise nil' },
     ],
     examples: [
-      { title: 'Example', code: `-- example log
-6/7 16:51:26.790  Gorrok has come online.
-6/7 16:51:30.054  [3. tehgladiators] Gorrok joined channel.
-6/7 16:52:18.553  |Hchannel:Guild|h[Guild]|h Spin: Bah!
-6/7 16:52:27.803  |Hchannel:Guild|h[Guild]|h Spin: Got  Mr. Pinchy, but first one was just a buff
-6/7 16:52:41.752  |Hchannel:Guild|h[Guild]|h Valiant: ah well,  maybe the next time
-6/7 16:52:57.504  [1. Trade] Yolanda: need healer premade EOTS`, language: 'lua' },
+      { title: 'Basic Usage', code: `LearnPreviewTalents()`, language: 'lua' },
     ],
     tags: [],
     category: 'Chat functions',
@@ -37450,10 +37438,10 @@ PickupContainerItem(0, 1)`, language: 'lua' },
     returns: [
     ],
     examples: [
-      { title: 'Example', code: `-- play one of WoW's built-in music files
-PlayMusic("Sound\\\\Music\\\\GlueScreenMusic\\\\wow_main_theme.mp3")
+      { title: 'Example', code: `-- play one of WoW’s built-in music files
+PlayMusic(“Sound\\\\Music\\\\GlueScreenMusic\\\\wow_main_theme.mp3“)
 -- play a music file from an addon
-PlayMusic("Interface\\\\AddOns\\\\MyAddOn\\\\MyMusic.mp3")`, language: 'lua' },
+PlayMusic(“Interface\\\\AddOns\\\\MyAddOn\\\\MyMusic.mp3“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Sound functions',
@@ -39555,7 +39543,7 @@ RunBinding("SCREENSHOT")`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Print to chat frame
-localscript = "print(\\"Hello World\\")"
+local script = “print(\\“Hello World\\“)“
 RunScript(script)`, language: 'lua' },
     ],
     tags: [],
@@ -39882,14 +39870,18 @@ SecondsToTime(100, false, true)
       { name: 'target', type: 'string', description: 'Unit or name to use as the target of the action' },
     ],
     examples: [
-      { title: 'Example', code: `-- a complex macro command for contextually casting a healing or damage spell
-localmacroText = "/cast [target=mouseover,harm,nodead][harm,nodead] Mind Blast ; [target=mouseover,help,nodead,exists] [help,nodead] [target=player] Flash Heal"
+      { title: 'Example', code: `-- a complex macro command for contextually casting a healing
+-- or damage spell
+local macroText = “/cast [target=mouseover,harm,nodead][harm,nodead]
+
+Mind Blast ; [target=mouseover,help,nodead,exists] [help,nodead]
+[target=player] Flash Heal“
 SecureCmdOptionParse(macroText)
--- returns "Flash Heal", "player" if no unit is targeted or moused over
--- returns "Flash Heal", "mouseover" if a friendly unit is moused over
--- returns "Flash Heal" if a friendly unit is targeted
--- returns "Mind Blast", "mouseover" if a hostile unit is moused over
--- returns "Mind Blast" if a hostile unit is targeted`, language: 'lua' },
+-- returns “Flash Heal“, “player“ if no unit is targeted or moused over
+-- returns “Flash Heal“, “mouseover“ if a friendly unit is moused over
+-- returns “Flash Heal“ if a friendly unit is targeted
+-- returns “Mind Blast“, “mouseover“ if a hostile unit is moused over
+-- returns “Mind Blast“ if a hostile unit is targeted`, language: 'lua' },
     ],
     tags: ['macro'],
     category: 'Macro functions',
@@ -40145,9 +40137,9 @@ SecureCmdOptionParse(macroText)
     ],
     examples: [
       { title: 'Example', code: `-- Hypothetical communication using addon messages
-local MSG_PREFIX = "MY_MOD"
-SendAddonMessage(MSG_PREFIX, "Resync", "GUILD")
-SendAddonMessage(MSG_PREFIX, "VersionCheck", "WHISPER", player)`, language: 'lua' },
+local MSG_PREFIX = “MY_MOD“
+SendAddonMessage(MSG_PREFIX, “Resync“, “GUILD“)
+SendAddonMessage(MSG_PREFIX, “VersionCheck“, “WHISPER“, player)`, language: 'lua' },
     ],
     tags: [],
     category: 'Addon-related functions',
@@ -40173,17 +40165,11 @@ SendAddonMessage(MSG_PREFIX, "VersionCheck", "WHISPER", player)`, language: 'lua
     returns: [
     ],
     examples: [
-      { title: 'Example', code: `-- Send a chat message to the player that's you are currently mousing over
--- This should be run as a macro (via keybind) so your mouse can be hovering
--- over a unit in the 3-D world, or a unit frame
-
+      { title: 'Example', code: `-- Send a chat message to the character the player is currently mousing
+-- over. This should be run as a macro (via keybind) so your mouse can
+-- be hovering over a unit in the 3-D world, or a unit frame
 local name = UnitName("mouseover")
-SendChatMessage("Hey " .. name .. " I'm mousing over you!!!", "WHISPER", nil, name)
-
--- This can be run as a macro by putting it all on one line, and adding run
--- in front of it, like so:
---
--- /run local name = UnitName("mouseover"); SendChatMessage("Hey " .. name .. " I'm mousing over you!!!", "WHISPER", nil, name)`, language: 'lua' },
+SendChatMessage("Hey " .. name .. " I'm mousing over you!!!", "WHISPER", nil, name)`, language: 'lua' },
     ],
     tags: ['server'],
     category: 'Chat functions',
@@ -40581,10 +40567,9 @@ SetBagPortraitTexture(MyBagTexture, 1)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Bind Control-Y to FOLLOWTARGET
-SetBinding("CTRL-Y", "FOLLOWTARGET")
-
+SetBinding(“CTRL-Y“, “FOLLOWTARGET“)
 -- Unbind MouseButton4
-SetBinding("BUTTON4")`, language: 'lua' },
+SetBinding(“BUTTON4“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Keybind functions',
@@ -42264,9 +42249,8 @@ SetMouselookOverrideBinding("BUTTON2", "MOVEBACKWARD")`, language: 'lua' },
     examples: [
       { title: 'Example', code: `-- Set up Shift-2 to cast Prayer of Mending as an override binding
 -- owned by PlayerFrame
-SetOverrideBindingSpell(PlayerFrame, 1, "SHIFT-2", "Prayer of Mending")
-
--- Clear PlayerFrame's override bindings
+SetOverrideBindingSpell(PlayerFrame, 1, “SHIFT-2“, “Prayer of Mending“)
+-- Clear PlayerFrame’s override bindings
 ClearOverrideBindings(PlayerFrame)`, language: 'lua' },
     ],
     tags: [],
@@ -42432,10 +42416,10 @@ SetPetStablePaperdoll(CharacterModelFrame)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Change the player portrait to be the same as the keychain portrait
-SetPortraitToTexture("PlayerPortrait", "Interface\\\\ContainerFrame\\\\KeyRing-Bag-Icon")
-
--- Set the player portrait to be the icon for "Staff of Infinite Mysteries"
-SetPortraitToTexture("PlayerPortrait", "Interface\\\\Icons\\\\INV_Weapon_Halberd17")`, language: 'lua' },
+SetPortraitToTexture(“PlayerPortrait“, “Interface\\\\ContainerFrame\\\\KeyRing-Bag-Icon“)
+-- Set the player portrait to be the icon for “Staff
+-- of Infinite Mysteries“
+SetPortraitToTexture(“PlayerPortrait“, “Interface\\\\Icons\\\\INV_Weapon_Halberd17“)`, language: 'lua' },
     ],
     tags: [],
     category: 'Utility functions',
@@ -42578,7 +42562,7 @@ SetPortraitToTexture("PlayerPortrait", "Interface\\\\Icons\\\\INV_Weapon_Halberd
 -- These indices can then be used in SetScreenResolution()
 local resolutions = {GetScreenResolutions()}
 for idx,resolution in ipairs(resolutions) do
-  print("Resolution " .. idx .. ": " .. resolution)
+print(“Resolution “ .. idx .. “: “ .. resolution)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -42813,8 +42797,8 @@ end`, language: 'lua' },
       { title: 'Example', code: `-- Quickly send money to a specified character (only works while at an
 -- open mailbox)
 function SendCharacterMoney(name, amount)
-  SetSendMailMoney(amount)
-  SendMail(name, number/10000 .. " gold attached", "")
+SetSendMailMoney(amount)
+SendMail(name, number/10000 .. “ gold attached“, ““)
 end`, language: 'lua' },
     ],
     tags: [],
@@ -42885,13 +42869,12 @@ end`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- Create a frame, and set it to the taxi map
-TestFrame = CreateFrame("Frame", "TestFrame", UIParent)
+TestFrame = CreateFrame(“Frame“, “TestFrame“, UIParent)
 TestFrame:SetHeight(200)
 TestFrame:SetWidth(200)
-TestFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-TestFrameTexture = TestFrame:CreateTexture("TestFrameTexture", "BACKGROUND")
+TestFrame:SetPoint(“CENTER“, UIParent, “CENTER“, 0, 0)
+TestFrameTexture = TestFrame:CreateTexture(“TestFrameTexture“, “BACKGROUND“)
 TestFrameTexture:SetAllPoints()
-
 SetTaxiMap(TestFrameTexture)`, language: 'lua' },
     ],
     tags: [],
@@ -43104,11 +43087,10 @@ SetTaxiMap(TestFrameTexture)`, language: 'lua' },
     returns: [
     ],
     examples: [
-      { title: 'Example', code: `-- Turn on the "available" filter
-SetTrainerServiceTypeFilter("available", 1)
-
--- Turn on the "used" filter, and turn off all others
-SetTrainerServiceTypeFilter("used", 1, 1)`, language: 'lua' },
+      { title: 'Example', code: `-- Turn on the “available“ filter
+SetTrainerServiceTypeFilter(“available“, 1)
+-- Turn on the “used“ filter, and turn off all others
+SetTrainerServiceTypeFilter(“used“, 1, 1)`, language: 'lua' },
     ],
     tags: [],
     category: 'Trainer functions',
@@ -43796,20 +43778,20 @@ print("isShown:", isShown)`, language: 'lua' },
     ],
     examples: [
       { title: 'Example', code: `-- clear any existing criteria
-SortAuctionClearSort("list")
-
+SortAuctionClearSort(“list“)
 -- then, apply some criteria of our own
-SortAuctionSetSort("list", "name")
-SortAuctionSetSort("list", "level", 1)
-SortAuctionSetSort("list", "quality")
-
+SortAuctionSetSort(“list“, “name“)
+SortAuctionSetSort(“list“, “level“, 1)
+SortAuctionSetSort(“list“, “quality“)
 -- apply the criteria to the server query
-SortAuctionApplySort("list")
-
+SortAuctionApplySort(“list“)
 -- results are now sorted by quality, level and name:
---   higher quality items are listed before lower (e.g. Epic, Rare, Uncommon)
---   items with the same quality are sorted descending by level (e.g. 80, 75, 30, 1)
---   items with the same quality and level are sorted alphabetically by name`, language: 'lua' },
+-- higher quality items are listed before lower (e.g. Epic,
+-- Rare, Uncommon)
+-- items with the same quality are sorted descending by level
+-- (e.g. 80, 75, 30, 1)
+-- items with the same quality and level are sorted alphabetically
+-- by name`, language: 'lua' },
     ],
     tags: [],
     category: 'Auction functions',
@@ -46621,8 +46603,8 @@ print("name:", name, "subText:", subText, "text:", text, "texture:", texture, "s
     ],
     examples: [
       { title: 'Example', code: `-- Print the name of your target in a class-specific color
-localclass, classFileName = UnitClass("target")
-localcolor = RAID_CLASS_COLORS[classFileName]
+local class, classFileName = UnitClass(“target“)
+local color = RAID_CLASS_COLORS[classFileName]
 ChatFrame1:AddMessage(class, color.r, color.g, color.b)`, language: 'lua' },
     ],
     tags: [],
@@ -46952,7 +46934,7 @@ print("factionGroup:", factionGroup, "factionName:", factionName)`, language: 'l
       { name: 'guid', type: 'string', description: 'The unit’s GUID' },
     ],
     examples: [
-      { title: 'Example', code: `GUIDs are used in the combat log and in certain hyperlinks.`, language: 'lua' },
+      { title: 'Basic Usage', code: `UnitClassBase()`, language: 'lua' },
     ],
     tags: [],
     category: 'CombatLog functions',
@@ -48122,17 +48104,13 @@ print("maxValue:", maxValue)`, language: 'lua' },
       { name: 'realm', type: 'string', description: 'Name of the unit’s home realm if the unit is not from the player’s realm; otherwise nil' },
     ],
     examples: [
-      { title: 'Example', code: `-- Send a chat message to the player that's you are currently mousing over
--- This should be run as a macro (via keybind) so your mouse can be hovering
--- over a unit in the 3-D world, or a unit frame
-
-localname = UnitName("mouseover")
-SendChatMessage("Hey ".. name .. " I'm mousing over you!!!", "WHISPER", nil, name)
-
--- This can be run as a macro by putting it all on one line, and adding run
--- in front of it, like so:
---
--- /run local name = UnitName("mouseover"); SendChatMessage("Hey " .. name .. " I'm mousing over you!!!", "WHISPER", nil, name)`, language: 'lua' },
+      { title: 'Example', code: `-- Get the name of the player's current target
+local name, realm = UnitName("target")
+if realm then
+  print(name .. " - " .. realm)
+else
+  print(name)
+end`, language: 'lua' },
     ],
     tags: [],
     category: 'Unit functions',
@@ -49686,12 +49664,7 @@ print("volume:", volume)`, language: 'lua' },
       { name: 'isRecording', type: 'number', description: '1 if the player is recording a voice sample, otherwise 0' },
     ],
     examples: [
-      { title: 'Example', code: `-- Print a message indicating your recording status
-localinsertString = ""
-ifVoiceChat_IsRecordingLoopbackSound() == 0 then
-  insertString = "not "
-end
-DEFAULT_CHAT_FRAME:AddMessage("You are "..insertString.."currently recording a sound sample.")`, language: 'lua' },
+      { title: 'Basic Usage', code: `VoiceChat_IsRecordingLoopbackSound()`, language: 'lua' },
     ],
     tags: [],
     category: 'Voice functions',
@@ -50077,189 +50050,7 @@ print("isDisabled:", isDisabled)`, language: 'lua' },
     returns: [
     ],
     examples: [
-      { title: 'Example', code: `assert(x < y)
--- causes a Lua error if the value of x is not less than the value
--- of y when called
-assert(not UnitIsDead(“player“), “Oh noes!“))
--- causes a Lua error with text “Oh noes!“ if the player is dead
--- when called
-ceil Lua API
-Returns the smallest integer larger than or equal to a number.
-ceiling = ceil(x)
-Alias for the standard library function math.ceil .
--- can be used to test the efficiency of a segment of code:
-function myFunction()
-debugprofilestart()
--- function body goes here
-print(format(“myFunction executed in %f ms“, debugprofilestop()))
-end
-debugstack
-Returns information about the current function call stack.
-debugstring = debugstack(start, countTop, countBot)
-print(debugstack())
--- output:
-[string “print(debugstack())“]:1: in main chunk
-[C]: in function 'RunScript'
-Interface\FrameXML\ChatFrame.lua:1826: in function '?’
-i Interface\FrameXML\ChatFrame.lua:3332: in function
-’ChatEdit_ParseText’
-Interface\FrameXML\ChatFrame.lua:3052: in function 'ChatEdit_SendText’
-i Interface\FrameXML\ChatFrame.lua:3073: in function
-<Interface\FrameXML\ChatFrame.lua:3072>
-[C]: in function 'ChatEdit_OnEnterPressed'
-i [string “*:OnEnterPressed“]:1: in function
-<[string “*:OnEnterPressed“]:1>
-deg Lua API
-Converts an angle measurement in radians to degrees.
-degrees = deg(radians)
-Alias for the standard library function math.deg .
-string.format(“%s %q“, “Hello“, “Azeroth!“) -- string and quoted string
--- returns 'Hello “Azeroth!“’
-string.format(“%c%c%c“, 76,117,97) -- char
--- returns 'Lua’
-string.format(“%e, %E“, math.pi,math.pi) -- exponent
--- returns '3.141593e+000, 3.141593E+000’
-string.format(“%f, %g“, math.pi,math.pi) -- float and compact float
---returns '3.141593, 3.14159’
-i string.format(“%d, %i, %u“, -100,-100,-100) -- signed, signed,
-unsigned integer
--- returns '-100, -100, 4294967196’
-string.format(“%o, %x, %X“, -100,-100,-100) -- octal, hex, hex
--- returns '37777777634, ffffff9c, FFFFFF9C’
-frexp Lua API
-Returns the normalized fraction and base-2 exponent for a number.
-m, e = frexp(x)
-Alias for the standard library function math.frexp .
-local myError = “Something went horribly wrong!“
-geterrorhandler()(myError)
-getfenv Lua API
-Returns the environment for a function (or the global environment).
-env = getfenv([f]) or getfenv([stackLevel])
-If the environment has a __environment metatable, that value is returned
-instead.
--- print the components of an item link
-for w in gmatch(link, “([%d-]+)“) do
-print(w)
-end
--- example output, given an enchanted Heavy Lamellar
--- Gauntlets of the Gorilla:
--- 10242
--- 2564
--- 0
--- 0
--- 0
--- 0
--- 614
--- 0
-gsub Lua API
-Returns a string in which occurrences of a pattern are replaced.
-newString, numMatched = gsub(“s“, “pattern“, “rep“ [, maxReplaced]) or i
-gsub(“s“, “pattern“, repTable [, maxReplaced]) or gsub(“s“, “pattern“, i
-repFunc [, maxReplaced])
-Alias for the standard library function string.gsub .
-gsub(“banana“, “a“, “A“, 2)
--- returns “bAnAna“, 2
-gsub(“banana“, “(a)(n)“, “%2%1“)
--- returns “bnanaa“, 2
-gsub(“banana“, “[an]“, {a=“o“,n=“m“})
--- returns “bomomo“, 5
-gsub(“banana“, “(a)“, strupper)
--- returns “bAnAnA“, 3
-hooksecurefunc
-Add a function to be called after execution of a secure function.
-hooksecurefunc([table,] “function“, hookfunc)
-Allows one to ‘‘post-hook’’ a secure function without tainting the original.
-The original function will still be called, but the function supplied will be called
-after the original, with the same arguments. Return values from the supplied
-function are discarded. Note that there is no API to remove a hook from a
-function: any hooks applied will remain in place until the UI is reloaded.
-Only allows hooking of functions named by a global variable; to hook a script
-Frame:HookScript() . handler on a Frame object, see
-proxy = newproxy(true)
-getmetatable(proxy).__len = function() return 3 end
-print(#proxy) -- prints 3
-next Lua API
-Returns the next key/value pair in a table.
-nextKey, nextValue = next(t [, key])
-scrub(“a“, print, 1, {1,2,3}, math.pi)
--- returns “a“, nil, 1, nil, 3.1415926535898
-securecall
-Calls a function without tainting the execution path.
-... = securecall(function, ...)
-Meaningless when called from outside of the secure environment.
-Used in Blizzard code to call functions which may be tainted or operate on
-Close potentially tainted variables. For example, consider the function
-, which iterates through the table UISpecialFrames and SpecialWindows
-hides any frames named therein. Addon authors may put the names of their
-frames in that table to make them automatically close when the user presses
-UISpecialFrames . Were the default UI to then call the ESC key, but this taints
-CloseSpecialWindows normally, every frame in UISpecialFrames would
-become tainted, which could later lead to errors when handlers on those
-frames call protected functions.
-securecall(CloseSpecialWindows) : within Instead, the default UI uses
-CloseSpecialWindows the execution path may become tainted, but afterward
-the environment remains secure.
-strfind(“Welcome to Azeroth!“, “Azeroth“)
--- returns 12, 18
-i strfind(“|cffffff00|Hquest:982:17|h[Deep Ocean, Vast Sea]|h|r“,
-“quest:(%d+):([-%d]+)|h%[(.-)%]“)
--- returns 11, 48, “982“, “17“, “Deep Ocean, Vast Sea“
-strjoin
-Joins a list of strings together with a given separator.
-text = strjoin(“sep“, ...)
-If given a list of strings not already in a table, this function can be used instead
-table.concat for better performance. of
-string.join (though not provided by the Lua standard Also available as
-library).
-strjoin(“,“, “alice“, “bob“, “carol“)
--- Returns “alice,bob,carol“
-strjoin(“ mississippi, “, “one“, “two“, “three“)
--- Returns “one mississippi, two mississippi, three
-strlen Lua API
-Returns the number of characters in a string.
-length = strlen(“s“)
-Alias for the standard library function string.len .
-strmatch(“Your share of the loot is 97 Copper.“, “%d+ %a+“)
--- returns “97 Copper“
-strmatch(“Your share of the loot is 97 Copper.“, “(%d+) (%a+)“)
--- returns “97“, “Copper“
-strrep Lua API
-Returns a string produced by a number of repetitions of another string.
-repeated = strrep(“s“, n)
-Alias for the standard library function string.rep .
-strrep(“spam “,8)
--- returns “spam spam spam spam spam spam spam spam “
-strreplace
-Fast simple substring substitution.
-newText, count = strreplace(“text“, “pattern“, “replacement“, “count“)
-Matches the semantics of string.gsub , but only finds and replaces specific
-substrings rather than using more powerful and more computationally
-expensive regular expression matching. Thus, this function can be used in
-place of string.gsub in performance-critical situations where only simple
-matching is needed.
-Also available as string.replace (though not provided by the Lua standard
-library).
-strrev(“abcdef“)
--- returns “fedcba“
-strrev(“nametag“)
--- returns “gateman“
-strrev(“Step on no pets“)
--- returns “step on no petS“
-strsplit
-Splits a string based on another seperator string.
-... = strsplit(“sep“, “text“, limit)
-Also available as string.split (though not provided by the Lua standard
-library).
--- Split the string “a:b:c:d“
-strsplit(“:“, “a:b:c:d“, 2)
--- Returns “a“, “b:c:d“
--- Split the string “a::b::c::d“
-strsplit(“::“, “a::b::c::d“)
--- Returns “a“, “b“, “c“, “d“
-strsub Lua API
-Returns a substring of a string.
-s = strsub(“s“, firstChar [, lastChar])
-Alias for the standard library function string.sub .`, language: 'lua' },
+      { title: 'Basic Usage', code: `VoiceChat_PlayLoopbackSound()`, language: 'lua' },
     ],
     tags: [],
     category: 'Map functions',
@@ -51829,20 +51620,10 @@ print(aTable)
 -- shows "g f e d c b a"`, language: 'lua' },
       { title: 'Example', code: `complexTable = {
   {
-    name = "Gorrok",
-    level = 80,
-    class = "WARRIOR",
-  }
+    name = "Gorrok", level = 80, class = "WARRIOR", }
   {
-    name = "Spin",
-    level = 79,
-    class = "SHAMAN",
-  },
-  {
-    name = "Valiant",
-    level = 80,
-    class = "HUNTER",
-  }
+    name = "Spin", level = 79, class = "SHAMAN", }, {
+    name = "Valiant", level = 80, class = "HUNTER", }
 }
 sort(complexTable, function(a,b) return a.name < b.name end)
 for _, info in ipairs(complexTable) do print(info.name) end

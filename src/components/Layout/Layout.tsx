@@ -5,9 +5,11 @@ import styled from 'styled-components'
 import { theme } from '../../theme/theme.ts'
 import { Sidebar } from './Sidebar.tsx'
 import { CodexIcon } from '../shared/CodexIcon.tsx'
+import { GlobalSearch } from '../shared/GlobalSearch.tsx'
 
 export const Layout = (): ReactNode => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const location = useLocation()
   const mainRef = useRef<HTMLElement>(null)
 
@@ -18,6 +20,18 @@ export const Layout = (): ReactNode => {
       mainRef.current?.scrollTo(0, 0)
     }
   }, [location.pathname, location.hash])
+
+  // Global search shortcut: Ctrl+K / Cmd+K
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
@@ -45,6 +59,7 @@ export const Layout = (): ReactNode => {
       <Main ref={mainRef}>
         <Outlet />
       </Main>
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </Container>
   )
 }

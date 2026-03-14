@@ -31,14 +31,20 @@ export const SearchBar = ({
         const target = e.target as HTMLElement
         if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return
         e.preventDefault()
-        inputRef.current?.focus()
+        // Find the input inside this component's container
+        const input = inputRef.current
+        if (input) {
+          input.focus()
+          input.scrollIntoView({ block: 'nearest' })
+        }
       }
       if (e.key === 'Escape') {
         inputRef.current?.blur()
       }
     }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    // Use capture phase to ensure we get the event before other handlers
+    window.addEventListener('keydown', handleKeyDown, true)
+    return () => window.removeEventListener('keydown', handleKeyDown, true)
   }, [])
 
   return (

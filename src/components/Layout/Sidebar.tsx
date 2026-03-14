@@ -117,6 +117,16 @@ export const Sidebar = ({ onNavigate }: SidebarProps): ReactNode => {
           </Section>
         ))}
       </NavContent>
+      <Shortcuts>
+        <ShortcutRow>
+          <ShortcutKey>/</ShortcutKey>
+          <ShortcutLabel>Page search</ShortcutLabel>
+        </ShortcutRow>
+        <ShortcutRow>
+          <ShortcutKey>Ctrl K</ShortcutKey>
+          <ShortcutLabel>Global search</ShortcutLabel>
+        </ShortcutRow>
+      </Shortcuts>
       <Footer>
         <FooterText>MilkyWay Codex v1.0</FooterText>
         <FooterText>Client Build 12340</FooterText>
@@ -272,6 +282,35 @@ const ThemeToggle = styled.button`
     color: ${theme.colors.accent};
     border-color: ${theme.colors.borderLight};
   }
+`
+
+const Shortcuts = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 8px 16px;
+`
+
+const ShortcutRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`
+
+const ShortcutKey = styled.kbd`
+  font-family: ${theme.fonts.code};
+  font-size: 10px;
+  color: ${theme.colors.textMuted};
+  background: ${theme.colors.bgElevated};
+  border: 1px solid ${theme.colors.border};
+  border-radius: ${theme.radius.sm};
+  padding: 1px 5px;
+`
+
+const ShortcutLabel = styled.span`
+  font-size: 10px;
+  color: ${theme.colors.textMuted};
+  opacity: 0.6;
 `
 
 const FooterText = styled.p`

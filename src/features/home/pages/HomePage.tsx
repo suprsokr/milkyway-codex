@@ -1,4 +1,4 @@
-import { type ReactNode, useState, useCallback, useMemo } from 'react'
+import { type ReactNode, useState, useCallback, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Code2, Zap, Database, Layout as LayoutIcon, Terminal, Swords } from 'lucide-react'
 import styled from 'styled-components'
@@ -27,6 +27,7 @@ const QUICK_STATS = [
 const HomePage = (): ReactNode => {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   const searchResults = useMemo(() => {
     if (searchQuery.length < 2) return []
@@ -69,6 +70,10 @@ const HomePage = (): ReactNode => {
     return [...funcs, ...events, ...widgets, ...methods, ...dataTypes, ...cvars, ...secureTemplates]
   }, [searchQuery])
 
+  useEffect(() => {
+    setSelectedIndex(0)
+  }, [searchResults])
+
   const handleResultClick = useCallback((type: string, name: string) => {
     if (type === 'api') navigate(`/api/${name}`)
     else if (type === 'event') navigate(`/events/${name}`)
@@ -82,6 +87,20 @@ const HomePage = (): ReactNode => {
     else if (type === 'secure') navigate(`/secure-templates#${name}`)
   }, [navigate])
 
+  const handleSearchKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setSelectedIndex((i) => Math.min(i + 1, searchResults.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setSelectedIndex((i) => Math.max(i - 1, 0))
+    } else if (e.key === 'Enter' && searchResults.length > 0) {
+      e.preventDefault()
+      const r = searchResults[selectedIndex]
+      if (r) handleResultClick(r.type, r.name)
+    }
+  }, [searchResults, selectedIndex, handleResultClick])
+
   return (
     <Container>
       <Hero>
@@ -92,19 +111,21 @@ const HomePage = (): ReactNode => {
         <HeroSubtitle>
           Open-source API reference for WoW 3.3.5a modding (Build 12340)
         </HeroSubtitle>
-        <SearchContainer>
+        <SearchContainer onKeyDown={handleSearchKeyDown}>
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search functions, events, types... (press /)"
+            placeholder="Search functions, events, types..."
             resultCount={searchQuery.length >= 2 ? searchResults.length : undefined}
           />
           {searchResults.length > 0 && (
             <ResultsDropdown>
-              {searchResults.map((r) => (
+              {searchResults.map((r, i) => (
                 <ResultItem
                   key={`${r.type}-${r.name}`}
+                  $selected={i === selectedIndex}
                   onClick={() => handleResultClick(r.type, r.name)}
+                  onMouseEnter={() => setSelectedIndex(i)}
                 >
                   <ResultType $type={r.type}>
                     {r.type === 'api' ? 'fn' : r.type === 'event' ? 'event' : r.type === 'widget' || r.type === 'method' ? 'widget' : r.type === 'datatype' ? 'type' : r.type === 'cvar' ? 'cvar' : 'template'}
@@ -215,13 +236,13 @@ const ResultsDropdown = styled.div`
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 `
 
-const ResultItem = styled.button`
+const ResultItem = styled.button<{ $selected?: boolean }>`
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
   padding: 10px 14px;
-  background: none;
+  background: ${(p) => p.$selected ? theme.colors.bgElevated : 'none'};
   border: none;
   border-bottom: 1px solid ${theme.colors.border};
   cursor: pointer;
