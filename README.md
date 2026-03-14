@@ -129,6 +129,11 @@ All reference data is in `src/data/`:
 | `combat-log-events.ts` | Combat log sub-events |
 | `secure-templates.ts` | Secure frame templates |
 
+## Upcoming
+
+- **FrameXML functions** — Parse the client's `/Interface` Lua files to document FrameXML helper functions (e.g., `OpenAllBags`, `ToggleBag`, `SetItemRef`) that are defined in Lua rather than the C engine
+- **Patch version tracking** — Scrape "Added in patch X.Y.Z" data from Wowpedia/warcraft.wiki.gg to show when each function was introduced (e.g., `@since 3.0.2`)
+
 ## License
 
 MIT — use it, fork it, build on it. This project exists to help the WoW modding community.
